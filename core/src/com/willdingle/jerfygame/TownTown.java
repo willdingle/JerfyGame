@@ -26,7 +26,7 @@ public class TownTown implements Screen {
 	public TownTown(final JerfyGame game) {
 		this.game = game;
 		
-		map = new TmxMapLoader().load("maps/TestMap.tmx");
+		map = new TmxMapLoader().load("maps/TownTown.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
