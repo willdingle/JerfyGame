@@ -22,6 +22,7 @@ public class TownTown implements Screen {
 	
 	private SpriteBatch batch;
 	private Player player;
+	private TextBox txtbox;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
@@ -35,6 +36,8 @@ public class TownTown implements Screen {
 		cam.update();
 		
 		player = new Player(new Sprite(new Texture("jerfy/down.png")), (TiledMapTileLayer) map.getLayers().get(0));
+		
+		txtbox = new TextBox(new Sprite(new Texture("txtbox.png")), cam);
 	}
 
 	@Override
@@ -56,6 +59,7 @@ public class TownTown implements Screen {
 		
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
+		txtbox.draw(renderer.getBatch());
 		renderer.getBatch().end();
 
 	}
@@ -80,8 +84,7 @@ public class TownTown implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
+		dispose();
 	}
 
 	@Override

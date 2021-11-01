@@ -20,8 +20,8 @@ public class Player extends Sprite {
 	public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
 		super(sprite);
 		this.collisionLayer = collisionLayer;
-		setX(3 * collisionLayer.getTileWidth());
-		setY(3 * collisionLayer.getTileHeight());
+		setX(1 * collisionLayer.getTileWidth());
+		setY(1 * collisionLayer.getTileHeight());
 		
 		elTimeF = 0;
 		elTime = 0;
