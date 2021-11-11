@@ -5,8 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -19,10 +24,12 @@ public class TownTown implements Screen {
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera cam;
-	
-	private SpriteBatch batch;
 	private Player player;
 	private TextBox txtbox;
+	private ShapeRenderer shRen;
+	private FreeTypeFontGenerator generator;
+	private FreeTypeFontParameter parameter;
+	private BitmapFont font;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
@@ -37,7 +44,14 @@ public class TownTown implements Screen {
 		
 		player = new Player(new Sprite(new Texture("jerfy/down.png")), (TiledMapTileLayer) map.getLayers().get(0));
 		
-		txtbox = new TextBox(new Sprite(new Texture("txtbox.png")), cam);
+		shRen = new ShapeRenderer();
+		txtbox = new TextBox();
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/DeterminationMono.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 90;
+		font = generator.generateFont(parameter);
+		
+		
 	}
 
 	@Override
@@ -51,17 +65,26 @@ public class TownTown implements Screen {
 		Gdx.gl.glClearColor(104/255f, 104/255f, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		//Camera
 		cam.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
 		cam.update();
 		
 		renderer.setView(cam);
 		renderer.render();
 		
+		//Draw sprites
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
-		txtbox.draw(renderer.getBatch());
 		renderer.getBatch().end();
-
+		
+		//Text box
+		shRen.begin(ShapeType.Filled);
+		shRen.setColor(0, 0, 0, 1);
+		shRen.rect(txtbox.getX(), txtbox.getY(), txtbox.getWidth(), txtbox.getHeight());
+		shRen.end();
+		txtbox.formatText("I would like to display this text please, cheers bruv", generator, parameter, font);
+		
+		
 	}
 
 	@Override
