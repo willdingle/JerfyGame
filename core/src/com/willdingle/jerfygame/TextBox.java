@@ -10,18 +10,36 @@ public class TextBox {
 	
 	private int x = 20;
 	private int y = 20;
-	private int width = Gdx.graphics.getWidth() - (20*2);
-	private int height = 300;
-	private int widthBound = width;
-	private int heightBound = height;
+	private int boxWidth = Gdx.graphics.getWidth() - (20*2);
+	private int boxHeight = 300;
+	private int boundWidth = boxWidth;
+	private int boundHeight = boxHeight;
 	
-	public void formatText(String txt, FreeTypeFontGenerator generator, FreeTypeFontParameter parameter, BitmapFont font) {
+	public String formatText(String txt, FreeTypeFontGenerator generator, FreeTypeFontParameter parameter, BitmapFont font) {
 		GlyphLayout layout = new GlyphLayout();
-		layout.setText(font, txt);
-		float txtWidth = layout.width;
-		float txtHeight = layout.height;
 		String newTxt = "";
-		
+		String tempTxt = "";
+		boolean done = false;
+		while (! done) {
+			tempTxt = "";
+			for (int i = 0; i < txt.length(); i++) {
+				tempTxt = tempTxt + txt.charAt(i);
+				layout.setText(font, tempTxt);
+				if (layout.width > boundWidth) {
+					tempTxt = tempTxt.substring(0, i - 1);
+					newTxt = newTxt + tempTxt + "\n";
+					txt = txt.substring(i - 1, txt.length());
+					System.out.println(txt);
+					break;
+				} else if (i == txt.length() - 1) {
+					done = true;
+				}
+			}
+			
+		}
+		newTxt = newTxt + tempTxt;
+		System.out.println(newTxt);
+		return newTxt;
 	}
 	
 	public int getX() {
@@ -31,10 +49,10 @@ public class TextBox {
 		return y;
 	}
 	public int getWidth() {
-		return width;
+		return boxWidth;
 	}
 	public int getHeight() {
-		return height;
+		return boxHeight;
 	}
 	
 }

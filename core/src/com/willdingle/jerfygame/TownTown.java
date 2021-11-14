@@ -25,11 +25,14 @@ public class TownTown implements Screen {
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera cam;
 	private Player player;
-	private TextBox txtbox;
+	private TextBox txtBox;
 	private ShapeRenderer shRen;
 	private FreeTypeFontGenerator generator;
 	private FreeTypeFontParameter parameter;
 	private BitmapFont font;
+	private SpriteBatch batch;
+	private boolean format;
+	private String txt;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
@@ -45,11 +48,14 @@ public class TownTown implements Screen {
 		player = new Player(new Sprite(new Texture("jerfy/down.png")), (TiledMapTileLayer) map.getLayers().get(0));
 		
 		shRen = new ShapeRenderer();
-		txtbox = new TextBox();
+		txtBox = new TextBox();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/DeterminationMono.ttf"));
 		parameter = new FreeTypeFontParameter();
-		parameter.size = 90;
+		parameter.size = 70;
 		font = generator.generateFont(parameter);
+		batch = new SpriteBatch();
+		format = false;
+		txt = "";
 		
 		
 	}
@@ -80,10 +86,18 @@ public class TownTown implements Screen {
 		//Text box
 		shRen.begin(ShapeType.Filled);
 		shRen.setColor(0, 0, 0, 1);
-		shRen.rect(txtbox.getX(), txtbox.getY(), txtbox.getWidth(), txtbox.getHeight());
+		shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
 		shRen.end();
-		txtbox.formatText("I would like to display this text please, cheers bruv", generator, parameter, font);
 		
+		
+		while (! format) {
+			txt = txtBox.formatText("Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment", generator, parameter, font);
+			format = true;
+		}
+		
+		batch.begin();
+		font.draw(batch, txt, 20, txtBox.getHeight());
+		batch.end();
 		
 	}
 
@@ -114,6 +128,7 @@ public class TownTown implements Screen {
 	public void dispose() {
 		map.dispose();
 		renderer.dispose();
+		batch.dispose();
 
 	}
 
