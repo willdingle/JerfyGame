@@ -1,6 +1,7 @@
 package com.willdingle.jerfygame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -33,6 +34,7 @@ public class TownTown implements Screen {
 	private SpriteBatch batch;
 	private boolean format;
 	private String txt;
+	private int[] sign;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
@@ -57,6 +59,10 @@ public class TownTown implements Screen {
 		format = false;
 		txt = "";
 		
+		sign = new int[2];
+		sign[0] = 64;
+		sign[1] = 64;
+		
 		
 	}
 
@@ -78,26 +84,37 @@ public class TownTown implements Screen {
 		renderer.setView(cam);
 		renderer.render();
 		
-		//Draw sprites
+		//Draw sprites and player control
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
 		renderer.getBatch().end();
+		
+		if(Gdx.input.isKeyJustPressed(Keys.E)) {
+			interact();
+		}
 		
 		//Text box
 		shRen.begin(ShapeType.Filled);
 		shRen.setColor(0, 0, 0, 1);
 		shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
 		shRen.end();
-		
+		shRen.begin(ShapeType.Line);
+		shRen.setColor(1, 1, 1, 1);
+		shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
+		shRen.end();
 		
 		while (! format) {
-			txt = txtBox.formatText("Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment Buggo moment", generator, parameter, font);
+			txt = txtBox.formatText("Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text", generator, parameter, font);
 			format = true;
 		}
 		
 		batch.begin();
-		font.draw(batch, txt, 20, txtBox.getHeight());
+		font.draw(batch, txt, 40, txtBox.getHeight());
 		batch.end();
+		
+	}
+	
+	public void interact() {
 		
 	}
 

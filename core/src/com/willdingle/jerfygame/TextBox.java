@@ -12,7 +12,7 @@ public class TextBox {
 	private int y = 20;
 	private int boxWidth = Gdx.graphics.getWidth() - (20*2);
 	private int boxHeight = 300;
-	private int boundWidth = boxWidth;
+	private int boundWidth = boxWidth - 20;
 	private int boundHeight = boxHeight;
 	
 	public String formatText(String txt, FreeTypeFontGenerator generator, FreeTypeFontParameter parameter, BitmapFont font) {
@@ -29,7 +29,6 @@ public class TextBox {
 					tempTxt = tempTxt.substring(0, i - 1);
 					newTxt = newTxt + tempTxt + "\n";
 					txt = txt.substring(i - 1, txt.length());
-					System.out.println(txt);
 					break;
 				} else if (i == txt.length() - 1) {
 					done = true;
@@ -38,7 +37,6 @@ public class TextBox {
 			
 		}
 		newTxt = newTxt + tempTxt;
-		System.out.println(newTxt);
 		return newTxt;
 	}
 	

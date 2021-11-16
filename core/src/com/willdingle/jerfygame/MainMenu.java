@@ -3,17 +3,14 @@ package com.willdingle.jerfygame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenu implements Screen {
 	
 	final JerfyGame game;
-	OrthographicCamera cam;
 	
 	public MainMenu(final JerfyGame game) {
 		this.game = game;
-		cam = new OrthographicCamera();
 	}
 	
 	@Override
