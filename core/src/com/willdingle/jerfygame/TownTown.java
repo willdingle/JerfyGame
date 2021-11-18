@@ -33,8 +33,8 @@ public class TownTown implements Screen {
 	private BitmapFont font;
 	private SpriteBatch batch;
 	private boolean format;
+	private boolean disTxtBox;
 	private String txt;
-	private int[] sign;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
@@ -59,10 +59,7 @@ public class TownTown implements Screen {
 		format = false;
 		txt = "";
 		
-		sign = new int[2];
-		sign[0] = 64;
-		sign[1] = 64;
-		
+		disTxtBox = false;
 		
 	}
 
@@ -94,28 +91,53 @@ public class TownTown implements Screen {
 		}
 		
 		//Text box
-		shRen.begin(ShapeType.Filled);
-		shRen.setColor(0, 0, 0, 1);
-		shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
-		shRen.end();
-		shRen.begin(ShapeType.Line);
-		shRen.setColor(1, 1, 1, 1);
-		shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
-		shRen.end();
-		
-		while (! format) {
-			txt = txtBox.formatText("Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text", generator, parameter, font);
-			format = true;
+		if(disTxtBox) {
+			shRen.begin(ShapeType.Filled);
+			shRen.setColor(0, 0, 0, 1);
+			shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
+			shRen.end();
+			shRen.begin(ShapeType.Line);
+			shRen.setColor(1, 1, 1, 1);
+			shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
+			shRen.end();
+			
+			while (! format) {
+				txt = txtBox.formatText("Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text", generator, parameter, font);
+				format = true;
+			}
+			
+			batch.begin();
+			font.draw(batch, txt, 40, txtBox.getHeight());
+			batch.end();
 		}
-		
-		batch.begin();
-		font.draw(batch, txt, 40, txtBox.getHeight());
-		batch.end();
 		
 	}
 	
 	public void interact() {
+		if(hitBox(player.getX(), player.getY(), player.getWidth(), player.getHeight(), 64, 64, 16, 16)) {
+			disTxtBox = true;
+		}
+	}
+	
+	public boolean hitBox(float plx, float ply, float plw, float plh, int objx, int objy, int objw, int objh) {
+		boolean colx = false;
+		boolean coly = false;
 		
+		//x left
+		if(plx <= (objx + objw + 8) && plx >= (objx + objw)) {
+			colx = true;
+		} else if(plx + plw <= objx && plx + plw >= (objx - 8)) {
+			colx = true;
+		}
+		
+		//y
+		if(ply <= (objy + objh + 8) && ply >= (objy + objh)) {
+			coly = true;
+		} else if (ply + plh <= objy && ply + plh >= (objy - 8)) {
+			coly = true;
+		}
+		
+		return colx || coly;
 	}
 
 	@Override
