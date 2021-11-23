@@ -102,7 +102,7 @@ public class TownTown implements Screen {
 			shRen.end();
 			
 			while (! format) {
-				txt = txtBox.formatText("Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text", generator, parameter, font);
+				txt = txtBox.formatText("Welcome to Town Town!", generator, parameter, font);
 				format = true;
 			}
 			
@@ -114,30 +114,42 @@ public class TownTown implements Screen {
 	}
 	
 	public void interact() {
-		if(hitBox(player.getX(), player.getY(), player.getWidth(), player.getHeight(), 64, 64, 16, 16)) {
+		if(hitBox(player.getX(), player.getY(), player.getWidth(), player.getHeight(), 48, 48, 16, 16)) {
 			disTxtBox = true;
 		}
 	}
 	
 	public boolean hitBox(float plx, float ply, float plw, float plh, int objx, int objy, int objw, int objh) {
-		boolean colx = false;
-		boolean coly = false;
+		boolean col = false;
 		
-		//x left
-		if(plx <= (objx + objw + 8) && plx >= (objx + objw)) {
-			colx = true;
-		} else if(plx + plw <= objx && plx + plw >= (objx - 8)) {
-			colx = true;
+		System.out.println(plx);
+		System.out.println(ply);
+		System.out.println(plw);
+		System.out.println(plh);
+		System.out.println(objx);
+		System.out.println(objy);
+		System.out.println(objw);
+		System.out.println(objh);
+		
+		//left
+		col = (plx <= (objx + objw + 8) && plx >= (objx + objw)) && (ply <= (objy + objh + 8) && ply + plh >= objy - 8);
+		
+		//right
+		if (!col) {
+			col = (plx + plw <= objx && plx + plw >= (objx - 8)) && (ply <= (objy + objh + 8) && ply + plh >= objy - 8);
 		}
 		
-		//y
-		if(ply <= (objy + objh + 8) && ply >= (objy + objh)) {
-			coly = true;
-		} else if (ply + plh <= objy && ply + plh >= (objy - 8)) {
-			coly = true;
+		//up
+		if (!col) {
+			col = (plx <= objx + objw + 8 && plx + plw >= objx - 8) && (ply + plh <= objy && ply + plh >= objy - 8);
 		}
 		
-		return colx || coly;
+		//down
+		if (!col) {
+			col  = (plx <= objx + objw + 8 && plx + plw >= objx - 8) && (ply <= objy + objh + 8 && ply >= objy + objh);
+		}
+		
+		return col;
 	}
 
 	@Override
