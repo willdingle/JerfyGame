@@ -56,9 +56,9 @@ public class MovingNPC extends Sprite {
 	}
 	
 	public void move() {
-		/*if (getX() >= rBound || getX() <= lBound) {
+		if ((getX() >= rBound && moveSpeed > 0) || (getX() <= lBound && moveSpeed < 0)) {
 			moveSpeed *= -1;
-		}*/
+		}
 		setX(getX() + moveSpeed * Gdx.graphics.getDeltaTime());
 	}
 
