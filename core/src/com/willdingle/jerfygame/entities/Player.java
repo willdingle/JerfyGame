@@ -42,7 +42,6 @@ public class Player extends Sprite {
 	@Override
 	public void draw(Batch batch) {
 		super.draw(batch);
-		move(Gdx.graphics.getDeltaTime());
 	}
 	
 	public void move(float delta) {

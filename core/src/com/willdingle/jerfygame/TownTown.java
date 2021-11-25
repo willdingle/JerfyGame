@@ -33,8 +33,10 @@ public class TownTown implements Screen {
 	private BitmapFont font;
 	private SpriteBatch batch;
 	private boolean format;
-	private boolean disTxtBox;
+	private boolean disTxt;
 	private String txt;
+	private boolean moveAllowed;
+	private MovingNPC buggo;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
@@ -48,6 +50,7 @@ public class TownTown implements Screen {
 		cam.update();
 		
 		player = new Player(new Sprite(new Texture("jerfy/down.png")), (TiledMapTileLayer) map.getLayers().get(0));
+		buggo = new MovingNPC(new Sprite(new Texture("buggo/0.png")), (TiledMapTileLayer) map.getLayers().get(0), 6, 6, 4, 6, 10);
 		
 		shRen = new ShapeRenderer();
 		txtBox = new TextBox();
@@ -59,7 +62,8 @@ public class TownTown implements Screen {
 		format = false;
 		txt = "";
 		
-		disTxtBox = false;
+		disTxt = false;
+		moveAllowed = true;
 		
 	}
 
@@ -84,6 +88,10 @@ public class TownTown implements Screen {
 		//Draw sprites and player control
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
+		if (moveAllowed) {
+			player.move(Gdx.graphics.getDeltaTime());
+		}
+		buggo.draw(renderer.getBatch());
 		renderer.getBatch().end();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.E)) {
@@ -91,7 +99,7 @@ public class TownTown implements Screen {
 		}
 		
 		//Text box
-		if(disTxtBox) {
+		if(disTxt) {
 			shRen.begin(ShapeType.Filled);
 			shRen.setColor(0, 0, 0, 1);
 			shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
@@ -114,22 +122,18 @@ public class TownTown implements Screen {
 	}
 	
 	public void interact() {
-		if(hitBox(player.getX(), player.getY(), player.getWidth(), player.getHeight(), 48, 48, 16, 16)) {
-			disTxtBox = true;
+		if (disTxt) {
+			disTxt = false;
+			moveAllowed = true;
+		} else if (hitBox(player.getX(), player.getY(), player.getWidth(), player.getHeight(), 48, 48, 16, 16)) {
+			disTxt = true;
+			format = false;
+			moveAllowed = false;
 		}
 	}
 	
 	public boolean hitBox(float plx, float ply, float plw, float plh, int objx, int objy, int objw, int objh) {
 		boolean col = false;
-		
-		System.out.println(plx);
-		System.out.println(ply);
-		System.out.println(plw);
-		System.out.println(plh);
-		System.out.println(objx);
-		System.out.println(objy);
-		System.out.println(objw);
-		System.out.println(objh);
 		
 		//left
 		col = (plx <= (objx + objw + 8) && plx >= (objx + objw)) && (ply <= (objy + objh + 8) && ply + plh >= objy - 8);
