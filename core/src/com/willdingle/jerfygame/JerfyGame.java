@@ -10,20 +10,17 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class JerfyGame extends Game {
-	SpriteBatch batch;
 	FreeTypeFontGenerator generator;
 	FreeTypeFontParameter parameter;
-	BitmapFont font;
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/DeterminationMono.ttf"));
-		parameter = new FreeTypeFontParameter();
-		parameter.size = 150;
-		font = generator.generateFont(parameter);
+		this.generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/DeterminationMono.ttf"));
+		this.parameter = new FreeTypeFontParameter();
 		
 		this.setScreen(new MainMenu(this));
+		
+		
 	}
 
 	@Override
@@ -34,8 +31,5 @@ public class JerfyGame extends Game {
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		generator.dispose();
-		font.dispose();
 	}
 }

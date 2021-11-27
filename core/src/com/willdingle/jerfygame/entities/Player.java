@@ -17,8 +17,8 @@ public class Player extends Sprite {
 	private float elTimeF;
 	private int elTime;
 
-	public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
-		super(sprite);
+	public Player(TiledMapTileLayer collisionLayer) {
+		super(new Sprite(new Texture("jerfy/down.png")));
 		this.collisionLayer = collisionLayer;
 		setX(1 * collisionLayer.getTileWidth());
 		setY(1 * collisionLayer.getTileHeight());

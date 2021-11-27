@@ -2,15 +2,26 @@ package com.willdingle.jerfygame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenu implements Screen {
 	
 	final JerfyGame game;
+	private SpriteBatch batch;
+	
+	private BitmapFont font;
 	
 	public MainMenu(final JerfyGame game) {
 		this.game = game;
+		
+		batch = new SpriteBatch();
+		game.parameter.size = 150;
+		font = game.generator.generateFont(game.parameter);
 	}
 	
 	@Override
@@ -23,9 +34,9 @@ public class MainMenu implements Screen {
 	public void render(float delta) {
 		ScreenUtils.clear(178/255f, 0, 255, 0);
 		
-		game.batch.begin();
-		game.font.draw(game.batch, "Jerfy", 750, 1025);
-		game.batch.end();
+		batch.begin();
+		font.draw(batch, "Jerfy", 750, 1025);
+		batch.end();
 		
 		if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
 			game.setScreen(new TownTown(game));
@@ -53,13 +64,13 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
+		dispose();
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		batch.dispose();
+		font.dispose();
 
 	}
 

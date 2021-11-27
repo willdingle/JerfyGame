@@ -23,25 +23,24 @@ public class TownTown implements Screen {
 	final JerfyGame game;
 	
 	private TiledMap map;
+	private TiledMapTileLayer mapLayer;
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera cam;
 	private Player player;
 	private TextBox txtBox;
 	private ShapeRenderer shRen;
-	private FreeTypeFontGenerator generator;
-	private FreeTypeFontParameter parameter;
 	private BitmapFont font;
 	private SpriteBatch batch;
-	private boolean format;
 	private boolean disTxt;
-	private String txt;
 	private boolean moveAllowed;
 	private MovingNPC buggo;
+	private StillNPC chocm, paper, snugm;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
 		
 		map = new TmxMapLoader().load("maps/TownTown.tmx");
+		mapLayer = (TiledMapTileLayer) map.getLayers().get(0);
 		renderer = new OrthogonalTiledMapRenderer(map);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
@@ -49,18 +48,15 @@ public class TownTown implements Screen {
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
 		
-		player = new Player(new Sprite(new Texture("jerfy/down.png")), (TiledMapTileLayer) map.getLayers().get(0));
-		buggo = new MovingNPC(new Sprite(new Texture("buggo/0.png")), (TiledMapTileLayer) map.getLayers().get(0), 6, 6, 4, 6, 10);
+		player = new Player(mapLayer);
+		buggo = new MovingNPC("buggo/0.png", mapLayer, 6, 6, 4, 6, 10);
+		chocm = new StillNPC("doggo/chocm.png", mapLayer, 4, 3);
 		
-		shRen = new ShapeRenderer();
-		txtBox = new TextBox();
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/DeterminationMono.ttf"));
-		parameter = new FreeTypeFontParameter();
-		parameter.size = 70;
-		font = generator.generateFont(parameter);
+		game.parameter.size = 70;
+		font = game.generator.generateFont(game.parameter);
+		
 		batch = new SpriteBatch();
-		format = false;
-		txt = "";
+		shRen = new ShapeRenderer();
 		
 		disTxt = false;
 		moveAllowed = true;
@@ -92,47 +88,32 @@ public class TownTown implements Screen {
 			player.move(Gdx.graphics.getDeltaTime());
 		}
 		buggo.draw(renderer.getBatch());
+		chocm.draw(renderer.getBatch());
 		renderer.getBatch().end();
 		
-		if(Gdx.input.isKeyJustPressed(Keys.E)) {
+		if(Gdx.input.isKeyJustPressed(Keys.J)) {
 			interact();
 		}
 		
 		//Text box
 		if(disTxt) {
-			shRen.begin(ShapeType.Filled);
-			shRen.setColor(0, 0, 0, 1);
-			shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
-			shRen.end();
-			shRen.begin(ShapeType.Line);
-			shRen.setColor(1, 1, 1, 1);
-			shRen.rect(txtBox.getX(), txtBox.getY(), txtBox.getWidth(), txtBox.getHeight());
-			shRen.end();
-			
-			while (! format) {
-				txt = txtBox.formatText("Welcome to Town Town!", generator, parameter, font);
-				format = true;
-			}
-			
-			batch.begin();
-			font.draw(batch, txt, 40, txtBox.getHeight());
-			batch.end();
+			txtBox.render();
 		}
-		
 	}
 	
 	public void interact() {
 		if (disTxt) {
 			disTxt = false;
 			moveAllowed = true;
+			txtBox = null;
 		} else if (hitBox(player.getX(), player.getY(), player.getWidth(), player.getHeight(), 48, 48, 16, 16)) {
+			txtBox = new TextBox(batch, shRen, font, "Welcome to Town Town!");
 			disTxt = true;
-			format = false;
 			moveAllowed = false;
 		}
 	}
 	
-	public boolean hitBox(float plx, float ply, float plw, float plh, int objx, int objy, int objw, int objh) {
+	public boolean hitBox(float plx, float ply, float plw, float plh, float objx, float objy, float objw, float objh) {
 		boolean col = false;
 		
 		//left

@@ -1,21 +1,43 @@
 package com.willdingle.jerfygame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TextBox {
+	private SpriteBatch batch;
+	private ShapeRenderer shRen;
+	private BitmapFont font;
 	
-	private int x = 20;
-	private int y = 20;
-	private int boxWidth = Gdx.graphics.getWidth() - (20*2);
-	private int boxHeight = 300;
-	private int boundWidth = boxWidth - 20;
-	private int boundHeight = boxHeight;
+	private int x;
+	private int y;
+	private int boxWidth;
+	private int boxHeight;
+	private int boundWidth;
+	private int boundHeight;
 	
-	public String formatText(String txt, FreeTypeFontGenerator generator, FreeTypeFontParameter parameter, BitmapFont font) {
+	private String txt;
+	private boolean format;
+	
+	public TextBox(SpriteBatch batch, ShapeRenderer shRen, BitmapFont font, String txt) {
+		this.batch = batch;
+		this.shRen = shRen;
+		this.font = font;
+		x = 20;
+		y = 20;
+		boxWidth = Gdx.graphics.getWidth() - (20*2);
+		boxHeight = 300;
+		boundWidth = boxWidth - 20;
+		boundHeight = boxHeight;
+		format = false;
+		this.txt = (txt);
+	}
+	
+	public String formatText(String txt) {
 		GlyphLayout layout = new GlyphLayout();
 		String newTxt = "";
 		String tempTxt = "";
@@ -40,17 +62,19 @@ public class TextBox {
 		return newTxt;
 	}
 	
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
-	}
-	public int getWidth() {
-		return boxWidth;
-	}
-	public int getHeight() {
-		return boxHeight;
+	public void render() {
+		shRen.begin(ShapeType.Filled);
+		shRen.setColor(0, 0, 0, 1);
+		shRen.rect(x, y, boxWidth, boxHeight);
+		shRen.end();
+		shRen.begin(ShapeType.Line);
+		shRen.setColor(1, 1, 1, 1);
+		shRen.rect(x, y, boxWidth, boxHeight);
+		shRen.end();
+		
+		batch.begin();
+		font.draw(batch, txt, 40, boxHeight);
+		batch.end();
 	}
 	
 }

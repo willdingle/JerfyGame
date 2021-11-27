@@ -17,8 +17,8 @@ public class MovingNPC extends Sprite {
 	int rBound;
 	int moveSpeed;
 	
-	public MovingNPC(Sprite sprite, TiledMapTileLayer collisionLayer, int x, int y, int frames, int lBound, int rBound) {
-		super(sprite);
+	public MovingNPC(String spriteName, TiledMapTileLayer collisionLayer, int x, int y, int frames, int lBound, int rBound) {
+		super(new Sprite(new Texture(spriteName)));
 		this.collisionLayer = collisionLayer;
 		setX(x * collisionLayer.getTileWidth());
 		setY(y * collisionLayer.getTileHeight());
