@@ -31,7 +31,6 @@ public class TownTown implements Screen {
 	private ShapeRenderer shRen;
 	private BitmapFont font;
 	private SpriteBatch batch;
-	private boolean disTxt;
 	private boolean moveAllowed;
 	private MovingNPC buggo;
 	private StillNPC chocm, paper, snugm;
@@ -58,9 +57,7 @@ public class TownTown implements Screen {
 		batch = new SpriteBatch();
 		shRen = new ShapeRenderer();
 		
-		disTxt = false;
 		moveAllowed = true;
-		
 	}
 
 	@Override
@@ -96,45 +93,19 @@ public class TownTown implements Screen {
 		}
 		
 		//Text box
-		if(disTxt) {
+		if(txtBox != null) {
 			txtBox.render();
 		}
 	}
 	
 	public void interact() {
-		if (disTxt) {
-			disTxt = false;
+		if (txtBox != null) {
 			moveAllowed = true;
 			txtBox = null;
-		} else if (hitBox(player.getX(), player.getY(), player.getWidth(), player.getHeight(), 48, 48, 16, 16)) {
+		} else if (HitBox.interact(player, 48, 48, 16, 16, HitBox.UP)) {
 			txtBox = new TextBox(batch, shRen, font, "Welcome to Town Town!");
-			disTxt = true;
 			moveAllowed = false;
 		}
-	}
-	
-	public boolean hitBox(float plx, float ply, float plw, float plh, float objx, float objy, float objw, float objh) {
-		boolean col = false;
-		
-		//left
-		col = (plx <= (objx + objw + 8) && plx >= (objx + objw)) && (ply <= (objy + objh + 8) && ply + plh >= objy - 8);
-		
-		//right
-		if (!col) {
-			col = (plx + plw <= objx && plx + plw >= (objx - 8)) && (ply <= (objy + objh + 8) && ply + plh >= objy - 8);
-		}
-		
-		//up
-		if (!col) {
-			col = (plx <= objx + objw + 8 && plx + plw >= objx - 8) && (ply + plh <= objy && ply + plh >= objy - 8);
-		}
-		
-		//down
-		if (!col) {
-			col  = (plx <= objx + objw + 8 && plx + plw >= objx - 8) && (ply <= objy + objh + 8 && ply >= objy + objh);
-		}
-		
-		return col;
 	}
 
 	@Override

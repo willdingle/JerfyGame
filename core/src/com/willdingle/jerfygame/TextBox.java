@@ -19,9 +19,7 @@ public class TextBox {
 	private int boxHeight;
 	private int boundWidth;
 	private int boundHeight;
-	
 	private String txt;
-	private boolean format;
 	
 	public TextBox(SpriteBatch batch, ShapeRenderer shRen, BitmapFont font, String txt) {
 		this.batch = batch;
@@ -33,11 +31,10 @@ public class TextBox {
 		boxHeight = 300;
 		boundWidth = boxWidth - 20;
 		boundHeight = boxHeight;
-		format = false;
-		this.txt = (txt);
+		this.txt = formatText(txt);
 	}
 	
-	public String formatText(String txt) {
+	private String formatText(String txt) {
 		GlyphLayout layout = new GlyphLayout();
 		String newTxt = "";
 		String tempTxt = "";
