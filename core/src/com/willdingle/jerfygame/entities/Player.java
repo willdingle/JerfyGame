@@ -44,6 +44,10 @@ public class Player extends Sprite {
 		super.draw(batch);
 	}
 	
+	public void rangedAttack() {
+		
+	}
+	
 	public void move(float delta) {
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			float oldY = getY();

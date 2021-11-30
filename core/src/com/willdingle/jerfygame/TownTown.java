@@ -5,14 +5,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -49,7 +44,7 @@ public class TownTown implements Screen {
 		
 		player = new Player(mapLayer);
 		buggo = new MovingNPC("buggo/0.png", mapLayer, 6, 6, 4, 6, 10);
-		chocm = new StillNPC("doggo/chocm.png", mapLayer, 4, 3);
+		chocm = new StillNPC("doggo/chocm.png", mapLayer, 7, 3);
 		
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
@@ -105,17 +100,19 @@ public class TownTown implements Screen {
 		} else if (HitBox.interact(player, 48, 48, 16, 16, HitBox.UP)) {
 			txtBox = new TextBox(batch, shRen, font, "Welcome to Town Town!");
 			moveAllowed = false;
+		} else if (HitBox.interact(player, chocm.getX(), chocm.getY(), chocm.getWidth(), chocm.getHeight(), HitBox.ALL)) {
+			txtBox = new TextBox(batch, shRen, font, "Is doggo");
+			moveAllowed = false;
 		}
+	}
+	
+	@Override
+	public void pause() {
+		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void pause() {
 		// TODO Auto-generated method stub
 
 	}
@@ -128,7 +125,7 @@ public class TownTown implements Screen {
 
 	@Override
 	public void hide() {
-		dispose();
+		//dispose();
 	}
 
 	@Override

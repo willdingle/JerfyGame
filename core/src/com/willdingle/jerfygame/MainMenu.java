@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -32,7 +30,7 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(178/255f, 0, 255, 0);
+		ScreenUtils.clear(178/255f, 0, 1, 0);
 		
 		batch.begin();
 		font.draw(batch, "Jerfy", 750, 1025);
