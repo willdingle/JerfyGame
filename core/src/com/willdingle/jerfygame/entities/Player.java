@@ -16,6 +16,8 @@ public class Player extends Sprite {
 	Texture[] rightWalk = new Texture[2];
 	private float elTimeF;
 	private int elTime;
+	
+	private int meleeRange;
 
 	public Player(TiledMapTileLayer collisionLayer) {
 		super(new Sprite(new Texture("jerfy/down.png")));
@@ -28,15 +30,14 @@ public class Player extends Sprite {
 		
 		upWalk[0] = new Texture("jerfy/upwalk/0.png");
 		upWalk[1] = new Texture("jerfy/upwalk/1.png");
-		
 		downWalk[0] = new Texture("jerfy/downwalk/0.png");
 		downWalk[1] = new Texture("jerfy/downwalk/1.png");
-		
 		leftWalk[0] = new Texture("jerfy/leftwalk/0.png");
 		leftWalk[1] = new Texture("jerfy/leftwalk/1.png");
-		
 		rightWalk[0] = new Texture("jerfy/rightwalk/0.png");
 		rightWalk[1] = new Texture("jerfy/rightwalk/1.png");
+		
+		meleeRange = 16;
 	}
 	
 	@Override
@@ -44,8 +45,13 @@ public class Player extends Sprite {
 		super.draw(batch);
 	}
 	
-	public void rangedAttack() {
+	public void meleeAttack() {
+		float x = Gdx.input.getX();
+		float y = Gdx.input.getY();
 		
+		if (x <= getX()) {
+			
+		}
 	}
 	
 	public void move(float delta) {

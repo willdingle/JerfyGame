@@ -28,7 +28,7 @@ public class TownTown implements Screen {
 	private SpriteBatch batch;
 	private boolean moveAllowed;
 	private MovingNPC buggo;
-	private StillNPC chocm, paper, snugm;
+	private StillNPC chocm, paper, snugm, donker;
 
 	public TownTown(final JerfyGame game) {
 		this.game = game;
@@ -45,6 +45,7 @@ public class TownTown implements Screen {
 		player = new Player(mapLayer);
 		buggo = new MovingNPC("buggo/0.png", mapLayer, 6, 6, 4, 6, 10);
 		chocm = new StillNPC("doggo/chocm.png", mapLayer, 7, 3);
+		donker = new StillNPC("donker.png", mapLayer, 10, 10);
 		
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
@@ -81,6 +82,7 @@ public class TownTown implements Screen {
 		}
 		buggo.draw(renderer.getBatch());
 		chocm.draw(renderer.getBatch());
+		donker.draw(renderer.getBatch());
 		renderer.getBatch().end();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.J)) {
