@@ -19,11 +19,11 @@ public class Player extends Sprite {
 	
 	private int meleeRange;
 
-	public Player(TiledMapTileLayer collisionLayer) {
+	public Player(TiledMapTileLayer collisionLayer, float x, float y) {
 		super(new Sprite(new Texture("jerfy/down.png")));
 		this.collisionLayer = collisionLayer;
-		setX(1 * collisionLayer.getTileWidth());
-		setY(1 * collisionLayer.getTileHeight());
+		setX(x * collisionLayer.getTileWidth());
+		setY(y * collisionLayer.getTileHeight());
 		
 		elTimeF = 0;
 		elTime = 0;

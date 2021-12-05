@@ -30,7 +30,7 @@ public class TownTown implements Screen {
 	private MovingNPC buggo;
 	private StillNPC chocm, paper, snugm, donker;
 
-	public TownTown(final JerfyGame game) {
+	public TownTown(final JerfyGame game, float plx, float ply) {
 		this.game = game;
 		
 		map = new TmxMapLoader().load("maps/TownTown.tmx");
@@ -42,7 +42,8 @@ public class TownTown implements Screen {
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
 		
-		player = new Player(mapLayer);
+		player = new Player(mapLayer, plx, ply);
+		
 		buggo = new MovingNPC("buggo/0.png", mapLayer, 6, 6, 4, 6, 10);
 		chocm = new StillNPC("doggo/chocm.png", mapLayer, 7, 3);
 		donker = new StillNPC("donker.png", mapLayer, 10, 10);
