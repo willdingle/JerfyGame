@@ -2,12 +2,8 @@ package com.willdingle.jerfygame;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 public class JerfyGame extends Game {
 	FreeTypeFontGenerator generator;
@@ -19,8 +15,6 @@ public class JerfyGame extends Game {
 		this.parameter = new FreeTypeFontParameter();
 		
 		this.setScreen(new MainMenu(this));
-		
-		
 	}
 
 	@Override

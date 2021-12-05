@@ -64,4 +64,12 @@ public class HitBox {
 		
 		return col;
 	}
+	
+	public static boolean mouse(float plx, float ply, float objx, float objy, float objw, float objh) {
+		boolean click = false;
+		if((plx >= objx && plx <= objx + objw) && (ply >= objy && ply <= objy + objh)) {
+			click = true;
+		}
+		return click;
+	}
 }
