@@ -21,6 +21,7 @@ public class JerfyGame extends Game {
 	public void render () {
 		super.render();
 		Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " fps");
+		
 	}
 	
 	@Override

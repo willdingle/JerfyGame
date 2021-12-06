@@ -91,6 +91,9 @@ public class MainMenu implements Screen {
 		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
 			interact();
 		}
+		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+			game.setScreen(new TownTown(game, 1, 1));
+		}
 	}
 	
 	public void interact() {
