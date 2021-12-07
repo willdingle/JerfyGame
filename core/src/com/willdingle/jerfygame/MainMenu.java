@@ -11,9 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
 
 public class MainMenu implements Screen {
 	
@@ -74,7 +71,7 @@ public class MainMenu implements Screen {
 		batch.begin();
 		GlyphLayout layout = new GlyphLayout();
 		layout.setText(font, "Jerfy");
-		font.draw(batch, "Jerfy", Gdx.graphics.getWidth() / 2 - layout.width / 2, 1025);
+		font.draw(batch, "Jerfy", Gdx.graphics.getWidth() / 2 - layout.width / 2, Gdx.graphics.getHeight() - layout.height);
 		batch.end();
 		
 		//Draw save boxes
@@ -106,11 +103,10 @@ public class MainMenu implements Screen {
 			} else {
 				String fileContents[] = new String[4];
 				fileContents = Save.load(file);
+				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
-				System.out.println(fileContents[1]);
-				if(fileContents[1].contains("0")) {
-					System.out.println("yes");
+				if(area == 0) {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
 			}
