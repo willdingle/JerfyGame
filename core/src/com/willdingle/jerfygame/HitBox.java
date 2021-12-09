@@ -1,5 +1,6 @@
 package com.willdingle.jerfygame;
 
+import com.badlogic.gdx.Gdx;
 import com.willdingle.jerfygame.entities.Player;
 
 public class HitBox {
@@ -65,8 +66,10 @@ public class HitBox {
 		return col;
 	}
 	
-	public static boolean mouse(float plx, float ply, float objx, float objy, float objw, float objh) {
+	public static boolean mouse(float objx, float objy, float objw, float objh) {
 		boolean click = false;
+		float plx = Gdx.input.getX();
+		float ply = Gdx.graphics.getHeight() - Gdx.input.getY();
 		if((plx >= objx && plx <= objx + objw) && (ply >= objy && ply <= objy + objh)) {
 			click = true;
 		}

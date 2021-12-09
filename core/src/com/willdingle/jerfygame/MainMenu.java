@@ -16,7 +16,7 @@ public class MainMenu implements Screen {
 	
 	final JerfyGame game;
 	private SpriteBatch batch;
-	private BitmapFont font;
+	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
 	private File file;
 	
@@ -30,6 +30,8 @@ public class MainMenu implements Screen {
 		this.game = game;
 		batch = new SpriteBatch();
 		game.parameter.size = 150;
+		titleFont = game.generator.generateFont(game.parameter);
+		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
 		shRen = new ShapeRenderer();
 		
@@ -67,20 +69,26 @@ public class MainMenu implements Screen {
 	public void render(float delta) {
 		ScreenUtils.clear(178/255f, 0, 1, 0);
 		
-		//Draw title
+		//Draw text
 		batch.begin();
 		GlyphLayout layout = new GlyphLayout();
-		layout.setText(font, "Jerfy");
-		font.draw(batch, "Jerfy", Gdx.graphics.getWidth() / 2 - layout.width / 2, Gdx.graphics.getHeight() - layout.height);
+		
+		layout.setText(titleFont, "Jerfy");
+		titleFont.draw(batch, "Jerfy", Gdx.graphics.getWidth()/2 - layout.width/2, Gdx.graphics.getHeight() - layout.height);
+		
+		layout.setText(font, "Exit");
+		font.draw(batch, "Exit", (1000+1500)/2 - layout.width/2, (100+200)/2 - layout.height/2 + 40);
 		batch.end();
 		
-		//Draw save boxes
+		//Menu boxes
 		batch.begin();
 		shRen.begin(ShapeType.Line);
 		shRen.setColor(1,1,1,1);
-		shRen.rect(boxX, 400, 400, 400);
-		shRen.rect(boxX - 400 - 200, 400, 400, 400);
-		shRen.rect(boxX + 400 + 200, 400, 400, 400);
+		shRen.rect(boxX, Gdx.graphics.getHeight()/2 - 200, 400, 400); //middle save box
+		shRen.rect(boxX - 400 - 200, Gdx.graphics.getHeight()/2 - 200, 400, 400); //left save box
+		shRen.rect(boxX + 400 + 200, Gdx.graphics.getHeight()/2 - 200, 400, 400); //right save box
+		shRen.rect(400, 100, 500, 100); //options button
+		shRen.rect(1000, 100, 500, 100); //exit button
 		shRen.end();
 		batch.end();
 		
@@ -94,7 +102,7 @@ public class MainMenu implements Screen {
 	}
 	
 	public void interact() {
-		if(HitBox.mouse(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), boxX - 400 - 200, 400, 400, 400)) {
+		if(HitBox.mouse(boxX - 400 - 200, 400, 400, 400)) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save1");
 			if(! save1) {
 				String name = "Test";
@@ -110,6 +118,8 @@ public class MainMenu implements Screen {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
 			}
+		} else if (HitBox.mouse(1000, 100, 500, 100)) {
+			System.exit(0);
 		}
 	}
 
