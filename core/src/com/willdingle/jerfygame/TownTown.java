@@ -29,6 +29,8 @@ public class TownTown implements Screen {
 	private boolean moveAllowed;
 	private MovingNPC buggo;
 	private StillNPC chocm, paper, snugm, donker;
+	public MovingNPC movingNPCs[];
+	public StillNPC stillNPCs[];
 
 	public TownTown(final JerfyGame game, float plx, float ply) {
 		this.game = game;
@@ -44,9 +46,14 @@ public class TownTown implements Screen {
 		
 		player = new Player(mapLayer, plx, ply);
 		
+		movingNPCs = new MovingNPC[1];
+		stillNPCs = new StillNPC[2];
 		buggo = new MovingNPC("buggo/0.png", mapLayer, 6, 6, 4, 6, 10);
+		movingNPCs[0] = buggo;
 		chocm = new StillNPC("doggo/chocm.png", mapLayer, 7, 3);
+		stillNPCs[0] = chocm;
 		donker = new StillNPC("donker.png", mapLayer, 10, 10);
+		stillNPCs[1] = donker;
 		
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
@@ -79,7 +86,7 @@ public class TownTown implements Screen {
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
 		if (moveAllowed) {
-			player.move(Gdx.graphics.getDeltaTime());
+			player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
 		}
 		buggo.draw(renderer.getBatch());
 		chocm.draw(renderer.getBatch());

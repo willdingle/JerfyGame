@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.willdingle.jerfygame.HitBox;
 
 public class Player extends Sprite {
 	
@@ -54,11 +55,28 @@ public class Player extends Sprite {
 		}
 	}
 	
-	public void move(float delta) {
+	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			float oldY = getY();
 			setY(getY() + 100 * delta);
-			if (collide(0, 1)) {
+			
+			boolean spriteCol = false;
+			for (MovingNPC n : movingNPCs) {
+				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP)) {
+					spriteCol = true;
+					break;
+				}
+			}
+			if(! spriteCol) {
+				for (StillNPC n : stillNPCs) {
+					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP)) {
+						spriteCol = true;
+						break;
+					}
+				}
+			}
+			
+			if (tileCollide(0, 1) || spriteCol) {
 				setY(oldY);
 			}
 			animate("w");
@@ -67,7 +85,24 @@ public class Player extends Sprite {
 		if (Gdx.input.isKeyPressed(Keys.S) && getY() > 0) {
 			float oldY = getY();
 			setY(getY() - 100 * delta);
-			if (collide(0, -1)) {
+			
+			boolean spriteCol = false;
+			for (MovingNPC n : movingNPCs) {
+				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN)) {
+					spriteCol = true;
+					break;
+				}
+			}
+			if(! spriteCol) {
+				for (StillNPC n : stillNPCs) {
+					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN)) {
+						spriteCol = true;
+						break;
+					}
+				}
+			}
+			
+			if (tileCollide(0, -1) || spriteCol) {
 				setY(oldY);
 			}
 			animate("s");
@@ -76,7 +111,24 @@ public class Player extends Sprite {
 		if (Gdx.input.isKeyPressed(Keys.A) && getX() > 0) {
 			float oldX = getX();
 			setX(getX() - 100 * delta);
-			if (collide(-1, 0)) {
+			
+			boolean spriteCol = false;
+			for (MovingNPC n : movingNPCs) {
+				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT)) {
+					spriteCol = true;
+					break;
+				}
+			}
+			if(! spriteCol) {
+				for (StillNPC n : stillNPCs) {
+					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT)) {
+						spriteCol = true;
+						break;
+					}
+				}
+			}
+			
+			if (tileCollide(-1, 0) || spriteCol) {
 				setX(oldX);
 			}
 			animate("a");
@@ -85,13 +137,99 @@ public class Player extends Sprite {
 		if (Gdx.input.isKeyPressed(Keys.D) && (getX() + getWidth()) / collisionLayer.getTileWidth() < collisionLayer.getWidth()) {
 			float oldX = getX();
 			setX(getX() + 100 * delta);
-			if (collide(1, 0)) {
+			
+			boolean spriteCol = false;
+			for (MovingNPC n : movingNPCs) {
+				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT)) {
+					spriteCol = true;
+					break;
+				}
+			}
+			if(! spriteCol) {
+				for (StillNPC n : stillNPCs) {
+					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT)) {
+						spriteCol = true;
+						break;
+					}
+				}
+			}
+			
+			if (tileCollide(1, 0) || spriteCol) {
 				setX(oldX);
 			}
 			animate("d");
 		
 		}
 	}
+	
+	/*public boolean spriteCollide(int xdir, int ydir, MovingNPC npc) {
+		float tileW = collisionLayer.getTileWidth(), tileH = collisionLayer.getTileHeight();
+		boolean colX = false, colY = false;
+		
+		//collide x
+		if (xdir < 0) {
+			//top left
+			colX = isTileBlocked((getX() / tileW), ((getY() + getHeight()) / tileH));
+			colX = (getX() / tileW) <= npc.getX();
+			
+			//middle left
+			if (! colX) {
+				colX = isTileBlocked((getX() / tileW), ((getY() + getHeight() / 2) / tileH));
+			}
+			
+			//bottom left
+			if (! colX) {
+				colX = isTileBlocked((getX() / tileW), (getY() / tileH));
+			}
+		
+		} else if (xdir > 0) {
+			//top right
+			colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight()) / tileH));
+			
+			//middle right
+			if (! colX) {
+				colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight() / 2) / tileH));
+			}
+			
+			//bottom right
+			if (! colX) {
+				colX = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
+			}
+			
+		}
+		
+		//collide y
+		if (ydir < 0) {
+			//bottom left
+			colY = isTileBlocked((getX() / tileW), (getY()  / tileH));
+			
+			//bottom middle
+			if (! colY) {
+				colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), (getY()  / tileH));
+			}
+			
+			//bottom right
+			if (! colY) {
+				colY = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
+			}
+			
+		} else if (ydir > 0) {
+			//top left
+			colY = isTileBlocked((getX() / tileW), ((getY() + getHeight())  / tileH));
+			
+			//top middle
+			if (! colY) {
+				colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), ((getY() + getHeight())  / tileH));
+			}
+			
+			//top right
+			if (! colY) {
+				colY = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight())  / tileH));
+			}
+		}
+		
+		return colX || colY;
+	}*/
 	
 	public void animate(String dir) {
 			
@@ -121,7 +259,7 @@ public class Player extends Sprite {
 			}
 		}
 	
-	public boolean collide(int xdir, int ydir) {
+	public boolean tileCollide(int xdir, int ydir) {
 		float tileW = collisionLayer.getTileWidth(), tileH = collisionLayer.getTileHeight();
 		boolean colX = false, colY = false;
 		

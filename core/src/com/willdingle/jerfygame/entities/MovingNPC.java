@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class MovingNPC extends Sprite {
 	
-	private TiledMapTileLayer collisionLayer;
 	private float elTimeF;
 	private int elTime;
 	//Texture[] ani = new Texture[4];
@@ -19,7 +18,6 @@ public class MovingNPC extends Sprite {
 	
 	public MovingNPC(String spriteName, TiledMapTileLayer collisionLayer, int x, int y, int frames, int lBound, int rBound) {
 		super(new Sprite(new Texture(spriteName)));
-		this.collisionLayer = collisionLayer;
 		setX(x * collisionLayer.getTileWidth());
 		setY(y * collisionLayer.getTileHeight());
 		

@@ -23,8 +23,11 @@ public class MainMenu implements Screen {
 	private int boxX;
 	
 	private boolean save1;
+	private String box1txt;
 	private boolean save2;
+	private String box2txt;
 	private boolean save3;
+	private String box3txt;
 	
 	public MainMenu(final JerfyGame game) {
 		this.game = game;
@@ -43,19 +46,34 @@ public class MainMenu implements Screen {
 		}
 		
 		save1 = false;
+		box1txt = "EMPTY SLOT";
 		save2 = false;
+		box2txt = "EMPTY SLOT";
 		save3 = false;
+		box3txt = "EMPTY SLOT";
 		file = new File(System.getenv("appdata") + "/Jerfy/save1");
 		if(file.isFile()) {
 			save1 = true;
+			String fileContents[] = new String[4];
+			fileContents = Save.load(file);
+			box1txt = fileContents[0];
+			fileContents = null;
 		}
 		file = new File(System.getenv("appdata") + "/Jerfy/save2");
 		if(file.isFile()) {
 			save2 = true;
+			String fileContents[] = new String[4];
+			fileContents = Save.load(file);
+			box2txt = fileContents[0];
+			fileContents = null;
 		}
 		file = new File(System.getenv("appdata") + "/Jerfy/save3");
 		if(file.isFile()) {
 			save3 = true;
+			String fileContents[] = new String[4];
+			fileContents = Save.load(file);
+			box3txt = fileContents[0];
+			fileContents = null;
 		}
 	}
 	
@@ -78,6 +96,9 @@ public class MainMenu implements Screen {
 		
 		layout.setText(font, "Exit");
 		font.draw(batch, "Exit", (1000+1500)/2 - layout.width/2, (100+200)/2 - layout.height/2 + 40);
+		
+		layout.setText(font, box1txt);
+		font.draw(batch, box1txt, (boxX - 400 - 200 + (boxX - 400 - 200) + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
 		batch.end();
 		
 		//Menu boxes
