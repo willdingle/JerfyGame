@@ -99,6 +99,12 @@ public class MainMenu implements Screen {
 		
 		layout.setText(font, box1txt);
 		font.draw(batch, box1txt, (boxX - 400 - 200 + (boxX - 400 - 200) + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
+		
+		layout.setText(font, box2txt);
+		font.draw(batch, box2txt, (boxX + boxX + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
+		
+		layout.setText(font, box3txt);
+		font.draw(batch, box3txt, (boxX + 400 + 200 + (boxX + 400 + 200) + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
 		batch.end();
 		
 		//Menu boxes
