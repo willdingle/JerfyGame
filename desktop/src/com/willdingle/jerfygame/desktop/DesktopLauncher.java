@@ -13,7 +13,7 @@ public class DesktopLauncher {
 		//cfg.height = (int) size.getHeight();
 		cfg.width = 1920;
 		cfg.height = 1080;
-		cfg.fullscreen = false;
+		cfg.fullscreen = true;
 		cfg.vSyncEnabled = true;
 		cfg.foregroundFPS = 75;
 		

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
+
 import java.io.File;
 
 public class MainMenu implements Screen {
@@ -97,6 +98,9 @@ public class MainMenu implements Screen {
 		layout.setText(font, "Exit");
 		font.draw(batch, "Exit", (1000+1500)/2 - layout.width/2, (100+200)/2 - layout.height/2 + 40);
 		
+		layout.setText(font, "Options");
+		font.draw(batch, "Options", (400+900)/2 - layout.width/2, (100+200)/2 - layout.height/2 + 40);
+		
 		layout.setText(font, box1txt);
 		font.draw(batch, box1txt, (boxX - 400 - 200 + (boxX - 400 - 200) + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
 		
@@ -132,7 +136,7 @@ public class MainMenu implements Screen {
 		if(HitBox.mouse(boxX - 400 - 200, 400, 400, 400)) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save1");
 			if(! save1) {
-				String name = "Test";
+				String name = "Save 1";
 				Save.create(file, name);
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
@@ -145,6 +149,44 @@ public class MainMenu implements Screen {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
 			}
+			
+		} else if (HitBox.mouse(boxX, 400, 400, 400)) {
+			file = new File(System.getenv("appdata") + "/Jerfy/save2");
+			if(! save2) {
+				String name = "Save 2";
+				Save.create(file, name);
+				game.setScreen(new TownTown(game, 1, 1));
+			} else {
+				String fileContents[] = new String[4];
+				fileContents = Save.load(file);
+				float area = Float.parseFloat(fileContents[1]);
+				float plx = Float.parseFloat(fileContents[2]);
+				float ply = Float.parseFloat(fileContents[3]);
+				if(area == 0) {
+					game.setScreen(new TownTown(game, plx, ply));
+				}
+			}
+			
+		} else if (HitBox.mouse(boxX + 400 + 200, 400, 400, 400)) {
+			file = new File(System.getenv("appdata") + "/Jerfy/save3");
+			if(! save3) {
+				String name = "Save 3";
+				Save.create(file, name);
+				game.setScreen(new TownTown(game, 1, 1));
+			} else {
+				String fileContents[] = new String[4];
+				fileContents = Save.load(file);
+				float area = Float.parseFloat(fileContents[1]);
+				float plx = Float.parseFloat(fileContents[2]);
+				float ply = Float.parseFloat(fileContents[3]);
+				if(area == 0) {
+					game.setScreen(new TownTown(game, plx, ply));
+				}
+			}
+			
+		} else if (HitBox.mouse(400, 100, 500, 100)) {
+			game.setScreen(new OptionsMenu(game));
+			
 		} else if (HitBox.mouse(1000, 100, 500, 100)) {
 			System.exit(0);
 		}
