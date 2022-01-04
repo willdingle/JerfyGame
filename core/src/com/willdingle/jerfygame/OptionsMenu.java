@@ -16,6 +16,7 @@ public class OptionsMenu implements Screen {
 	private SpriteBatch batch;
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
+	private Button backBut;
 
 	public OptionsMenu (final JerfyGame game) {
 		this.game = game;
@@ -25,37 +26,32 @@ public class OptionsMenu implements Screen {
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
 		shRen = new ShapeRenderer();
-		
+		backBut = new Button(710, 100, 500, 100, font, "Back");
 	}
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(178/255f, 0, 1, 0);
 		
-		//Draw text
-		batch.begin();
-		GlyphLayout layout = new GlyphLayout();
-				
-		layout.setText(titleFont, "OPTIONS");
-		titleFont.draw(batch, "OPTIONS", Gdx.graphics.getWidth()/2 - layout.width/2, Gdx.graphics.getHeight() - layout.height);
-		
-		layout.setText(font, "Back");
-		font.draw(batch, "Back", Gdx.graphics.getWidth()/2 - layout.width/2, (100+200)/2 + 20);
-		
-		batch.end();
-		
 		//Menu boxes
 		batch.begin();
 		shRen.begin(ShapeType.Line);
 		shRen.setColor(1,1,1,1);
-		shRen.rect(Gdx.graphics.getWidth() / 2 - 500/2, 100, 500, 100);
+		backBut.draw(shRen, batch);
 		shRen.end();
+		batch.end();
+		
+		//Draw text
+		batch.begin();
+		GlyphLayout layout = new GlyphLayout();
+		layout.setText(titleFont, "OPTIONS");
+		titleFont.draw(batch, "OPTIONS", Gdx.graphics.getWidth()/2 - layout.width/2, Gdx.graphics.getHeight() - layout.height);
+		
+		backBut.drawText(batch, font);
 		batch.end();
 		
 		//Input
@@ -65,7 +61,7 @@ public class OptionsMenu implements Screen {
 	}
 	
 	public void interact() {
-		if(HitBox.mouse(Gdx.graphics.getWidth()/2 - 500/2, 100, 500, 100)) {
+		if(backBut.pressed()) {
 			game.setScreen(new MainMenu(game));
 		}
 	}

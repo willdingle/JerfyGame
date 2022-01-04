@@ -97,6 +97,11 @@ public class TownTown implements Screen {
 			interact();
 		}
 		
+		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+			PauseMenu pauseMenu = new PauseMenu(batch, font);
+			pause();
+		}
+		
 		//Text box
 		if(txtBox != null) {
 			txtBox.render();

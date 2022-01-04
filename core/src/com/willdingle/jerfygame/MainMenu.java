@@ -21,16 +21,14 @@ public class MainMenu implements Screen {
 	private ShapeRenderer shRen;
 	private File file;
 	
-	private int boxX;
-	
 	private boolean save1;
-	private String box1txt;
 	private boolean save2;
-	private String box2txt;
 	private boolean save3;
-	private String box3txt;
+	
+	private Button save1but, save2but, save3but, optionsBut, exitBut;
 	
 	public MainMenu(final JerfyGame game) {
+		//Initial variable declarations
 		this.game = game;
 		batch = new SpriteBatch();
 		game.parameter.size = 150;
@@ -39,13 +37,14 @@ public class MainMenu implements Screen {
 		font = game.generator.generateFont(game.parameter);
 		shRen = new ShapeRenderer();
 		
-		boxX = Gdx.graphics.getWidth() / 2 - 400 / 2;
-		
+		//Checks if save directory exists in appdata
 		file = new File(System.getenv("appdata") + "/Jerfy");
 		if(! file.exists()) {
 			file.mkdir();
 		}
 		
+		//Checks if saves exist and gets names of saves
+		String box1txt, box2txt, box3txt;
 		save1 = false;
 		box1txt = "EMPTY SLOT";
 		save2 = false;
@@ -76,6 +75,12 @@ public class MainMenu implements Screen {
 			box3txt = fileContents[0];
 			fileContents = null;
 		}
+		
+		save1but = new Button(160, 340, 400, 400, font, box1txt);
+		save2but = new Button(760, 340, 400, 400, font, box2txt);
+		save3but = new Button(1360, 340, 400, 400, font, box3txt);
+		optionsBut = new Button(400, 100, 500, 100, font, "Options");
+		exitBut = new Button(1000, 100, 500, 100, font, "Exit");
 	}
 	
 	@Override
@@ -88,52 +93,37 @@ public class MainMenu implements Screen {
 	public void render(float delta) {
 		ScreenUtils.clear(178/255f, 0, 1, 0);
 		
-		//Draw text
-		batch.begin();
-		GlyphLayout layout = new GlyphLayout();
-		
-		layout.setText(titleFont, "Jerfy");
-		titleFont.draw(batch, "Jerfy", Gdx.graphics.getWidth()/2 - layout.width/2, Gdx.graphics.getHeight() - layout.height);
-		
-		layout.setText(font, "Exit");
-		font.draw(batch, "Exit", (1000+1500)/2 - layout.width/2, (100+200)/2 - layout.height/2 + 40);
-		
-		layout.setText(font, "Options");
-		font.draw(batch, "Options", (400+900)/2 - layout.width/2, (100+200)/2 - layout.height/2 + 40);
-		
-		layout.setText(font, box1txt);
-		font.draw(batch, box1txt, (boxX - 400 - 200 + (boxX - 400 - 200) + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
-		
-		layout.setText(font, box2txt);
-		font.draw(batch, box2txt, (boxX + boxX + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
-		
-		layout.setText(font, box3txt);
-		font.draw(batch, box3txt, (boxX + 400 + 200 + (boxX + 400 + 200) + 400)/2 - layout.width/2, (Gdx.graphics.getHeight()/2 - 200) + (Gdx.graphics.getHeight() - 200 - 400)/2 - layout.height/2 + 40);
-		batch.end();
-		
-		//Menu boxes
+		//Menu buttons
 		batch.begin();
 		shRen.begin(ShapeType.Line);
 		shRen.setColor(1,1,1,1);
-		shRen.rect(boxX, Gdx.graphics.getHeight()/2 - 200, 400, 400); //middle save box
-		shRen.rect(boxX - 400 - 200, Gdx.graphics.getHeight()/2 - 200, 400, 400); //left save box
-		shRen.rect(boxX + 400 + 200, Gdx.graphics.getHeight()/2 - 200, 400, 400); //right save box
-		shRen.rect(400, 100, 500, 100); //options button
-		shRen.rect(1000, 100, 500, 100); //exit button
+		save1but.draw(shRen, batch); //Save 1 button
+		save2but.draw(shRen, batch); //Save 2 button
+		save3but.draw(shRen, batch); //Save 3 button
+		optionsBut.draw(shRen, batch); //Options button
+		exitBut.draw(shRen, batch); //Exit button
 		shRen.end();
 		batch.end();
 		
+		//Draw text
+		batch.begin();
+		GlyphLayout layout = new GlyphLayout();
+		layout.setText(titleFont, "Jerfy");
+		titleFont.draw(batch, "Jerfy", Gdx.graphics.getWidth()/2 - layout.width/2, Gdx.graphics.getHeight() - layout.height);
+		save1but.drawText(batch, font); //Save 1 box text
+		save2but.drawText(batch, font); //Save 2 box text
+		save3but.drawText(batch, font); //Save 3 box text
+		optionsBut.drawText(batch, font); //Options box text
+		exitBut.drawText(batch, font); //Exit box text
+		batch.end();
+		
 		//Input
-		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-			interact();
-		}
-		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-			game.setScreen(new TownTown(game, 1, 1));
-		}
+		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) interact();
+		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) game.setScreen(new TownTown(game, 1, 1));
 	}
 	
 	public void interact() {
-		if(HitBox.mouse(boxX - 400 - 200, 400, 400, 400)) {
+		if(save1but.pressed()) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save1");
 			if(! save1) {
 				String name = "Save 1";
@@ -150,7 +140,7 @@ public class MainMenu implements Screen {
 				}
 			}
 			
-		} else if (HitBox.mouse(boxX, 400, 400, 400)) {
+		} else if (save2but.pressed()) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save2");
 			if(! save2) {
 				String name = "Save 2";
@@ -167,7 +157,7 @@ public class MainMenu implements Screen {
 				}
 			}
 			
-		} else if (HitBox.mouse(boxX + 400 + 200, 400, 400, 400)) {
+		} else if (save3but.pressed()) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save3");
 			if(! save3) {
 				String name = "Save 3";
@@ -183,13 +173,9 @@ public class MainMenu implements Screen {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
 			}
-			
-		} else if (HitBox.mouse(400, 100, 500, 100)) {
-			game.setScreen(new OptionsMenu(game));
-			
-		} else if (HitBox.mouse(1000, 100, 500, 100)) {
-			System.exit(0);
 		}
+		else if (optionsBut.pressed()) game.setScreen(new OptionsMenu(game));
+		else if (exitBut.pressed()) System.exit(0);
 	}
 
 	@Override

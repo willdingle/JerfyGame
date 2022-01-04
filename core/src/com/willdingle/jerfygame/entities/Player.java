@@ -162,75 +162,6 @@ public class Player extends Sprite {
 		}
 	}
 	
-	/*public boolean spriteCollide(int xdir, int ydir, MovingNPC npc) {
-		float tileW = collisionLayer.getTileWidth(), tileH = collisionLayer.getTileHeight();
-		boolean colX = false, colY = false;
-		
-		//collide x
-		if (xdir < 0) {
-			//top left
-			colX = isTileBlocked((getX() / tileW), ((getY() + getHeight()) / tileH));
-			colX = (getX() / tileW) <= npc.getX();
-			
-			//middle left
-			if (! colX) {
-				colX = isTileBlocked((getX() / tileW), ((getY() + getHeight() / 2) / tileH));
-			}
-			
-			//bottom left
-			if (! colX) {
-				colX = isTileBlocked((getX() / tileW), (getY() / tileH));
-			}
-		
-		} else if (xdir > 0) {
-			//top right
-			colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight()) / tileH));
-			
-			//middle right
-			if (! colX) {
-				colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight() / 2) / tileH));
-			}
-			
-			//bottom right
-			if (! colX) {
-				colX = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
-			}
-			
-		}
-		
-		//collide y
-		if (ydir < 0) {
-			//bottom left
-			colY = isTileBlocked((getX() / tileW), (getY()  / tileH));
-			
-			//bottom middle
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), (getY()  / tileH));
-			}
-			
-			//bottom right
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
-			}
-			
-		} else if (ydir > 0) {
-			//top left
-			colY = isTileBlocked((getX() / tileW), ((getY() + getHeight())  / tileH));
-			
-			//top middle
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), ((getY() + getHeight())  / tileH));
-			}
-			
-			//top right
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight())  / tileH));
-			}
-		}
-		
-		return colX || colY;
-	}*/
-	
 	public void animate(String dir) {
 			
 			if (elTimeF > 0.25) {
@@ -263,65 +194,42 @@ public class Player extends Sprite {
 		float tileW = collisionLayer.getTileWidth(), tileH = collisionLayer.getTileHeight();
 		boolean colX = false, colY = false;
 		
-		//collide x
+		//collide left
 		if (xdir < 0) {
 			//top left
 			colX = isTileBlocked((getX() / tileW), ((getY() + getHeight()) / tileH)); 
-			
 			//middle left
-			if (! colX) {
-				colX = isTileBlocked((getX() / tileW), ((getY() + getHeight() / 2) / tileH));
-			}
-			
+			if (! colX) colX = isTileBlocked((getX() / tileW), ((getY() + getHeight() / 2) / tileH));
 			//bottom left
-			if (! colX) {
-				colX = isTileBlocked((getX() / tileW), (getY() / tileH));
-			}
+			if (! colX) colX = isTileBlocked((getX() / tileW), (getY() / tileH));
 		
+		//collide right
 		} else if (xdir > 0) {
 			//top right
 			colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight()) / tileH));
-			
 			//middle right
-			if (! colX) {
-				colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight() / 2) / tileH));
-			}
-			
+			if (! colX) colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight() / 2) / tileH));
 			//bottom right
-			if (! colX) {
-				colX = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
-			}
-			
+			if (! colX) colX = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
 		}
 		
-		//collide y
+		//collide down
 		if (ydir < 0) {
 			//bottom left
 			colY = isTileBlocked((getX() / tileW), (getY()  / tileH));
-			
 			//bottom middle
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), (getY()  / tileH));
-			}
-			
+			if (! colY) colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), (getY()  / tileH));
 			//bottom right
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
-			}
-			
+			if (! colY) colY = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
+		
+		//collide top
 		} else if (ydir > 0) {
 			//top left
 			colY = isTileBlocked((getX() / tileW), ((getY() + getHeight())  / tileH));
-			
 			//top middle
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), ((getY() + getHeight())  / tileH));
-			}
-			
+			if (! colY) colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), ((getY() + getHeight())  / tileH));
 			//top right
-			if (! colY) {
-				colY = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight())  / tileH));
-			}
+			if (! colY) colY = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight())  / tileH));
 		}
 		
 		return colX || colY;
