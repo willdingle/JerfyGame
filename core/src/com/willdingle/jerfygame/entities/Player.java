@@ -11,10 +11,10 @@ import com.willdingle.jerfygame.HitBox;
 public class Player extends Sprite {
 	
 	private TiledMapTileLayer collisionLayer;
-	Texture[] upWalk = new Texture[2];
-	Texture[] downWalk = new Texture[2];
-	Texture[] leftWalk = new Texture[2];
-	Texture[] rightWalk = new Texture[2];
+	private Texture[] upWalk = new Texture[2];
+	private Texture[] downWalk = new Texture[2];
+	private Texture[] leftWalk = new Texture[2];
+	private Texture[] rightWalk = new Texture[2];
 	private float elTimeF;
 	private int elTime;
 	
