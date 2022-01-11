@@ -26,6 +26,7 @@ public class MainMenu implements Screen {
 	private boolean save3;
 	
 	private Button save1but, save2but, save3but, optionsBut, exitBut;
+	private float titleX, titleY;
 	
 	public MainMenu(final JerfyGame game) {
 		//Initial variable declarations
@@ -36,6 +37,12 @@ public class MainMenu implements Screen {
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
 		shRen = new ShapeRenderer();
+		
+		//Positions title text
+		GlyphLayout layout = new GlyphLayout();
+		layout.setText(titleFont, "Jerfy");
+		this.titleX = Gdx.graphics.getWidth()/2 - layout.width/2;
+		this.titleY = Gdx.graphics.getHeight() - layout.height;
 		
 		//Checks if save directory exists in appdata
 		file = new File(System.getenv("appdata") + "/Jerfy");
@@ -76,6 +83,7 @@ public class MainMenu implements Screen {
 			fileContents = null;
 		}
 		
+		//Creates buttons
 		save1but = new Button(160, 340, 400, 400, font, box1txt);
 		save2but = new Button(760, 340, 400, 400, font, box2txt);
 		save3but = new Button(1360, 340, 400, 400, font, box3txt);
@@ -107,9 +115,7 @@ public class MainMenu implements Screen {
 		
 		//Draw text
 		batch.begin();
-		GlyphLayout layout = new GlyphLayout();
-		layout.setText(titleFont, "Jerfy");
-		titleFont.draw(batch, "Jerfy", Gdx.graphics.getWidth()/2 - layout.width/2, Gdx.graphics.getHeight() - layout.height);
+		titleFont.draw(batch, "Jerfy", titleX, titleY);
 		save1but.drawText(batch, font); //Save 1 box text
 		save2but.drawText(batch, font); //Save 2 box text
 		save3but.drawText(batch, font); //Save 3 box text
@@ -122,7 +128,7 @@ public class MainMenu implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) game.setScreen(new TownTown(game, 1, 1));
 	}
 	
-	public void interact() {
+	private void interact() {
 		if(save1but.pressed()) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save1");
 			if(! save1) {
@@ -135,6 +141,7 @@ public class MainMenu implements Screen {
 				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
+				dispose();
 				if(area == 0) {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
@@ -152,6 +159,7 @@ public class MainMenu implements Screen {
 				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
+				dispose();
 				if(area == 0) {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
@@ -169,12 +177,13 @@ public class MainMenu implements Screen {
 				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
+				dispose();
 				if(area == 0) {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
 			}
 		}
-		else if (optionsBut.pressed()) game.setScreen(new OptionsMenu(game));
+		else if (optionsBut.pressed()) game.setScreen(new OptionsMenu(game, game.getScreen()));
 		else if (exitBut.pressed()) System.exit(0);
 	}
 
@@ -198,12 +207,13 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void hide() {
-		dispose();
+		
 	}
 
 	@Override
 	public void dispose() {
 		batch.dispose();
+		titleFont.dispose();
 		font.dispose();
 		shRen.dispose();
 		file = null;

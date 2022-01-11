@@ -98,8 +98,7 @@ public class TownTown implements Screen {
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-			PauseMenu pauseMenu = new PauseMenu(batch, font);
-			pause();
+			game.setScreen(new PauseMenu(game, game.getScreen()));
 		}
 		
 		//Text box
@@ -108,7 +107,7 @@ public class TownTown implements Screen {
 		}
 	}
 	
-	public void interact() {
+	private void interact() {
 		if (txtBox != null) {
 			moveAllowed = true;
 			txtBox = null;

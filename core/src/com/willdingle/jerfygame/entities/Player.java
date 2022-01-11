@@ -19,6 +19,7 @@ public class Player extends Sprite {
 	private int elTime;
 	
 	private int meleeRange;
+	private int[] inv;
 
 	public Player(TiledMapTileLayer collisionLayer, float x, float y) {
 		super(new Sprite(new Texture("jerfy/down.png")));
@@ -39,6 +40,7 @@ public class Player extends Sprite {
 		rightWalk[1] = new Texture("jerfy/rightwalk/1.png");
 		
 		meleeRange = 16;
+		inv = new int[5];
 	}
 	
 	@Override
@@ -46,11 +48,8 @@ public class Player extends Sprite {
 		super.draw(batch);
 	}
 	
-	public void meleeAttack() {
-		float x = Gdx.input.getX();
-		float y = Gdx.input.getY();
-		
-		if (x <= getX()) {
+	public void attack() {
+		if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
 			
 		}
 	}
