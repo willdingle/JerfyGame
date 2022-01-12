@@ -10,17 +10,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class OptionsMenu implements Screen {
-	
+public class VideoOptions implements Screen {
 	final JerfyGame game;
 	private Screen prevScreen;
 	private SpriteBatch batch;
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
-	private Button backBut, videoBut, controlsBut, soundBut, saveBut;
+	private Button backBut;
 	private float titleX, titleY;
-
-	public OptionsMenu (final JerfyGame game, Screen prevScreen) {
+	
+	public VideoOptions(JerfyGame game, Screen prevScreen) {
 		this.game = game;
 		batch = new SpriteBatch();
 		game.parameter.size = 120;
@@ -32,20 +31,18 @@ public class OptionsMenu implements Screen {
 		
 		//Positions title text
 		GlyphLayout layout = new GlyphLayout();
-		layout.setText(titleFont, "OPTIONS");
+		layout.setText(titleFont, "VIDEO OPTIONS");
 		titleX = Gdx.graphics.getWidth()/2 - layout.width/2;
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
 		
 		//Creates buttons
-		videoBut = new Button(300, 600, 500, 300, font, "Video");
-		controlsBut = new Button(1120, 600, 500, 300, font, "Controls");
-		soundBut = new Button(300, 250, 500, 300, font, "Sound");
-		saveBut = new Button(1120, 250, 500, 300, font, "Save Mgmt");
 		backBut = new Button(710, 100, 500, 100, font, "Back");
+		
 	}
-	
+
 	@Override
 	public void show() {
+		
 	}
 
 	@Override
@@ -56,34 +53,23 @@ public class OptionsMenu implements Screen {
 		batch.begin();
 		shRen.begin(ShapeType.Line);
 		shRen.setColor(1,1,1,1);
-		videoBut.draw(shRen, batch);
-		controlsBut.draw(shRen, batch);
-		soundBut.draw(shRen, batch);
-		saveBut.draw(shRen, batch);
 		backBut.draw(shRen, batch);
 		shRen.end();
 		batch.end();
 		
 		//Draw text
 		batch.begin();
-		titleFont.draw(batch, "OPTIONS", titleX, titleY);
-		videoBut.drawText(batch, font);
-		controlsBut.drawText(batch, font);
-		soundBut.drawText(batch, font);
-		saveBut.drawText(batch, font);
+		titleFont.draw(batch, "VIDEO OPTIONS", titleX, titleY);
 		backBut.drawText(batch, font);
 		batch.end();
 		
 		//Input
 		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) interact();
+		
 	}
 	
 	private void interact() {
-		if(videoBut.pressed()) game.setScreen(new VideoOptions(game, game.getScreen()));
-		if(backBut.pressed()) {
-			dispose();
-			game.setScreen(prevScreen);
-		}
+		if(backBut.pressed()) game.setScreen(prevScreen);
 	}
 
 	@Override
@@ -106,14 +92,14 @@ public class OptionsMenu implements Screen {
 
 	@Override
 	public void hide() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		font.dispose();
-		shRen.dispose();
+		// TODO Auto-generated method stub
+		
 	}
 
 }
