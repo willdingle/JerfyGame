@@ -3,6 +3,7 @@ package com.willdingle.jerfygame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -104,7 +105,7 @@ public class MainMenu implements Screen {
 		//Menu buttons
 		batch.begin();
 		shRen.begin(ShapeType.Line);
-		shRen.setColor(1,1,1,1);
+		shRen.setColor(Color.LIGHT_GRAY);
 		save1but.draw(shRen, batch); //Save 1 button
 		save2but.draw(shRen, batch); //Save 2 button
 		save3but.draw(shRen, batch); //Save 3 button

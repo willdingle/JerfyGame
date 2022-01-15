@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		cfg.height = 1080;
 		cfg.fullscreen = false;
 		cfg.vSyncEnabled = true;
-		cfg.foregroundFPS = 75;
+		cfg.foregroundFPS = 120;
 		
 		new LwjglApplication(new JerfyGame(), cfg);
 	}

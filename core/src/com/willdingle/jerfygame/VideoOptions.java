@@ -5,6 +5,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -60,7 +61,7 @@ public class VideoOptions implements Screen {
 		//Menu boxes
 		batch.begin();
 		shRen.begin(ShapeType.Line);
-		shRen.setColor(1,1,1,1);
+		shRen.setColor(Color.LIGHT_GRAY);
 		fullscreenBut.draw(shRen, batch);
 		vsyncBut.draw(shRen, batch);
 		backBut.draw(shRen, batch);

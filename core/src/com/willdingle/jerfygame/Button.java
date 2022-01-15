@@ -1,5 +1,7 @@
 package com.willdingle.jerfygame;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,9 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Button {
 	
-	int x, y, w, h;
-	float txtX, txtY;
-	String txt;
+	private int x, y, w, h;
+	private float txtX, txtY;
+	private String txt;
 	
 	public Button(int x, int y, int w, int h, BitmapFont font, String txt) {
 		this.x = x;
@@ -28,7 +30,11 @@ public class Button {
 	}
 	
 	public void draw(ShapeRenderer shRen, SpriteBatch batch) {
-		shRen.rect(x, y, w, h);
+		if(pressed()) {
+			shRen.setColor(Color.WHITE);
+			shRen.rect(x, y, w, h);
+			shRen.setColor(Color.LIGHT_GRAY);
+		} else shRen.rect(x, y, w, h);
 	}
 	
 	public void drawText(SpriteBatch batch, BitmapFont font) {

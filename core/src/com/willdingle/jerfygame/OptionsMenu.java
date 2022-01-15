@@ -3,6 +3,7 @@ package com.willdingle.jerfygame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -55,7 +56,7 @@ public class OptionsMenu implements Screen {
 		//Menu boxes
 		batch.begin();
 		shRen.begin(ShapeType.Line);
-		shRen.setColor(1,1,1,1);
+		shRen.setColor(Color.LIGHT_GRAY);
 		videoBut.draw(shRen, batch);
 		controlsBut.draw(shRen, batch);
 		soundBut.draw(shRen, batch);

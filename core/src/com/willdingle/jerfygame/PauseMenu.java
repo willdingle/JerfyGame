@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -59,7 +60,7 @@ public class PauseMenu implements Screen {
 		//Buttons
 		batch.begin();
 		shRen.begin(ShapeType.Line);
-		shRen.setColor(1,1,1,1);
+		shRen.setColor(Color.LIGHT_GRAY);
 		resBut.draw(shRen, batch);
 		optionsBut.draw(shRen, batch);
 		exitBut.draw(shRen, batch);
