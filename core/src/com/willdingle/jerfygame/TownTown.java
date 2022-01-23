@@ -3,6 +3,7 @@ package com.willdingle.jerfygame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -31,6 +32,7 @@ public class TownTown implements Screen {
 	private StillNPC chocm, paper, snugm, donker;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
+	Music bigBoris;
 
 	public TownTown(final JerfyGame game, float plx, float ply) {
 		this.game = game;
@@ -62,6 +64,10 @@ public class TownTown implements Screen {
 		shRen = new ShapeRenderer();
 		
 		moveAllowed = true;
+		
+		bigBoris = Gdx.audio.newMusic(Gdx.files.internal("music/bigBoris.wav"));
+		bigBoris.setLooping(true);
+		bigBoris.play();
 	}
 
 	@Override

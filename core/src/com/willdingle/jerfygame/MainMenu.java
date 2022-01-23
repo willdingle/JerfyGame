@@ -45,12 +45,6 @@ public class MainMenu implements Screen {
 		this.titleX = Gdx.graphics.getWidth()/2 - layout.width/2;
 		this.titleY = Gdx.graphics.getHeight() - layout.height;
 		
-		//Checks if save directory exists in appdata
-		file = new File(System.getenv("appdata") + "/Jerfy");
-		if(! file.exists()) {
-			file.mkdir();
-		}
-		
 		//Checks if saves exist and gets names of saves
 		String box1txt, box2txt, box3txt;
 		save1 = false;
@@ -104,8 +98,8 @@ public class MainMenu implements Screen {
 		
 		//Menu buttons
 		batch.begin();
-		shRen.begin(ShapeType.Line);
-		shRen.setColor(Color.LIGHT_GRAY);
+		shRen.begin(ShapeType.Filled);
+		shRen.setColor(Color.DARK_GRAY);
 		save1but.draw(shRen, batch); //Save 1 button
 		save2but.draw(shRen, batch); //Save 2 button
 		save3but.draw(shRen, batch); //Save 3 button
@@ -137,8 +131,7 @@ public class MainMenu implements Screen {
 				Save.create(file, name);
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
-				String fileContents[] = new String[4];
-				fileContents = Save.load(file);
+				String fileContents[] = Save.load(file);
 				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);

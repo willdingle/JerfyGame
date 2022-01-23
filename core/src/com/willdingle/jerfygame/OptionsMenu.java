@@ -55,8 +55,8 @@ public class OptionsMenu implements Screen {
 		
 		//Menu boxes
 		batch.begin();
-		shRen.begin(ShapeType.Line);
-		shRen.setColor(Color.LIGHT_GRAY);
+		shRen.begin(ShapeType.Filled);
+		shRen.setColor(Color.DARK_GRAY);
 		videoBut.draw(shRen, batch);
 		controlsBut.draw(shRen, batch);
 		soundBut.draw(shRen, batch);

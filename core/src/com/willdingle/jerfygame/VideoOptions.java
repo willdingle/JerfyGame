@@ -1,7 +1,6 @@
 package com.willdingle.jerfygame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
@@ -43,7 +42,7 @@ public class VideoOptions implements Screen {
 		
 		//Creates buttons
 		backBut = new Button(710, 100, 500, 100, font, "Back");
-		if(Gdx.graphics.isFullscreen()) fullscreenBut = new Button(Gdx.graphics.getWidth() - 700, 800, 100, 100, font, "X");
+		if(Gdx.graphics.isFullscreen()) fullscreenBut = new Button(1280, 800, 100, 100, font, "X");
 		else fullscreenBut = new Button(1280, 800, 100, 100, font, "");
 		vsyncBut = new Button(1280, 680, 100, 100, font, "X");
 		
@@ -60,8 +59,8 @@ public class VideoOptions implements Screen {
 		
 		//Menu boxes
 		batch.begin();
-		shRen.begin(ShapeType.Line);
-		shRen.setColor(Color.LIGHT_GRAY);
+		shRen.begin(ShapeType.Filled);
+		shRen.setColor(Color.DARK_GRAY);
 		fullscreenBut.draw(shRen, batch);
 		vsyncBut.draw(shRen, batch);
 		backBut.draw(shRen, batch);

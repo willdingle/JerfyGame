@@ -31,9 +31,9 @@ public class Button {
 	
 	public void draw(ShapeRenderer shRen, SpriteBatch batch) {
 		if(pressed()) {
-			shRen.setColor(Color.WHITE);
-			shRen.rect(x, y, w, h);
 			shRen.setColor(Color.LIGHT_GRAY);
+			shRen.rect(x, y, w, h);
+			shRen.setColor(Color.DARK_GRAY);
 		} else shRen.rect(x, y, w, h);
 	}
 	
