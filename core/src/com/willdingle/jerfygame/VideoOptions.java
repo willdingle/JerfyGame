@@ -32,7 +32,7 @@ public class VideoOptions implements Screen {
 		shRen = new ShapeRenderer();
 		this.prevScreen = prevScreen;
 		
-		vSync = true;
+		vSync = Boolean.parseBoolean(Settings.getOption("vsync"));
 		
 		//Positions title text
 		GlyphLayout layout = new GlyphLayout();
@@ -44,7 +44,8 @@ public class VideoOptions implements Screen {
 		backBut = new Button(710, 100, 500, 100, font, "Back");
 		if(Gdx.graphics.isFullscreen()) fullscreenBut = new Button(1280, 800, 100, 100, font, "X");
 		else fullscreenBut = new Button(1280, 800, 100, 100, font, "");
-		vsyncBut = new Button(1280, 680, 100, 100, font, "X");
+		if(vSync) vsyncBut = new Button(1280, 680, 100, 100, font, "X");
+		else vsyncBut = new Button(1280, 680, 100, 100, font, "");
 		
 	}
 
@@ -88,9 +89,15 @@ public class VideoOptions implements Screen {
 		
 		else if(fullscreenBut.pressed()) {
 			if(Gdx.graphics.isFullscreen()) {
+				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+				batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 				fullscreenBut = new Button(1280, 800, 100, 100, font, "");
 			}
 			else {
+				Gdx.graphics.setWindowedMode(1920, 1080);
+				batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 				fullscreenBut = new Button(1280, 800, 100, 100, font, "X");
 			}
 		}
@@ -99,10 +106,12 @@ public class VideoOptions implements Screen {
 			if(vSync) {
 				Gdx.graphics.setVSync(false);
 				vSync = false;
+				Settings.setVsync(false);
 				vsyncBut = new Button(1280, 680, 100, 100, font, "");
 			} else {
 				Gdx.graphics.setVSync(true);
 				vSync = true;
+				Settings.setVsync(true);
 				vsyncBut = new Button(1280, 680, 100, 100, font, "X");
 			}
 		}

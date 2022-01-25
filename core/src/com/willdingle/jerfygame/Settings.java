@@ -12,7 +12,7 @@ public class Settings {
 		try {
 			file.createNewFile();
 			FileWriter writer = new FileWriter(file);
-			writer.write("vsync=true");
+			writer.write("true");
 			writer.close();
 		} catch (IOException e) {
 			System.out.println("Error creating settings file");
@@ -36,5 +36,34 @@ public class Settings {
 		}
 		return fileContents;
 	}
-
+	
+	public static void setVsync(Boolean option) {
+		File file = new File(System.getenv("appdata") + "/Jerfy/settings.ini");
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write(Boolean.toString(option));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error writing to settings file");
+		}
+		
+	}
+	
+	public static String getOption(String option) {
+		String returnOpt = "";
+		File file = new File(System.getenv("appdata") + "/Jerfy/settings.ini");
+		try {
+			Scanner reader = new Scanner(file);
+			
+			switch(option) {
+			case "vsync":
+				returnOpt = reader.nextLine();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error loading setting");
+		}
+		return returnOpt;
+	}
 }

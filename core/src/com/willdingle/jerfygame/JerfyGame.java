@@ -32,6 +32,8 @@ public class JerfyGame extends Game {
 		
 		//Loads settings
 		String fileContents[] = Settings.load(file);
+		if(Boolean.parseBoolean(fileContents[0])) Gdx.graphics.setVSync(true);
+		else Gdx.graphics.setVSync(false);
 		
 		this.setScreen(new MainMenu(this));
 	}
