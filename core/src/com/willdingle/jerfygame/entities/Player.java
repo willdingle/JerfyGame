@@ -10,7 +10,7 @@ import com.willdingle.jerfygame.HitBox;
 
 public class Player extends Sprite {
 	
-	private TiledMapTileLayer collisionLayer;
+	private TiledMapTileLayer colLayer;
 	private Texture[] upWalk = new Texture[2];
 	private Texture[] downWalk = new Texture[2];
 	private Texture[] leftWalk = new Texture[2];
@@ -20,12 +20,14 @@ public class Player extends Sprite {
 	
 	private int meleeRange;
 	private int[] inv;
+	
+	public Bullet[] bullets;
 
-	public Player(TiledMapTileLayer collisionLayer, float x, float y) {
+	public Player(TiledMapTileLayer colLayer, float x, float y) {
 		super(new Sprite(new Texture("jerfy/down.png")));
-		this.collisionLayer = collisionLayer;
-		setX(x * collisionLayer.getTileWidth());
-		setY(y * collisionLayer.getTileHeight());
+		this.colLayer = colLayer;
+		setX(x * colLayer.getTileWidth());
+		setY(y * colLayer.getTileHeight());
 		
 		elTimeF = 0;
 		elTime = 0;
@@ -41,20 +43,32 @@ public class Player extends Sprite {
 		
 		meleeRange = 16;
 		inv = new int[5];
-	}
-	
-	@Override
-	public void draw(Batch batch) {
-		super.draw(batch);
+		
+		bullets = new Bullet[0];
 	}
 	
 	public void attack() {
 		if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
+			Bullet bullet = new Bullet(colLayer, getX(), getY() + 8, 'l');
 			
+			if(bullets.length == 0) {
+				bullets = new Bullet[1];
+				bullets[0] = bullet;
+			}
+			else {
+				Bullet[] tmpBullets = bullets;
+				bullets = new Bullet[bullets.length + 1];
+				for(int n = 0; n < tmpBullets.length; n++) {
+					bullets[n] = tmpBullets[n];
+				}
+				bullets[bullets.length - 1] = bullet;
+			}
 		}
 	}
 	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
+		attack();
+		
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			float oldY = getY();
 			setY(getY() + 100 * delta);
@@ -133,7 +147,7 @@ public class Player extends Sprite {
 			animate("a");
 			
 		}
-		if (Gdx.input.isKeyPressed(Keys.D) && (getX() + getWidth()) / collisionLayer.getTileWidth() < collisionLayer.getWidth()) {
+		if (Gdx.input.isKeyPressed(Keys.D) && (getX() + getWidth()) / colLayer.getTileWidth() < colLayer.getWidth()) {
 			float oldX = getX();
 			setX(getX() + 100 * delta);
 			
@@ -190,7 +204,7 @@ public class Player extends Sprite {
 		}
 	
 	public boolean tileCollide(int xdir, int ydir) {
-		float tileW = collisionLayer.getTileWidth(), tileH = collisionLayer.getTileHeight();
+		float tileW = colLayer.getTileWidth(), tileH = colLayer.getTileHeight();
 		boolean colX = false, colY = false;
 		
 		//collide left
@@ -235,7 +249,7 @@ public class Player extends Sprite {
 	}
 	
 	public boolean isTileBlocked(float x, float y) {
-		boolean col = collisionLayer.getCell((int) x, (int) y).getTile().getProperties().containsKey("blocked");
+		boolean col = colLayer.getCell((int) x, (int) y).getTile().getProperties().containsKey("blocked");
 		return col;
 	}
 	

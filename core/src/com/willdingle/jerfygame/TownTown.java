@@ -32,7 +32,7 @@ public class TownTown implements Screen {
 	private StillNPC chocm, paper, snugm, donker;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
-	Music bigBoris;
+	//Music bigBoris;
 
 	public TownTown(final JerfyGame game, float plx, float ply) {
 		this.game = game;
@@ -65,9 +65,9 @@ public class TownTown implements Screen {
 		
 		moveAllowed = true;
 		
-		bigBoris = Gdx.audio.newMusic(Gdx.files.internal("music/bigBoris.wav"));
+		/*bigBoris = Gdx.audio.newMusic(Gdx.files.internal("music/bigBoris.wav"));
 		bigBoris.setLooping(true);
-		bigBoris.play();
+		bigBoris.play();*/
 	}
 
 	@Override
@@ -91,26 +91,24 @@ public class TownTown implements Screen {
 		//Draw sprites and player control
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
-		if (moveAllowed) {
-			player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
-		}
+		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
 		buggo.draw(renderer.getBatch());
 		chocm.draw(renderer.getBatch());
 		donker.draw(renderer.getBatch());
+		if(player.bullets.length > 0) {
+			for(Bullet bullet : player.bullets) {
+				bullet.draw(renderer.getBatch(), Gdx.graphics.getDeltaTime());
+			}
+		}
 		renderer.getBatch().end();
 		
-		if(Gdx.input.isKeyJustPressed(Keys.J)) {
-			interact();
-		}
-		
+		if(Gdx.input.isKeyJustPressed(Keys.J)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			game.setScreen(new PauseMenu(game, game.getScreen()));
 		}
 		
-		//Text box
-		if(txtBox != null) {
-			txtBox.render();
-		}
+		//Draw text box
+		if(txtBox != null) txtBox.render();
 	}
 	
 	private void interact() {
