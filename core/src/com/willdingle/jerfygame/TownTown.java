@@ -32,6 +32,7 @@ public class TownTown implements Screen {
 	private StillNPC chocm, paper, snugm, donker;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
+	private DreamCoin dreamCoin;
 	//Music bigBoris;
 
 	public TownTown(final JerfyGame game, float plx, float ply) {
@@ -50,12 +51,14 @@ public class TownTown implements Screen {
 		
 		movingNPCs = new MovingNPC[1];
 		stillNPCs = new StillNPC[2];
-		buggo = new MovingNPC("buggo/0.png", mapLayer, 6, 6, 4, 6, 10);
+		buggo = new MovingNPC("buggo/0.png", mapLayer, 1, 6, 1, 5, 4);
 		movingNPCs[0] = buggo;
-		chocm = new StillNPC("doggo/chocm.png", mapLayer, 7, 3);
+		chocm = new StillNPC("doggo/chocm.png", mapLayer, 2, 10);
 		stillNPCs[0] = chocm;
 		donker = new StillNPC("donker.png", mapLayer, 10, 10);
 		stillNPCs[1] = donker;
+		
+		dreamCoin = new DreamCoin(mapLayer, 5, 5);
 		
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
@@ -95,6 +98,7 @@ public class TownTown implements Screen {
 		buggo.draw(renderer.getBatch());
 		chocm.draw(renderer.getBatch());
 		donker.draw(renderer.getBatch());
+		dreamCoin.draw(renderer.getBatch());
 		if(player.bullets.length > 0) {
 			for(Bullet bullet : player.bullets) {
 				bullet.draw(renderer.getBatch(), Gdx.graphics.getDeltaTime());

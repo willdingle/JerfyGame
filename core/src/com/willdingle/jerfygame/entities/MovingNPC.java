@@ -10,13 +10,12 @@ public class MovingNPC extends Sprite {
 	
 	private float elTimeF;
 	private int elTime;
-	//Texture[] ani = new Texture[4];
 	Texture[] ani;
 	int lBound;
 	int rBound;
 	int moveSpeed;
 	
-	public MovingNPC(String spriteName, TiledMapTileLayer collisionLayer, int x, int y, int frames, int lBound, int rBound) {
+	public MovingNPC(String spriteName, TiledMapTileLayer collisionLayer, int x, int y, int lBound, int rBound, int frames) {
 		super(new Sprite(new Texture(spriteName)));
 		setX(x * collisionLayer.getTileWidth());
 		setY(y * collisionLayer.getTileHeight());

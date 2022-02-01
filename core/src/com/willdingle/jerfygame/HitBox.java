@@ -30,9 +30,11 @@ public class HitBox {
 			down = true;
 			break;
 		case 1:
+			plx += 3;
 			left = true;
 			break;
 		case 2:
+			plx -= 3;
 			right = true;
 			break;
 		case 3:

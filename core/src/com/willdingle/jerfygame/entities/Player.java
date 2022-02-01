@@ -47,27 +47,27 @@ public class Player extends Sprite {
 		bullets = new Bullet[0];
 	}
 	
-	public void attack() {
-		if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
-			Bullet bullet = new Bullet(colLayer, getX(), getY() + 8, 'l');
-			
-			if(bullets.length == 0) {
-				bullets = new Bullet[1];
-				bullets[0] = bullet;
+	public void attack(char dir) {
+		Bullet bullet = new Bullet(colLayer, getX(), getY(), getWidth(), getHeight(), dir);
+
+		if (bullets.length == 0) {
+			bullets = new Bullet[1];
+			bullets[0] = bullet;
+		} else {
+			Bullet[] tmpBullets = bullets;
+			bullets = new Bullet[bullets.length + 1];
+			for (int n = 0; n < tmpBullets.length; n++) {
+				bullets[n] = tmpBullets[n];
 			}
-			else {
-				Bullet[] tmpBullets = bullets;
-				bullets = new Bullet[bullets.length + 1];
-				for(int n = 0; n < tmpBullets.length; n++) {
-					bullets[n] = tmpBullets[n];
-				}
-				bullets[bullets.length - 1] = bullet;
-			}
+			bullets[bullets.length - 1] = bullet;
 		}
 	}
 	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
-		attack();
+		if (Gdx.input.isKeyJustPressed(Keys.LEFT)) attack('l');
+		else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) attack('r');
+		else if (Gdx.input.isKeyJustPressed(Keys.UP)) attack('u');
+		else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) attack('d');
 		
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			float oldY = getY();
@@ -210,39 +210,39 @@ public class Player extends Sprite {
 		//collide left
 		if (xdir < 0) {
 			//top left
-			colX = isTileBlocked((getX() / tileW), ((getY() + getHeight()) / tileH)); 
+			colX = isTileBlocked((getX()) / tileW, (getY() + getHeight()) / tileH); 
 			//middle left
-			if (! colX) colX = isTileBlocked((getX() / tileW), ((getY() + getHeight() / 2) / tileH));
+			if (! colX) colX = isTileBlocked((getX()) / tileW, (getY() + getHeight() / 2) / tileH);
 			//bottom left
-			if (! colX) colX = isTileBlocked((getX() / tileW), (getY() / tileH));
+			if (! colX) colX = isTileBlocked((getX()) / tileW, getY() / tileH);
 		
 		//collide right
 		} else if (xdir > 0) {
 			//top right
-			colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight()) / tileH));
+			colX = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
 			//middle right
-			if (! colX) colX = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight() / 2) / tileH));
+			if (! colX) colX = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight() / 2) / tileH);
 			//bottom right
-			if (! colX) colX = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
+			if (! colX) colX = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
 		}
 		
 		//collide down
 		if (ydir < 0) {
 			//bottom left
-			colY = isTileBlocked((getX() / tileW), (getY()  / tileH));
+			colY = isTileBlocked(getX() / tileW, getY() / tileH);
 			//bottom middle
-			if (! colY) colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), (getY()  / tileH));
+			if (! colY) colY = isTileBlocked((getX() + getWidth() / 2) / tileW, getY() / tileH);
 			//bottom right
-			if (! colY) colY = isTileBlocked(((getX() + getWidth()) / tileW), (getY()  / tileH));
+			if (! colY) colY = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
 		
 		//collide top
 		} else if (ydir > 0) {
 			//top left
-			colY = isTileBlocked((getX() / tileW), ((getY() + getHeight())  / tileH));
+			colY = isTileBlocked(getX() / tileW, (getY() + getHeight()) / tileH);
 			//top middle
-			if (! colY) colY = isTileBlocked(((getX() + getWidth() / 2) / tileW), ((getY() + getHeight())  / tileH));
+			if (! colY) colY = isTileBlocked((getX() + getWidth() / 2) / tileW, (getY() + getHeight()) / tileH);
 			//top right
-			if (! colY) colY = isTileBlocked(((getX() + getWidth()) / tileW), ((getY() + getHeight())  / tileH));
+			if (! colY) colY = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
 		}
 		
 		return colX || colY;
