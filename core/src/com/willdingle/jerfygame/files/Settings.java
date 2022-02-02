@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;

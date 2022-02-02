@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame.entities;
+package com.willdingle.jerfygame.items;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

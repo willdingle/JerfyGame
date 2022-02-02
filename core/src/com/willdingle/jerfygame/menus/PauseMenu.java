@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.willdingle.jerfygame.JerfyGame;
 
 public class PauseMenu implements Screen {
 	
@@ -19,6 +20,7 @@ public class PauseMenu implements Screen {
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
 	private Button resBut, exitBut, optionsBut;
+	private Button[] buttons;
 	private float titleX, titleY;
 	
 	public PauseMenu(JerfyGame game, Screen prevScreen) {
@@ -39,9 +41,13 @@ public class PauseMenu implements Screen {
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
 		
 		//Creates buttons
+		buttons = new Button[3];
 		resBut = new Button(Gdx.graphics.getWidth()/2 - 250, 800, 500, 100, font, "Resume");
+		buttons[0] = resBut;
 		optionsBut = new Button(Gdx.graphics.getWidth()/2 - 250, 680, 500, 100, font, "Options");
+		buttons[1] = optionsBut;
 		exitBut = new Button(Gdx.graphics.getWidth()/2 - 250, 560, 500, 100, font, "Exit");
+		buttons[2] = exitBut;
 		
 		
 	}
@@ -56,22 +62,22 @@ public class PauseMenu implements Screen {
 	public void render(float delta) {
 		ScreenUtils.clear(178/255f, 0, 1, 0);
 		
-		//Buttons
+		//Menu buttons
 		batch.begin();
 		shRen.begin(ShapeType.Filled);
 		shRen.setColor(Color.DARK_GRAY);
-		resBut.draw(shRen, batch);
-		optionsBut.draw(shRen, batch);
-		exitBut.draw(shRen, batch);
+		for(Button button : buttons) {
+			button.draw(shRen, batch);
+		}
 		shRen.end();
 		batch.end();
-		
+
 		//Draw text
 		batch.begin();
 		titleFont.draw(batch, "PAUSE", titleX, titleY);
-		resBut.drawText(batch, font);
-		optionsBut.drawText(batch, font);
-		exitBut.drawText(batch, font);
+		for(Button button : buttons) {
+			button.drawText(batch, font);
+		}
 		batch.end();
 		
 		//Input

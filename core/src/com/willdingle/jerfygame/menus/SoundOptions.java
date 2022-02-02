@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.willdingle.jerfygame.JerfyGame;
 
 public class SoundOptions implements Screen {
 	final JerfyGame game;
@@ -14,6 +15,7 @@ public class SoundOptions implements Screen {
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
 	private Button backBut, masMin, masPlu, musMin, musPlu, sfxMin, sfxPlu;
+	private Button[] buttons;
 	private float titleX, titleY;
 	
 	public SoundOptions(JerfyGame game, Screen prevScreen) {

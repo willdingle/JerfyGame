@@ -4,13 +4,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.willdingle.jerfygame.files.Settings;
+import com.willdingle.jerfygame.menus.MainMenu;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class JerfyGame extends Game {
-	FreeTypeFontGenerator generator;
-	FreeTypeFontParameter parameter;
+	public FreeTypeFontGenerator generator;
+	public FreeTypeFontParameter parameter;
 	
 	@Override
 	public void create () {

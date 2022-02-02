@@ -14,6 +14,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.willdingle.jerfygame.entities.*;
+import com.willdingle.jerfygame.items.Bullet;
+import com.willdingle.jerfygame.items.DreamCoin;
+import com.willdingle.jerfygame.menus.PauseMenu;
 
 public class TownTown implements Screen {
 	final JerfyGame game;
@@ -33,6 +36,7 @@ public class TownTown implements Screen {
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
 	private DreamCoin dreamCoin;
+	private HUD hud;
 	//Music bigBoris;
 
 	public TownTown(final JerfyGame game, float plx, float ply) {
@@ -71,6 +75,8 @@ public class TownTown implements Screen {
 		/*bigBoris = Gdx.audio.newMusic(Gdx.files.internal("music/bigBoris.wav"));
 		bigBoris.setLooping(true);
 		bigBoris.play();*/
+		
+		hud = new HUD(font);
 	}
 
 	@Override
@@ -95,10 +101,12 @@ public class TownTown implements Screen {
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
+		
 		buggo.draw(renderer.getBatch());
 		chocm.draw(renderer.getBatch());
 		donker.draw(renderer.getBatch());
 		dreamCoin.draw(renderer.getBatch());
+		
 		if(player.bullets.length > 0) {
 			for(Bullet bullet : player.bullets) {
 				bullet.draw(renderer.getBatch(), Gdx.graphics.getDeltaTime());
@@ -113,6 +121,9 @@ public class TownTown implements Screen {
 		
 		//Draw text box
 		if(txtBox != null) txtBox.render();
+		
+		//Draw HUD
+		hud.draw(batch, player);
 	}
 	
 	private void interact() {

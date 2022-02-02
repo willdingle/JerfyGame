@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.willdingle.jerfygame.HitBox;
+import com.willdingle.jerfygame.items.Bullet;
 
 public class Player extends Sprite {
 	
@@ -19,8 +20,8 @@ public class Player extends Sprite {
 	private int elTime;
 	
 	private int meleeRange;
-	private int[] inv;
-	
+	private String[] inv;
+	private int money;
 	public Bullet[] bullets;
 
 	public Player(TiledMapTileLayer colLayer, float x, float y) {
@@ -42,7 +43,8 @@ public class Player extends Sprite {
 		rightWalk[1] = new Texture("jerfy/rightwalk/1.png");
 		
 		meleeRange = 16;
-		inv = new int[5];
+		inv = new String[5];
+		setMoney(0);
 		
 		bullets = new Bullet[0];
 	}
@@ -251,6 +253,14 @@ public class Player extends Sprite {
 	public boolean isTileBlocked(float x, float y) {
 		boolean col = colLayer.getCell((int) x, (int) y).getTile().getProperties().containsKey("blocked");
 		return col;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
 	}
 	
 	

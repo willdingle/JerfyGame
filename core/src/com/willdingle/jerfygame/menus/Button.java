@@ -1,11 +1,12 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.menus;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.willdingle.jerfygame.HitBox;
 
 public class Button {
 	

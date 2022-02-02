@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.willdingle.jerfygame.JerfyGame;
+import com.willdingle.jerfygame.TownTown;
+import com.willdingle.jerfygame.files.Save;
 
 import java.io.File;
 
@@ -27,6 +30,7 @@ public class MainMenu implements Screen {
 	private boolean save3;
 	
 	private Button save1but, save2but, save3but, optionsBut, exitBut;
+	private Button[] buttons;
 	private float titleX, titleY;
 	
 	public MainMenu(final JerfyGame game) {
@@ -79,11 +83,18 @@ public class MainMenu implements Screen {
 		}
 		
 		//Creates buttons
+		buttons = new Button[5];
 		save1but = new Button(160, 340, 400, 400, font, box1txt);
+		buttons[0] = save1but;
 		save2but = new Button(760, 340, 400, 400, font, box2txt);
+		buttons[1] = save2but;
 		save3but = new Button(1360, 340, 400, 400, font, box3txt);
+		buttons[2] = save3but;
 		optionsBut = new Button(400, 100, 500, 100, font, "Options");
+		buttons[3] = optionsBut;
 		exitBut = new Button(1000, 100, 500, 100, font, "Exit");
+		buttons[4] = exitBut;
+		
 	}
 	
 	@Override
@@ -100,22 +111,18 @@ public class MainMenu implements Screen {
 		batch.begin();
 		shRen.begin(ShapeType.Filled);
 		shRen.setColor(Color.DARK_GRAY);
-		save1but.draw(shRen, batch); //Save 1 button
-		save2but.draw(shRen, batch); //Save 2 button
-		save3but.draw(shRen, batch); //Save 3 button
-		optionsBut.draw(shRen, batch); //Options button
-		exitBut.draw(shRen, batch); //Exit button
+		for(Button button : buttons) {
+			button.draw(shRen, batch);
+		}
 		shRen.end();
 		batch.end();
 		
 		//Draw text
 		batch.begin();
 		titleFont.draw(batch, "Jerfy", titleX, titleY);
-		save1but.drawText(batch, font); //Save 1 box text
-		save2but.drawText(batch, font); //Save 2 box text
-		save3but.drawText(batch, font); //Save 3 box text
-		optionsBut.drawText(batch, font); //Options box text
-		exitBut.drawText(batch, font); //Exit box text
+		for(Button button : buttons) {
+			button.drawText(batch, font);
+		}
 		batch.end();
 		
 		//Input

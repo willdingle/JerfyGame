@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame.entities;
+package com.willdingle.jerfygame.items;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -6,13 +6,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Bullet extends Sprite {
-	TiledMapTileLayer colLayer;
-	char dir;
+	//TiledMapTileLayer colLayer;
+	private char dir;
+	private int speed;
 	
 	public Bullet(TiledMapTileLayer colLayer, float plx, float ply, float plw, float plh, char dir) {
 		super(new Sprite(new Texture("bullet.png")));
-		this.colLayer = colLayer;
+		//this.colLayer = colLayer;
 		this.dir = dir;
+		speed = 150;
 		switch(dir) {
 		case 'l':
 			setX(plx - getWidth() + 2);
@@ -36,16 +38,16 @@ public class Bullet extends Sprite {
 	private void move(float delta) {
 		switch(dir) {
 		case 'l':
-			setX(getX() - 50 * delta);
+			setX(getX() - speed * delta);
 			break;
 		case 'r':
-			setX(getX() + 50 * delta);
+			setX(getX() + speed * delta);
 			break;
 		case 'u':
-			setY(getY() + 50 * delta);
+			setY(getY() + speed * delta);
 			break;
 		case 'd':
-			setY(getY() - 50 * delta);
+			setY(getY() - speed * delta);
 			break;
 		}
 	}

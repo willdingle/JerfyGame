@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.willdingle.jerfygame.JerfyGame;
+import com.willdingle.jerfygame.files.Settings;
 
 public class VideoOptions implements Screen {
 	final JerfyGame game;
@@ -19,6 +21,7 @@ public class VideoOptions implements Screen {
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
 	private Button backBut, fullscreenBut, vsyncBut;
+	private Button[] buttons;
 	private float titleX, titleY;
 	private boolean vSync;
 	
@@ -41,11 +44,15 @@ public class VideoOptions implements Screen {
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
 		
 		//Creates buttons
+		buttons = new Button[3];
 		backBut = new Button(710, 100, 500, 100, font, "Back");
+		buttons[0] = backBut;
 		if(Gdx.graphics.isFullscreen()) fullscreenBut = new Button(1280, 800, 100, 100, font, "X");
 		else fullscreenBut = new Button(1280, 800, 100, 100, font, "");
+		buttons[1] = fullscreenBut;
 		if(vSync) vsyncBut = new Button(1280, 680, 100, 100, font, "X");
 		else vsyncBut = new Button(1280, 680, 100, 100, font, "");
+		buttons[2] = vsyncBut;
 		
 	}
 
@@ -58,13 +65,13 @@ public class VideoOptions implements Screen {
 	public void render(float delta) {
 		ScreenUtils.clear(178/255f, 0, 1, 0);
 		
-		//Menu boxes
+		//Menu buttons
 		batch.begin();
 		shRen.begin(ShapeType.Filled);
 		shRen.setColor(Color.DARK_GRAY);
-		fullscreenBut.draw(shRen, batch);
-		vsyncBut.draw(shRen, batch);
-		backBut.draw(shRen, batch);
+		for(Button button : buttons) {
+			button.draw(shRen, batch);
+		}
 		shRen.end();
 		batch.end();
 		
@@ -72,10 +79,10 @@ public class VideoOptions implements Screen {
 		batch.begin();
 		titleFont.draw(batch, "VIDEO OPTIONS", titleX, titleY);
 		font.draw(batch, "Fullscreen:", 400, 875);
-		fullscreenBut.drawText(batch, font);
 		font.draw(batch, "VSync:", 400, 755);
-		vsyncBut.drawText(batch, font);
-		backBut.drawText(batch, font);
+		for(Button button : buttons) {
+			button.drawText(batch, font);
+		}
 		batch.end();
 		
 		//Input
@@ -100,6 +107,7 @@ public class VideoOptions implements Screen {
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 				fullscreenBut = new Button(1280, 800, 100, 100, font, "X");
 			}
+			buttons[1] = fullscreenBut;
 		}
 		
 		else if(vsyncBut.pressed()) {
@@ -114,6 +122,7 @@ public class VideoOptions implements Screen {
 				Settings.setVsync(true);
 				vsyncBut = new Button(1280, 680, 100, 100, font, "X");
 			}
+			buttons[2] = vsyncBut;
 		}
 	}
 
