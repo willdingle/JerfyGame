@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.willdingle.jerfygame.HitBox;
+import com.willdingle.jerfygame.entities.Player;
 
 public class DreamCoin extends Sprite {
 	private float elTimeF;
 	private int elTime;
-	Texture[] ani;
+	private Texture[] ani;
 	
 	public DreamCoin(TiledMapTileLayer colLayer, int x, int y) {
 		super(new Sprite(new Texture("dream coin/0.png")));
@@ -20,6 +22,14 @@ public class DreamCoin extends Sprite {
 		for (int n = 0; n < 15; n++) {
 			ani[n] = new Texture("dream coin/" + n + ".png");
 		}
+	}
+	
+	public boolean touched(Player player) {
+		boolean touched = false;
+		if(HitBox.interact(player, getX(), getY(), getWidth(), getHeight(), HitBox.ALL)) {
+			touched = true;
+		}
+		return touched;
 	}
 	
 	public void animate() {

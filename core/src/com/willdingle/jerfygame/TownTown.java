@@ -17,6 +17,7 @@ import com.willdingle.jerfygame.entities.*;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.items.DreamCoin;
 import com.willdingle.jerfygame.menus.PauseMenu;
+import java.util.*;
 
 public class TownTown implements Screen {
 	final JerfyGame game;
@@ -35,7 +36,7 @@ public class TownTown implements Screen {
 	private StillNPC chocm, paper, snugm, donker;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
-	private DreamCoin dreamCoin;
+	private DreamCoin[] coins;
 	private HUD hud;
 	//Music bigBoris;
 
@@ -62,7 +63,8 @@ public class TownTown implements Screen {
 		donker = new StillNPC("donker.png", mapLayer, 10, 10);
 		stillNPCs[1] = donker;
 		
-		dreamCoin = new DreamCoin(mapLayer, 5, 5);
+		coins = new DreamCoin[1];
+		coins[0] = new DreamCoin(mapLayer, 5, 5);
 		
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
@@ -105,7 +107,11 @@ public class TownTown implements Screen {
 		buggo.draw(renderer.getBatch());
 		chocm.draw(renderer.getBatch());
 		donker.draw(renderer.getBatch());
-		dreamCoin.draw(renderer.getBatch());
+		if(coins[0] != null) {
+			for(DreamCoin coin : coins) {
+				coin.draw(renderer.getBatch());
+			}
+		}
 		
 		if(player.bullets.length > 0) {
 			for(Bullet bullet : player.bullets) {
@@ -118,6 +124,23 @@ public class TownTown implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			game.setScreen(new PauseMenu(game, game.getScreen()));
 		}
+		
+		//Pick up items
+		if(coins[0] != null) {
+			for(int n = 0; n < coins.length; n++) {
+				if(coins[n].touched(player)) {
+					player.setMoney(player.getMoney() + 1);
+					for(int x = n; x < coins.length; x++) {
+						DreamCoin[] tmpCoins = coins;
+						if(x != n) {
+							coins[x - 1] = tmpCoins[x];
+						} else coins[x] = null;
+					}
+					break;
+				}
+			}
+		}
+		
 		
 		//Draw text box
 		if(txtBox != null) txtBox.render();
