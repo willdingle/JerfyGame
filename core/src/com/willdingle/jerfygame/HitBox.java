@@ -11,7 +11,10 @@ public class HitBox {
 	public static final int UP = 3;
 	public static final int DOWN = 4;
 	
-	public static boolean interact(Player player, float objx, float objy, float objw, float objh, int mode) {
+	public static final int INTERACT = 3;
+	public static final int COLLIDE = 2;
+	
+	public static boolean player(Player player, float objx, float objy, float objw, float objh, int dirs, float mode) {
 		boolean col = false;
 		float plx = player.getX();
 		float ply = player.getY();
@@ -22,7 +25,7 @@ public class HitBox {
 		boolean right = false;
 		boolean up = false;
 		boolean down = false;
-		switch (mode) {
+		switch (dirs) {
 		case 0:
 			left = true;
 			right = true;
@@ -47,22 +50,22 @@ public class HitBox {
 		
 		//left
 		if (left) {
-			col = (plx <= (objx + objw + 2) && plx >= (objx + objw)) && (ply <= (objy + objh) && ply + plh >= objy);
+			col = (plx <= (objx + objw + mode) && plx >= (objx + objw)) && (ply <= (objy + objh) && ply + plh >= objy);
 		}
 		
 		//right
 		if (!col && right) {
-			col = (plx + plw <= objx && plx + plw >= (objx - 2)) && (ply <= (objy + objh) && ply + plh >= objy);
+			col = (plx + plw <= objx && plx + plw >= (objx - mode)) && (ply <= (objy + objh) && ply + plh >= objy);
 		}
 		
 		//up
 		if (!col && up) {
-			col = (plx <= objx + objw && plx + plw >= objx) && (ply + plh <= objy && ply + plh >= objy - 2);
+			col = (plx <= objx + objw && plx + plw >= objx) && (ply + plh <= objy && ply + plh >= objy - mode);
 		}
 		
 		//down
 		if (!col && down) {
-			col  = (plx <= objx + objw && plx + plw >= objx) && (ply <= objy + objh + 2 && ply >= objy + objh);
+			col  = (plx <= objx + objw && plx + plw >= objx) && (ply <= objy + objh + mode && ply >= objy + objh);
 		}
 		
 		return col;

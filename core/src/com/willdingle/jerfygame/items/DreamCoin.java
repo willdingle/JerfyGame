@@ -15,8 +15,8 @@ public class DreamCoin extends Sprite {
 	
 	public DreamCoin(TiledMapTileLayer colLayer, int x, int y) {
 		super(new Sprite(new Texture("dream coin/0.png")));
-		setX(5 * colLayer.getTileWidth());
-		setY(5 * colLayer.getTileHeight());
+		setX(x * colLayer.getTileWidth());
+		setY(y * colLayer.getTileHeight());
 		
 		ani = new Texture[15];
 		for (int n = 0; n < 15; n++) {
@@ -26,7 +26,7 @@ public class DreamCoin extends Sprite {
 	
 	public boolean touched(Player player) {
 		boolean touched = false;
-		if(HitBox.interact(player, getX(), getY(), getWidth(), getHeight(), HitBox.ALL)) {
+		if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.ALL, HitBox.COLLIDE)) {
 			touched = true;
 		}
 		return touched;

@@ -1,5 +1,6 @@
 package com.willdingle.jerfygame.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.willdingle.jerfygame.JerfyGame;
@@ -13,6 +14,7 @@ public class DesktopLauncher {
 		cfg.fullscreen = false;
 		cfg.vSyncEnabled = true;
 		cfg.foregroundFPS = 120;
+		cfg.addIcon("icon.png", Files.FileType.Internal);
 		
 		new LwjglApplication(new JerfyGame(), cfg);
 	}

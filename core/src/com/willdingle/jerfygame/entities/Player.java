@@ -77,14 +77,14 @@ public class Player extends Sprite {
 			
 			boolean spriteCol = false;
 			for (MovingNPC n : movingNPCs) {
-				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP)) {
+				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP, HitBox.COLLIDE)) {
 					spriteCol = true;
 					break;
 				}
 			}
 			if(! spriteCol) {
 				for (StillNPC n : stillNPCs) {
-					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP)) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP, HitBox.COLLIDE)) {
 						spriteCol = true;
 						break;
 					}
@@ -103,14 +103,14 @@ public class Player extends Sprite {
 			
 			boolean spriteCol = false;
 			for (MovingNPC n : movingNPCs) {
-				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN)) {
+				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
 					spriteCol = true;
 					break;
 				}
 			}
 			if(! spriteCol) {
 				for (StillNPC n : stillNPCs) {
-					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN)) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
 						spriteCol = true;
 						break;
 					}
@@ -129,14 +129,14 @@ public class Player extends Sprite {
 			
 			boolean spriteCol = false;
 			for (MovingNPC n : movingNPCs) {
-				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT)) {
+				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
 					spriteCol = true;
 					break;
 				}
 			}
 			if(! spriteCol) {
 				for (StillNPC n : stillNPCs) {
-					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT)) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
 						spriteCol = true;
 						break;
 					}
@@ -155,14 +155,14 @@ public class Player extends Sprite {
 			
 			boolean spriteCol = false;
 			for (MovingNPC n : movingNPCs) {
-				if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT)) {
+				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
 					spriteCol = true;
 					break;
 				}
 			}
 			if(! spriteCol) {
 				for (StillNPC n : stillNPCs) {
-					if(HitBox.interact(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT)) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
 						spriteCol = true;
 						break;
 					}

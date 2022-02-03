@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -63,8 +64,12 @@ public class TownTown implements Screen {
 		donker = new StillNPC("donker.png", mapLayer, 10, 10);
 		stillNPCs[1] = donker;
 		
-		coins = new DreamCoin[1];
+		coins = new DreamCoin[5];
 		coins[0] = new DreamCoin(mapLayer, 5, 5);
+		coins[1] = new DreamCoin(mapLayer, 15, 15);
+		coins[2] = new DreamCoin(mapLayer, 5, 7);
+		coins[3] = new DreamCoin(mapLayer, 23, 10);
+		coins[4] = new DreamCoin(mapLayer, 22, 9);
 		
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
@@ -107,7 +112,7 @@ public class TownTown implements Screen {
 		buggo.draw(renderer.getBatch());
 		chocm.draw(renderer.getBatch());
 		donker.draw(renderer.getBatch());
-		if(coins[0] != null) {
+		if(coins.length > 0) {
 			for(DreamCoin coin : coins) {
 				coin.draw(renderer.getBatch());
 			}
@@ -126,21 +131,30 @@ public class TownTown implements Screen {
 		}
 		
 		//Pick up items
-		if(coins[0] != null) {
+		if(coins.length > 0) {
 			for(int n = 0; n < coins.length; n++) {
 				if(coins[n].touched(player)) {
 					player.setMoney(player.getMoney() + 1);
-					for(int x = n; x < coins.length; x++) {
+					
+					if(n == coins.length - 1) {
 						DreamCoin[] tmpCoins = coins;
-						if(x != n) {
-							coins[x - 1] = tmpCoins[x];
-						} else coins[x] = null;
-					}
+						coins = new DreamCoin[tmpCoins.length - 1];
+						for(int x = 0; x < coins.length; x++) {
+							coins[x] = tmpCoins[x];
+						}
+					} else if(coins.length != 1) {
+						DreamCoin[] tmpCoins = coins;
+						coins = new DreamCoin[tmpCoins.length - 1];
+						for(int x = n; x < coins.length; x++) {
+							if(x != n) {
+								coins[x - 1] = tmpCoins[x];
+							} else coins[x] = null;
+						}
+					} else coins = new DreamCoin[0];
 					break;
 				}
 			}
 		}
-		
 		
 		//Draw text box
 		if(txtBox != null) txtBox.render();
@@ -153,10 +167,10 @@ public class TownTown implements Screen {
 		if (txtBox != null) {
 			moveAllowed = true;
 			txtBox = null;
-		} else if (HitBox.interact(player, 48, 48, 16, 16, HitBox.UP)) {
+		} else if (HitBox.player(player, 48, 48, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Welcome to Town Town!");
 			moveAllowed = false;
-		} else if (HitBox.interact(player, chocm.getX(), chocm.getY(), chocm.getWidth(), chocm.getHeight(), HitBox.ALL)) {
+		} else if (HitBox.player(player, chocm.getX(), chocm.getY(), chocm.getWidth(), chocm.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Is doggo");
 			moveAllowed = false;
 		}

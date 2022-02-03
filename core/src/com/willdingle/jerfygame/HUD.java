@@ -13,7 +13,7 @@ public class HUD {
 	
 	public HUD(BitmapFont font) {
 		dreamCoin = new Sprite(new Texture("dream coin/0.png"));
-		dreamCoin.setPosition(20, Gdx.graphics.getHeight() - dreamCoin.getWidth() - 30);
+		dreamCoin.setPosition(22, Gdx.graphics.getHeight() - dreamCoin.getWidth() - 30);
 		dreamCoin.setScale(5);
 		
 		HUD.font = font;
@@ -28,7 +28,7 @@ public class HUD {
 	
 	private void drawText(SpriteBatch batch, Player player) {
 		batch.begin();
-		font.draw(batch, Integer.toString(player.getMoney()), dreamCoin.getX() + dreamCoin.getWidth() + 30, Gdx.graphics.getHeight() - dreamCoin.getWidth() + 25);
+		font.draw(batch, Integer.toString(player.getMoney()), dreamCoin.getX() + dreamCoin.getWidth() + 30, Gdx.graphics.getHeight() - dreamCoin.getWidth() - 5);
 		batch.end();
 	}
 }
