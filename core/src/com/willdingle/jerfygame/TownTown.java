@@ -136,21 +136,32 @@ public class TownTown implements Screen {
 				if(coins[n].touched(player)) {
 					player.setMoney(player.getMoney() + 1);
 					
-					if(n == coins.length - 1) {
+					if(n == 0) {
+						DreamCoin[] tmpCoins = coins;
+						coins = new DreamCoin[tmpCoins.length - 1];
+						for(int x = 0; x < coins.length; x++) {
+							coins[x] = tmpCoins[x + 1];
+						}
+						
+					} else if(n == coins.length - 1) {
 						DreamCoin[] tmpCoins = coins;
 						coins = new DreamCoin[tmpCoins.length - 1];
 						for(int x = 0; x < coins.length; x++) {
 							coins[x] = tmpCoins[x];
 						}
-					} else if(coins.length != 1) {
+					} else if(coins.length == 1) {
+						coins = new DreamCoin[0];
+						
+					} else {
 						DreamCoin[] tmpCoins = coins;
 						coins = new DreamCoin[tmpCoins.length - 1];
-						for(int x = n; x < coins.length; x++) {
-							if(x != n) {
-								coins[x - 1] = tmpCoins[x];
-							} else coins[x] = null;
+						for(int x = 0; x < n; x++) {
+							coins[n] = tmpCoins[n];
 						}
-					} else coins = new DreamCoin[0];
+						for(int x = n; x < coins.length; x++) {
+							coins[x] = tmpCoins[x + 1];
+						}
+					}
 					break;
 				}
 			}
