@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.7.0" name="tileset" tilewidth="16" tileheight="16" tilecount="21" columns="3">
+<tileset version="1.5" tiledversion="1.7.2" name="tileset" tilewidth="16" tileheight="16" tilecount="21" columns="3">
  <image source="tiles.png" width="48" height="112"/>
+ <tile id="0"/>
+ <tile id="1"/>
+ <tile id="2"/>
+ <tile id="3"/>
+ <tile id="5"/>
  <tile id="4">
+  <properties>
+   <property name="blocked" value="blocked"/>
+  </properties>
+ </tile>
+ <tile id="19">
   <properties>
    <property name="blocked" value="blocked"/>
   </properties>
@@ -71,4 +81,5 @@
    <property name="blocked" value="blocked"/>
   </properties>
  </tile>
+ <tile id="20"/>
 </tileset>

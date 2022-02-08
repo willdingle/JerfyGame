@@ -113,8 +113,10 @@ public class TownTown implements Screen {
 		chocm.draw(renderer.getBatch());
 		donker.draw(renderer.getBatch());
 		if(coins.length > 0) {
-			for(DreamCoin coin : coins) {
-				coin.draw(renderer.getBatch());
+			for(int n = 0; n < coins.length; n++) {
+				if(coins[n] != null) {
+					coins[n].draw(renderer.getBatch());
+				}
 			}
 		}
 		
@@ -126,17 +128,18 @@ public class TownTown implements Screen {
 		renderer.getBatch().end();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.J)) interact();
-		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-			game.setScreen(new PauseMenu(game, game.getScreen()));
-		}
+		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		
 		//Pick up items
 		if(coins.length > 0) {
 			for(int n = 0; n < coins.length; n++) {
-				if(coins[n].touched(player)) {
-					player.setMoney(player.getMoney() + 1);
-					
-					if(n == 0) {
+				if(coins[n] != null) {
+					if(coins[n].touched(player)) {
+						player.setMoney(player.getMoney() + 1);
+						coins[n] = null;
+						break;
+					}
+					/*if(n == 0) {
 						DreamCoin[] tmpCoins = coins;
 						coins = new DreamCoin[tmpCoins.length - 1];
 						for(int x = 0; x < coins.length; x++) {
@@ -161,8 +164,7 @@ public class TownTown implements Screen {
 						for(int x = n; x < coins.length; x++) {
 							coins[x] = tmpCoins[x + 1];
 						}
-					}
-					break;
+					}*/
 				}
 			}
 		}
@@ -183,6 +185,9 @@ public class TownTown implements Screen {
 			moveAllowed = false;
 		} else if (HitBox.player(player, chocm.getX(), chocm.getY(), chocm.getWidth(), chocm.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Is doggo");
+			moveAllowed = false;
+		} else if(HitBox.player(player, 11*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			txtBox = new TextBox(batch, shRen, font, "Donker's House");
 			moveAllowed = false;
 		}
 	}
