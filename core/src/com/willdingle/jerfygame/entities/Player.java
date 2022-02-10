@@ -76,13 +76,15 @@ public class Player extends Sprite {
 			setY(getY() + 100 * delta);
 			
 			boolean spriteCol = false;
-			for (MovingNPC n : movingNPCs) {
-				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP, HitBox.COLLIDE)) {
-					spriteCol = true;
-					break;
+			if(movingNPCs.length > 0) {
+				for (MovingNPC n : movingNPCs) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP, HitBox.COLLIDE)) {
+						spriteCol = true;
+						break;
+					}
 				}
 			}
-			if(! spriteCol) {
+			if(! spriteCol && stillNPCs.length > 0) {
 				for (StillNPC n : stillNPCs) {
 					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.UP, HitBox.COLLIDE)) {
 						spriteCol = true;
@@ -102,13 +104,15 @@ public class Player extends Sprite {
 			setY(getY() - 100 * delta);
 			
 			boolean spriteCol = false;
-			for (MovingNPC n : movingNPCs) {
-				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
-					spriteCol = true;
-					break;
+			if(movingNPCs.length > 0) {
+				for (MovingNPC n : movingNPCs) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
+						spriteCol = true;
+						break;
+					}
 				}
 			}
-			if(! spriteCol) {
+			if(! spriteCol && stillNPCs.length > 0) {
 				for (StillNPC n : stillNPCs) {
 					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
 						spriteCol = true;
@@ -128,13 +132,15 @@ public class Player extends Sprite {
 			setX(getX() - 100 * delta);
 			
 			boolean spriteCol = false;
-			for (MovingNPC n : movingNPCs) {
-				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
-					spriteCol = true;
-					break;
+			if(movingNPCs.length > 0) {
+				for (MovingNPC n : movingNPCs) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
+						spriteCol = true;
+						break;
+					}
 				}
 			}
-			if(! spriteCol) {
+			if(! spriteCol && stillNPCs.length > 0) {
 				for (StillNPC n : stillNPCs) {
 					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
 						spriteCol = true;
@@ -154,13 +160,15 @@ public class Player extends Sprite {
 			setX(getX() + 100 * delta);
 			
 			boolean spriteCol = false;
-			for (MovingNPC n : movingNPCs) {
-				if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
-					spriteCol = true;
-					break;
+			if(movingNPCs.length > 0) {
+				for (MovingNPC n : movingNPCs) {
+					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
+						spriteCol = true;
+						break;
+					}
 				}
 			}
-			if(! spriteCol) {
+			if(! spriteCol && stillNPCs.length > 0) {
 				for (StillNPC n : stillNPCs) {
 					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
 						spriteCol = true;
@@ -261,6 +269,10 @@ public class Player extends Sprite {
 
 	public void setMoney(int money) {
 		this.money = money;
+	}
+	
+	public void setColLayer(TiledMapTileLayer colLayer) {
+		this.colLayer = colLayer;
 	}
 	
 	

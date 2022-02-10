@@ -189,6 +189,9 @@ public class TownTown implements Screen {
 		} else if(HitBox.player(player, 11*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Donker's House");
 			moveAllowed = false;
+		} else if(HitBox.player(player, 9*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			//set screen donker's house
+			game.setScreen(new DonkerHouse(game, player, cam, donker));
 		}
 	}
 	
