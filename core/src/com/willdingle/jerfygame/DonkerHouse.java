@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -23,15 +25,19 @@ public class DonkerHouse implements Screen {
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera cam;
 	private Player player;
+	private TextBox txtBox;
+	private ShapeRenderer shRen;
+	private SpriteBatch batch;
 	private StillNPC donker;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
-	private HUD hud;
+	private Screen prevScreen;
 	
 	private boolean moveAllowed;
 	
-	public DonkerHouse(final JerfyGame game, Player player, OrthographicCamera cam, StillNPC donker) {
+	public DonkerHouse(final JerfyGame game, Screen prevScreen, Player player, OrthographicCamera cam, StillNPC donker, TextBox txtBox, ShapeRenderer shRen, SpriteBatch batch) {
 		this.game = game;
+		this.prevScreen = prevScreen;
 		
 		map = new TmxMapLoader().load("maps/DonkerHouse.tmx");
 		mapLayer = (TiledMapTileLayer) map.getLayers().get(0);
@@ -52,6 +58,10 @@ public class DonkerHouse implements Screen {
 		movingNPCs = new MovingNPC[0];
 		
 		moveAllowed = true;
+		
+		this.txtBox = txtBox;
+		this.shRen = shRen;
+		this.batch = batch;
 		
 	}
 
@@ -88,6 +98,23 @@ public class DonkerHouse implements Screen {
 		renderer.getBatch().end();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
+		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
+		
+		//Draw text box
+		if(txtBox != null) txtBox.render();
+		
+		//Draw HUD
+		game.hud.draw(batch, player);
+	}
+	
+	private void interact() {
+		if(txtBox != null) {
+			
+		} else if(HitBox.player(player, 9*16, 0, 32, 0, HitBox.DOWN, HitBox.INTERACT)) {
+			game.setScreen(prevScreen);
+		} else if(HitBox.player(player, donker.getX(), donker.getY(), donker.getWidth(), donker.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
+			
+		}
 	}
 
 	@Override

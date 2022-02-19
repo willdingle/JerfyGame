@@ -33,12 +33,13 @@ public class TownTown implements Screen {
 	private BitmapFont font;
 	private SpriteBatch batch;
 	private boolean moveAllowed;
+	private boolean showNeeded;
 	private MovingNPC buggo;
 	private StillNPC chocm, paper, snugm, donker;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
 	private DreamCoin[] coins;
-	private HUD hud;
+	private float plx, ply;
 	//Music bigBoris;
 
 	public TownTown(final JerfyGame game, float plx, float ply) {
@@ -78,18 +79,21 @@ public class TownTown implements Screen {
 		shRen = new ShapeRenderer();
 		
 		moveAllowed = true;
+		showNeeded = false;
 		
 		/*bigBoris = Gdx.audio.newMusic(Gdx.files.internal("music/bigBoris.wav"));
 		bigBoris.setLooping(true);
 		bigBoris.play();*/
-		
-		hud = new HUD(font);
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
+		if(showNeeded) {
+			this.player.setX(plx);
+			this.player.setY(ply);
+			this.player.setColLayer(mapLayer);
+			showNeeded = false;
+		}
 	}
 
 	@Override
@@ -127,7 +131,7 @@ public class TownTown implements Screen {
 		}
 		renderer.getBatch().end();
 		
-		if(Gdx.input.isKeyJustPressed(Keys.J)) interact();
+		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		
 		//Pick up items
@@ -173,7 +177,7 @@ public class TownTown implements Screen {
 		if(txtBox != null) txtBox.render();
 		
 		//Draw HUD
-		hud.draw(batch, player);
+		game.hud.draw(batch, player);
 	}
 	
 	private void interact() {
@@ -190,8 +194,11 @@ public class TownTown implements Screen {
 			txtBox = new TextBox(batch, shRen, font, "Donker's House");
 			moveAllowed = false;
 		} else if(HitBox.player(player, 9*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
-			//set screen donker's house
-			game.setScreen(new DonkerHouse(game, player, cam, donker));
+			//set screen to donker's house
+			plx = player.getX();
+			ply = player.getY();
+			showNeeded = true;
+			game.setScreen(new DonkerHouse(game, this, player, cam, donker, txtBox, shRen, batch));
 		}
 	}
 	

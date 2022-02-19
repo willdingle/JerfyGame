@@ -93,13 +93,13 @@ public class Player extends Sprite {
 				}
 			}
 			
-			if (tileCollide(0, 1) || spriteCol) {
+			if (tileCollide(0, 1) || spriteCol || getY() + getHeight() >= colLayer.getHeight() * colLayer.getTileHeight() - 1) {
 				setY(oldY);
 			}
 			animate("w");
 			
 		}
-		if (Gdx.input.isKeyPressed(Keys.S) && getY() > 0) {
+		if (Gdx.input.isKeyPressed(Keys.S) && getY() >= 2) {
 			float oldY = getY();
 			setY(getY() - 100 * delta);
 			
@@ -127,7 +127,7 @@ public class Player extends Sprite {
 			animate("s");
 			
 		}
-		if (Gdx.input.isKeyPressed(Keys.A) && getX() > 0) {
+		if (Gdx.input.isKeyPressed(Keys.A) && getX() >= 2) {
 			float oldX = getX();
 			setX(getX() - 100 * delta);
 			
@@ -155,7 +155,7 @@ public class Player extends Sprite {
 			animate("a");
 			
 		}
-		if (Gdx.input.isKeyPressed(Keys.D) && (getX() + getWidth()) / colLayer.getTileWidth() < colLayer.getWidth()) {
+		if (Gdx.input.isKeyPressed(Keys.D) && getX() + getWidth() <= (colLayer.getWidth() * colLayer.getTileWidth()) - 2) {
 			float oldX = getX();
 			setX(getX() + 100 * delta);
 			
@@ -177,7 +177,8 @@ public class Player extends Sprite {
 				}
 			}
 			
-			if (tileCollide(1, 0) || spriteCol) {
+			System.out.println(colLayer.getWidth());
+			if (tileCollide(1, 0) || spriteCol || getX() + getWidth() >= (colLayer.getWidth() * colLayer.getTileWidth()) - 1) {
 				setX(oldX);
 			}
 			animate("d");
