@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.willdingle.jerfygame.buildings.House;
 import com.willdingle.jerfygame.entities.*;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.items.DreamCoin;
@@ -184,21 +185,41 @@ public class TownTown implements Screen {
 		if (txtBox != null) {
 			moveAllowed = true;
 			txtBox = null;
+			
 		} else if (HitBox.player(player, 48, 48, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Welcome to Town Town!");
 			moveAllowed = false;
+			
 		} else if (HitBox.player(player, chocm.getX(), chocm.getY(), chocm.getWidth(), chocm.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Is doggo");
 			moveAllowed = false;
+			
 		} else if(HitBox.player(player, 11*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Donker's House");
 			moveAllowed = false;
+			
 		} else if(HitBox.player(player, 9*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			//set screen to donker's house
 			plx = player.getX();
 			ply = player.getY();
 			showNeeded = true;
-			game.setScreen(new DonkerHouse(game, this, player, cam, donker, txtBox, shRen, batch));
+			game.setScreen(new House("DonkerHouse.tmx", game, this, player, cam, donker, txtBox, shRen, batch));
+			
+		} else if(HitBox.player(player, 15*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			//set screen to paper's house
+			plx = player.getX();
+			ply = player.getY();
+			showNeeded = true;
+			paper = new StillNPC("doggo/paper.png", mapLayer, 10, 10);
+			game.setScreen(new House("PaperHouse.tmx", game, this, player, cam, paper, txtBox, shRen, batch));
+		
+		} else if(HitBox.player(player, 21*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			//set screen to paper's house
+			plx = player.getX();
+			ply = player.getY();
+			showNeeded = true;
+			StillNPC buggoStill = new StillNPC("buggo/0.png", mapLayer, 10, 10);
+			game.setScreen(new House("BuggoHouse.tmx", game, this, player, cam, buggoStill, txtBox, shRen, batch));
 		}
 	}
 	

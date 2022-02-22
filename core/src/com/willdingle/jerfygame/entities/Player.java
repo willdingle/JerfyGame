@@ -177,7 +177,6 @@ public class Player extends Sprite {
 				}
 			}
 			
-			System.out.println(colLayer.getWidth());
 			if (tileCollide(1, 0) || spriteCol || getX() + getWidth() >= (colLayer.getWidth() * colLayer.getTileWidth()) - 1) {
 				setX(oldX);
 			}

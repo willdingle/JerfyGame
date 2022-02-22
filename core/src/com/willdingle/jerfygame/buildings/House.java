@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.buildings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,13 +11,16 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.willdingle.jerfygame.HitBox;
+import com.willdingle.jerfygame.JerfyGame;
+import com.willdingle.jerfygame.TextBox;
 import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.menus.PauseMenu;
 
-public class DonkerHouse implements Screen {
+public class House implements Screen {
 	final JerfyGame game;
 	
 	private TiledMap map;
@@ -28,18 +31,18 @@ public class DonkerHouse implements Screen {
 	private TextBox txtBox;
 	private ShapeRenderer shRen;
 	private SpriteBatch batch;
-	private StillNPC donker;
+	private StillNPC npc;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
 	private Screen prevScreen;
 	
 	private boolean moveAllowed;
 	
-	public DonkerHouse(final JerfyGame game, Screen prevScreen, Player player, OrthographicCamera cam, StillNPC donker, TextBox txtBox, ShapeRenderer shRen, SpriteBatch batch) {
+	public House(String mapName, final JerfyGame game, Screen prevScreen, Player player, OrthographicCamera cam, StillNPC npc, TextBox txtBox, ShapeRenderer shRen, SpriteBatch batch) {
 		this.game = game;
 		this.prevScreen = prevScreen;
 		
-		map = new TmxMapLoader().load("maps/DonkerHouse.tmx");
+		map = new TmxMapLoader().load("maps/" + mapName);
 		mapLayer = (TiledMapTileLayer) map.getLayers().get(0);
 		renderer = new OrthogonalTiledMapRenderer(map);
 		
@@ -50,11 +53,11 @@ public class DonkerHouse implements Screen {
 		
 		this.cam = cam;
 		
-		this.donker = donker;
-		this.donker.setX(3 * mapLayer.getTileWidth());
-		this.donker.setY(6 * mapLayer.getTileHeight());
+		this.npc = npc;
+		this.npc.setX(3 * mapLayer.getTileWidth());
+		this.npc.setY(6 * mapLayer.getTileHeight());
 		stillNPCs = new StillNPC[1];
-		stillNPCs[0] = this.donker;
+		stillNPCs[0] = this.npc;
 		movingNPCs = new MovingNPC[0];
 		
 		moveAllowed = true;
@@ -88,7 +91,7 @@ public class DonkerHouse implements Screen {
 		player.draw(renderer.getBatch());
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
 		
-		donker.draw(renderer.getBatch());
+		npc.draw(renderer.getBatch());
 		
 		if(player.bullets.length > 0) {
 			for(Bullet bullet : player.bullets) {
@@ -112,7 +115,7 @@ public class DonkerHouse implements Screen {
 			
 		} else if(HitBox.player(player, 9*16, 0, 32, 0, HitBox.DOWN, HitBox.INTERACT)) {
 			game.setScreen(prevScreen);
-		} else if(HitBox.player(player, donker.getX(), donker.getY(), donker.getWidth(), donker.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
+		} else if(HitBox.player(player, npc.getX(), npc.getY(), npc.getWidth(), npc.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
 			
 		}
 	}
