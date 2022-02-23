@@ -20,7 +20,7 @@ public class Player extends Sprite {
 	private int elTime;
 	
 	private int meleeRange;
-	private String[] inv;
+	private String[][] inv;
 	private int money;
 	public Bullet[] bullets;
 
@@ -43,7 +43,7 @@ public class Player extends Sprite {
 		rightWalk[1] = new Texture("jerfy/rightwalk/1.png");
 		
 		meleeRange = 16;
-		inv = new String[5];
+		inv = new String[5][3];
 		setMoney(0);
 		
 		bullets = new Bullet[0];

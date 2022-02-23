@@ -41,7 +41,6 @@ public class TownTown implements Screen {
 	public StillNPC stillNPCs[];
 	private DreamCoin[] coins;
 	private float plx, ply;
-	//Music bigBoris;
 
 	public TownTown(final JerfyGame game, float plx, float ply) {
 		this.game = game;
@@ -63,7 +62,7 @@ public class TownTown implements Screen {
 		movingNPCs[0] = buggo;
 		chocm = new StillNPC("doggo/chocm.png", mapLayer, 2, 10);
 		stillNPCs[0] = chocm;
-		donker = new StillNPC("donker.png", mapLayer, 10, 10);
+		donker = new StillNPC("donker.png", mapLayer, 16, 10);
 		stillNPCs[1] = donker;
 		
 		coins = new DreamCoin[5];
@@ -81,10 +80,6 @@ public class TownTown implements Screen {
 		
 		moveAllowed = true;
 		showNeeded = false;
-		
-		/*bigBoris = Gdx.audio.newMusic(Gdx.files.internal("music/bigBoris.wav"));
-		bigBoris.setLooping(true);
-		bigBoris.play();*/
 	}
 
 	@Override
@@ -144,32 +139,6 @@ public class TownTown implements Screen {
 						coins[n] = null;
 						break;
 					}
-					/*if(n == 0) {
-						DreamCoin[] tmpCoins = coins;
-						coins = new DreamCoin[tmpCoins.length - 1];
-						for(int x = 0; x < coins.length; x++) {
-							coins[x] = tmpCoins[x + 1];
-						}
-						
-					} else if(n == coins.length - 1) {
-						DreamCoin[] tmpCoins = coins;
-						coins = new DreamCoin[tmpCoins.length - 1];
-						for(int x = 0; x < coins.length; x++) {
-							coins[x] = tmpCoins[x];
-						}
-					} else if(coins.length == 1) {
-						coins = new DreamCoin[0];
-						
-					} else {
-						DreamCoin[] tmpCoins = coins;
-						coins = new DreamCoin[tmpCoins.length - 1];
-						for(int x = 0; x < n; x++) {
-							coins[n] = tmpCoins[n];
-						}
-						for(int x = n; x < coins.length; x++) {
-							coins[x] = tmpCoins[x + 1];
-						}
-					}*/
 				}
 			}
 		}
@@ -186,18 +155,22 @@ public class TownTown implements Screen {
 			moveAllowed = true;
 			txtBox = null;
 			
+		//Welcome sign
 		} else if (HitBox.player(player, 48, 48, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Welcome to Town Town!");
 			moveAllowed = false;
 			
+		//Speak to chocm	
 		} else if (HitBox.player(player, chocm.getX(), chocm.getY(), chocm.getWidth(), chocm.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Is doggo");
 			moveAllowed = false;
 			
+		//Donker's house sign	
 		} else if(HitBox.player(player, 11*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			txtBox = new TextBox(batch, shRen, font, "Donker's House");
 			moveAllowed = false;
 			
+		//Donker's door	
 		} else if(HitBox.player(player, 9*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			//set screen to donker's house
 			plx = player.getX();
@@ -205,6 +178,12 @@ public class TownTown implements Screen {
 			showNeeded = true;
 			game.setScreen(new House("DonkerHouse.tmx", game, this, player, cam, donker, txtBox, shRen, batch));
 			
+		//Paper's house sign	
+		} else if(HitBox.player(player, 17*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			txtBox = new TextBox(batch, shRen, font, "Paper's House");
+			moveAllowed = false;
+			
+		//Paper's door	
 		} else if(HitBox.player(player, 15*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
 			//set screen to paper's house
 			plx = player.getX();
@@ -212,9 +191,15 @@ public class TownTown implements Screen {
 			showNeeded = true;
 			paper = new StillNPC("doggo/paper.png", mapLayer, 10, 10);
 			game.setScreen(new House("PaperHouse.tmx", game, this, player, cam, paper, txtBox, shRen, batch));
-		
+			
+		//Buggo's house sign	
+		} else if(HitBox.player(player, 23*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			txtBox = new TextBox(batch, shRen, font, "Buggo's House");
+			moveAllowed = false;
+			
+		//Buggo's door
 		} else if(HitBox.player(player, 21*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
-			//set screen to paper's house
+			//set screen to buggo's house
 			plx = player.getX();
 			ply = player.getY();
 			showNeeded = true;
