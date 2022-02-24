@@ -18,6 +18,7 @@ import com.willdingle.jerfygame.buildings.House;
 import com.willdingle.jerfygame.entities.*;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.items.DreamCoin;
+import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
 import java.util.*;
 
@@ -129,6 +130,7 @@ public class TownTown implements Screen {
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
+		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen()));
 		
 		//Pick up items
 		if(coins.length > 0) {
@@ -176,7 +178,7 @@ public class TownTown implements Screen {
 			plx = player.getX();
 			ply = player.getY();
 			showNeeded = true;
-			game.setScreen(new House("DonkerHouse.tmx", game, this, player, cam, donker, txtBox, shRen, batch));
+			game.setScreen(new House("DonkerHouse.tmx", game, this, player, cam, donker, txtBox, shRen, batch, font));
 			
 		//Paper's house sign	
 		} else if(HitBox.player(player, 17*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
@@ -190,7 +192,7 @@ public class TownTown implements Screen {
 			ply = player.getY();
 			showNeeded = true;
 			paper = new StillNPC("doggo/paper.png", mapLayer, 10, 10);
-			game.setScreen(new House("PaperHouse.tmx", game, this, player, cam, paper, txtBox, shRen, batch));
+			game.setScreen(new House("PaperHouse.tmx", game, this, player, cam, paper, txtBox, shRen, batch, font));
 			
 		//Buggo's house sign	
 		} else if(HitBox.player(player, 23*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
@@ -204,7 +206,7 @@ public class TownTown implements Screen {
 			ply = player.getY();
 			showNeeded = true;
 			StillNPC buggoStill = new StillNPC("buggo/0.png", mapLayer, 10, 10);
-			game.setScreen(new House("BuggoHouse.tmx", game, this, player, cam, buggoStill, txtBox, shRen, batch));
+			game.setScreen(new House("BuggoHouse.tmx", game, this, player, cam, buggoStill, txtBox, shRen, batch, font));
 		}
 	}
 	

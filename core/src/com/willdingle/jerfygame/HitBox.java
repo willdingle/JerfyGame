@@ -11,7 +11,7 @@ public class HitBox {
 	public static final int UP = 3;
 	public static final int DOWN = 4;
 	
-	public static final int INTERACT = 3;
+	public static final int INTERACT = 4;
 	public static final int COLLIDE = 2;
 	
 	public static boolean player(Player player, float objx, float objy, float objw, float objh, int dirs, float mode) {

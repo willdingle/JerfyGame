@@ -2,6 +2,7 @@ package com.willdingle.jerfygame.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,15 +41,15 @@ public class InventoryMenu implements Screen {
 		
 		//Creates buttons
 		buttons = new Button[5];
-		slot1 = new Button(300, 600, 300, 300, font, "");
+		slot1 = new Button(100, 400, 300, 300, font, "");
 		buttons[0] = slot1;
-		slot2 = new Button(1120, 600, 300, 300, font, "");
+		slot2 = new Button(450, 400, 300, 300, font, "");
 		buttons[1] = slot2;
-		slot3 = new Button(300, 250, 300, 300, font, "");
+		slot3 = new Button(800, 400, 300, 300, font, "");
 		buttons[2] = slot3;
-		slot4 = new Button(1120, 250, 300, 300, font, "");
+		slot4 = new Button(1150, 400, 300, 300, font, "");
 		buttons[3] = slot4;
-		slot5 = new Button(710, 100, 300, 300, font, "");
+		slot5 = new Button(1500, 400, 300, 300, font, "");
 		buttons[4] = slot5;
 	}
 	
@@ -74,7 +75,7 @@ public class InventoryMenu implements Screen {
 
 		//Draw text
 		batch.begin();
-		titleFont.draw(batch, "OPTIONS", titleX, titleY);
+		titleFont.draw(batch, "INVENTORY", titleX, titleY);
 		for(Button button : buttons) {
 			button.drawText(batch, font);
 		}
@@ -82,6 +83,7 @@ public class InventoryMenu implements Screen {
 
 		//Input
 		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) interact();
+		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(prevScreen);
 		
 	}
 	
