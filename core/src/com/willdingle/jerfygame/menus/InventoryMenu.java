@@ -5,13 +5,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.willdingle.jerfygame.JerfyGame;
+import com.willdingle.jerfygame.entities.Player;
 
 public class InventoryMenu implements Screen {
 	final JerfyGame game;
@@ -21,9 +24,12 @@ public class InventoryMenu implements Screen {
 	private ShapeRenderer shRen;
 	private Button slot1, slot2, slot3, slot4, slot5;
 	private Button[] buttons;
+	private Sprite item1, item2, item3, item4, item5;
+	private Sprite[] items;
+	private Player player;
 	private float titleX, titleY;
 	
-	public InventoryMenu(final JerfyGame game, Screen prevScreen) {
+	public InventoryMenu(final JerfyGame game, Screen prevScreen, Player player) {
 		this.game = game;
 		batch = new SpriteBatch();
 		game.parameter.size = 120;
@@ -51,6 +57,16 @@ public class InventoryMenu implements Screen {
 		buttons[3] = slot4;
 		slot5 = new Button(1500, 400, 300, 300, font, "");
 		buttons[4] = slot5;
+		
+		//Creates inventory item textures
+		items = new Sprite[player.inv.length];
+		for(int n = 0; n < player.inv.length; n++) {
+			items[n] = new Sprite(new Texture(player.inv[n][0] + ".png"));
+			items[n].setScale(10);
+			items[n].setPosition(250 + n*350, 535);
+		}
+		
+		this.player = player;
 	}
 	
 	@Override
@@ -61,7 +77,7 @@ public class InventoryMenu implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(178/255f, 0, 1, 0);
+		ScreenUtils.clear(5/255f, 117/255f, 245/255f, 0);
 
 		//Menu buttons
 		batch.begin();
@@ -78,6 +94,22 @@ public class InventoryMenu implements Screen {
 		titleFont.draw(batch, "INVENTORY", titleX, titleY);
 		for(Button button : buttons) {
 			button.drawText(batch, font);
+		}
+		for(int n = 0; n < player.inv.length; n++) {
+			if(buttons[n].pressed()) {
+				font.draw(batch, player.inv[n][0], 100, 390);
+				if(player.inv[n][0] == "gun" || player.inv[n][0] == "sword") {
+					font.draw(batch, player.inv[n][1] + " attack", 100, 315);
+				}
+				break;
+			}
+		}
+		batch.end();
+		
+		//Draw item sprites
+		batch.begin();
+		for(Sprite sprite : items) {
+			sprite.draw(batch);
 		}
 		batch.end();
 

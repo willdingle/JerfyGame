@@ -20,7 +20,9 @@ public class Player extends Sprite {
 	private int elTime;
 	
 	private int meleeRange;
-	private String[][] inv;
+	
+	//Inventory format: [item name, stat (defence or attack number)]
+	public String[][] inv;
 	private int money;
 	public Bullet[] bullets;
 
@@ -43,10 +45,25 @@ public class Player extends Sprite {
 		rightWalk[1] = new Texture("jerfy/rightwalk/1.png");
 		
 		meleeRange = 16;
-		inv = new String[5][3];
+		inv = new String[0][0];
 		setMoney(0);
 		
 		bullets = new Bullet[0];
+	}
+	
+	public void addToInventory(String item, String stat) {
+		if(inv.length == 0) inv = new String[1][2];
+		else {
+			String[][] tmpInv = inv;
+			inv = new String[inv.length + 1][2];
+			for(int n = 0; n < tmpInv.length; n++) {
+				inv[n][0] = tmpInv[n][0];
+				inv[n][1] = tmpInv[n][1];
+			}
+		}
+		
+		inv[inv.length - 1][0] = item;
+		inv[inv.length - 1][1] = stat;
 	}
 	
 	public void attack(char dir) {

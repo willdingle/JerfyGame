@@ -45,24 +45,22 @@ public class TextBox {
 			for (int i = 0; i < txt.length(); i++) {
 				tempTxt = tempTxt + txt.charAt(i);
 				wordLen += 1;
-				System.out.println(tempTxt);
-				layout.setText(font, tempTxt);
 				
 				if(txt.charAt(i) == ' ') {
-					wordLen = 0;
-				}
+					layout.setText(font, tempTxt);
 					
-				if (layout.width > boundWidth) {
-					tempTxt = tempTxt.substring(0, i - wordLen);
-					newTxt = newTxt + tempTxt + "\n";
-					txt = txt.substring(i - 1, txt.length());
-					i -= wordLen;
-					break;
-				} else if (i == txt.length() - 1) {
+					if (layout.width > boundWidth) {
+						tempTxt = tempTxt.substring(0, i - wordLen);
+						newTxt = newTxt + tempTxt + "\n";
+						txt = txt.substring(i - wordLen, txt.length());
+						break;
+					}
+					wordLen = 0;
+					
+				} else if(i == txt.length() - 1) {
 					done = true;
 				}
 			}
-			
 		}
 		newTxt = newTxt + tempTxt;
 		return newTxt;

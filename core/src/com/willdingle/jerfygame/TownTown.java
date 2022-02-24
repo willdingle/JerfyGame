@@ -130,7 +130,7 @@ public class TownTown implements Screen {
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
-		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen()));
+		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen(), player));
 		
 		//Pick up items
 		if(coins.length > 0) {
@@ -178,7 +178,8 @@ public class TownTown implements Screen {
 			plx = player.getX();
 			ply = player.getY();
 			showNeeded = true;
-			game.setScreen(new House("DonkerHouse.tmx", game, this, player, cam, donker, txtBox, shRen, batch, font));
+			StillNPC donkerClone = new StillNPC("donker.png", mapLayer, 10, 10);
+			game.setScreen(new House("DonkerHouse.tmx", game, this, player, cam, donkerClone, txtBox, shRen, batch, font));
 			
 		//Paper's house sign	
 		} else if(HitBox.player(player, 17*16, 4*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {

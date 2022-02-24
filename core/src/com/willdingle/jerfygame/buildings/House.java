@@ -20,6 +20,7 @@ import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
 import com.willdingle.jerfygame.items.Bullet;
+import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
 
 public class House implements Screen {
@@ -118,6 +119,7 @@ public class House implements Screen {
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
+		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen(), player));
 		
 		//Draw text box
 		if(txtBox != null) txtBox.render();
@@ -131,6 +133,9 @@ public class House implements Screen {
 			switch(npcNum) {
 			case 0:
 				if(txtIndex == 2) {
+					player.addToInventory("gun", "1");
+				} 
+				if(txtIndex == 3) {
 					moveAllowed = true;
 					txtBox = null;
 				} else {
