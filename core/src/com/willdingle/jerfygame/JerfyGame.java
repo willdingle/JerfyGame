@@ -16,6 +16,7 @@ public class JerfyGame extends Game {
 	public FreeTypeFontGenerator generator;
 	public FreeTypeFontParameter parameter;
 	public HUD hud;
+	public String fileName;
 	
 	@Override
 	public void create () {

@@ -19,6 +19,7 @@ public class Player extends Sprite {
 	private float elTimeF;
 	private int elTime;
 	
+	private boolean attackAllowed;
 	private int meleeRange;
 	
 	//Inventory format: [item name, stat (defence or attack number)]
@@ -49,6 +50,7 @@ public class Player extends Sprite {
 		setMoney(0);
 		
 		bullets = new Bullet[0];
+		setAttackAllowed(false);
 	}
 	
 	public void addToInventory(String item, String stat) {
@@ -83,10 +85,12 @@ public class Player extends Sprite {
 	}
 	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
-		if (Gdx.input.isKeyJustPressed(Keys.LEFT)) attack('l');
-		else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) attack('r');
-		else if (Gdx.input.isKeyJustPressed(Keys.UP)) attack('u');
-		else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) attack('d');
+		if(attackAllowed) {
+			if (Gdx.input.isKeyJustPressed(Keys.LEFT)) attack('l');
+			else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) attack('r');
+			else if (Gdx.input.isKeyJustPressed(Keys.UP)) attack('u');
+			else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) attack('d');
+		}
 		
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			float oldY = getY();
@@ -290,6 +294,14 @@ public class Player extends Sprite {
 	
 	public void setColLayer(TiledMapTileLayer colLayer) {
 		this.colLayer = colLayer;
+	}
+
+	public boolean isAttackAllowed() {
+		return attackAllowed;
+	}
+
+	public void setAttackAllowed(boolean attackAllowed) {
+		this.attackAllowed = attackAllowed;
 	}
 	
 	

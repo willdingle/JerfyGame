@@ -1,5 +1,7 @@
 package com.willdingle.jerfygame.buildings;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
@@ -19,6 +21,7 @@ import com.willdingle.jerfygame.dialogue.DonkerDialogue;
 import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
+import com.willdingle.jerfygame.files.Save;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
@@ -134,6 +137,8 @@ public class House implements Screen {
 			case 0:
 				if(txtIndex == 2) {
 					player.addToInventory("gun", "1");
+					player.setAttackAllowed(true);
+					Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 				} 
 				if(txtIndex == 3) {
 					moveAllowed = true;

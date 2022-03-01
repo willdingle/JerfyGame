@@ -136,6 +136,7 @@ public class MainMenu implements Screen {
 			if(! save1) {
 				String name = "Save 1";
 				Save.create(file, name);
+				game.fileName = "save1";
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
 				String fileContents[] = Save.load(file);
@@ -143,6 +144,7 @@ public class MainMenu implements Screen {
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 				dispose();
+				game.fileName = "save1";
 				if(area == 0) {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
@@ -153,6 +155,7 @@ public class MainMenu implements Screen {
 			if(! save2) {
 				String name = "Save 2";
 				Save.create(file, name);
+				game.fileName = "save2";
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
 				String fileContents[] = new String[4];
@@ -161,6 +164,7 @@ public class MainMenu implements Screen {
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 				dispose();
+				game.fileName = "save2";
 				if(area == 0) {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
@@ -171,6 +175,7 @@ public class MainMenu implements Screen {
 			if(! save3) {
 				String name = "Save 3";
 				Save.create(file, name);
+				game.fileName = "save3";
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
 				String fileContents[] = new String[4];
@@ -179,6 +184,7 @@ public class MainMenu implements Screen {
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 				dispose();
+				game.fileName = "save3";
 				if(area == 0) {
 					game.setScreen(new TownTown(game, plx, ply));
 				}
