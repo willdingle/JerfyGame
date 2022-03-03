@@ -138,7 +138,7 @@ public class House implements Screen {
 				if(txtIndex == 2) {
 					player.addToInventory("gun", "1");
 					player.setAttackAllowed(true);
-					Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
+					Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
 				} 
 				if(txtIndex == 3) {
 					moveAllowed = true;

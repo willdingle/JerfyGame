@@ -60,24 +60,21 @@ public class MainMenu implements Screen {
 		file = new File(System.getenv("appdata") + "/Jerfy/save1");
 		if(file.isFile()) {
 			save1 = true;
-			String fileContents[] = new String[4];
-			fileContents = Save.load(file);
+			String fileContents[] = Save.load(file);
 			box1txt = fileContents[0];
 			fileContents = null;
 		}
 		file = new File(System.getenv("appdata") + "/Jerfy/save2");
 		if(file.isFile()) {
 			save2 = true;
-			String fileContents[] = new String[4];
-			fileContents = Save.load(file);
+			String fileContents[] = Save.load(file);
 			box2txt = fileContents[0];
 			fileContents = null;
 		}
 		file = new File(System.getenv("appdata") + "/Jerfy/save3");
 		if(file.isFile()) {
 			save3 = true;
-			String fileContents[] = new String[4];
-			fileContents = Save.load(file);
+			String fileContents[] = Save.load(file);
 			box3txt = fileContents[0];
 			fileContents = null;
 		}
@@ -137,6 +134,7 @@ public class MainMenu implements Screen {
 				String name = "Save 1";
 				Save.create(file, name);
 				game.fileName = "save1";
+				dispose();
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
 				String fileContents[] = Save.load(file);
@@ -156,6 +154,7 @@ public class MainMenu implements Screen {
 				String name = "Save 2";
 				Save.create(file, name);
 				game.fileName = "save2";
+				dispose();
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
 				String fileContents[] = new String[4];
@@ -176,6 +175,7 @@ public class MainMenu implements Screen {
 				String name = "Save 3";
 				Save.create(file, name);
 				game.fileName = "save3";
+				dispose();
 				game.setScreen(new TownTown(game, 1, 1));
 			} else {
 				String fileContents[] = new String[4];

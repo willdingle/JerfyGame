@@ -14,7 +14,7 @@ import com.willdingle.jerfygame.entities.Player;
 public class Save {
 
 	public static String[] load(File file) {
-		String fileContents[] = new String[4];
+		String fileContents[] = new String[5];
 		try {
 			Scanner reader = new Scanner(file);
 			
@@ -27,7 +27,21 @@ public class Save {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		if(fileContents[4] != null) {
+			
+		}
 		return fileContents;
+	}
+	
+	public static void loadInv(String inv) {
+		String[] itemsTemp = inv.split(",");
+		String[] items = new String[itemsTemp.length * 2];
+		
+		int tempIndex = 0;
+		for(int n = 0; n < itemsTemp.length; n++) {
+			items[n] = itemsTemp[tempIndex].split(";");
+		}
 	}
 	
 	public static void create(File file, String name) {
@@ -42,12 +56,13 @@ public class Save {
 		}
 	}
 	
-	public static void write(File file, String mode, Player player) {
-		File oldFile = file;
+	public static void write(File file, String fileName, String mode, Player player) {
+		String fileContents[] = new String[5];
+		fileContents = load(file);
+		
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(oldFile));
 			FileWriter writer = new FileWriter(file);
-			writer.write(reader.readLine() + "\n");
+			writer.write(fileContents[0] + "\n");
 			
 			switch(mode) {
 			case "pos":
@@ -55,13 +70,12 @@ public class Save {
 			case "area":
 				break;
 			case "inv":
-				for(int n = 0; n < 3; n++) {
-					writer.write(reader.readLine());
+				for(int n = 1; n < 4; n++) {
+					writer.write(fileContents[n] + "\n");
 				}
 				for(int n = 0; n < player.inv.length; n++) {
 					if(n == 0) writer.write(player.inv[n][0] + ";" + player.inv[n][1]);
 					else writer.write("," + player.inv[n][0] + ";" + player.inv[n][1]);
-					if(reader.readLine() != null) writer.write(reader.readLine());
 				}
 				break;
 			case "equipped":
@@ -71,6 +85,7 @@ public class Save {
 			case "money":
 				break;
 			}
+			writer.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
