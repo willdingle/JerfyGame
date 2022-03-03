@@ -21,6 +21,7 @@ public class Player extends Sprite {
 	
 	private boolean attackAllowed;
 	private int meleeRange;
+	private int health;
 	
 	//Inventory format: [item name, stat (defence or attack number)]
 	public String[][] inv;
@@ -48,6 +49,7 @@ public class Player extends Sprite {
 		meleeRange = 16;
 		inv = new String[0][0];
 		setMoney(0);
+		setHealth(3);
 		
 		bullets = new Bullet[0];
 		setAttackAllowed(false);
@@ -302,6 +304,14 @@ public class Player extends Sprite {
 
 	public void setAttackAllowed(boolean attackAllowed) {
 		this.attackAllowed = attackAllowed;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 	
 	
