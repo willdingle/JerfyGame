@@ -17,7 +17,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.willdingle.jerfygame.HitBox;
 import com.willdingle.jerfygame.JerfyGame;
 import com.willdingle.jerfygame.TextBox;
-import com.willdingle.jerfygame.dialogue.DonkerDialogue;
+import com.willdingle.jerfygame.dialogue.Dialogue;
 import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
@@ -135,19 +135,54 @@ public class House implements Screen {
 		if(txtBox != null) {
 			switch(npcNum) {
 			case 0:
-				if(txtIndex == 2) {
-					player.addToInventory("gun", "1");
-					player.setAttackAllowed(true);
-					Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
-				} 
-				if(txtIndex == 3) {
+				if(! player.isRangedAllowed()) {
+					switch(txtIndex) {
+					case 2:
+						player.addToInventory("gun", "1");
+						player.setRangedAllowed(true);
+						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
+						txtIndex += 1;
+						txtBox = new TextBox(batch, shRen, font, Dialogue.donker(txtIndex));
+						break;
+					case 3:
+						moveAllowed = true;
+						txtBox = null;
+						break;
+					default:
+						txtIndex += 1;
+						txtBox = new TextBox(batch, shRen, font, Dialogue.donker(txtIndex));
+						break;
+					}
+				} else {
 					moveAllowed = true;
 					txtBox = null;
-				} else {
-				txtIndex += 1;
-				txtBox = new TextBox(batch, shRen, font, DonkerDialogue.getText(txtIndex));
-				break;
 				}
+				break;
+				
+			case 1:
+				if(! player.isMeleeAllowed()) {
+					switch(txtIndex) {
+					case 4:
+						player.addToInventory("sword", "1.5");
+						player.setMeleeAllowed(true);
+						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
+						txtIndex += 1;
+						txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
+						break;
+					case 5:
+						moveAllowed = true;
+						txtBox = null;
+						break;
+					default:
+						txtIndex += 1;
+						txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
+						break; 
+					}
+				} else {
+					moveAllowed = true;
+					txtBox = null;
+				}
+				break;
 			}
 			
 		} else if(HitBox.player(player, 9*16, 0, 32, 0, HitBox.DOWN, HitBox.INTERACT)) {
@@ -156,8 +191,18 @@ public class House implements Screen {
 		} else if(HitBox.player(player, npc.getX(), npc.getY(), npc.getWidth(), npc.getHeight(), HitBox.ALL, HitBox.INTERACT)) {
 			switch(npcNum) {
 			case 0:
-				txtIndex = 0;
-				txtBox = new TextBox(batch, shRen, font, DonkerDialogue.getText(txtIndex));
+				if(! player.isRangedAllowed()) {
+					txtIndex = 0;
+					txtBox = new TextBox(batch, shRen, font, Dialogue.donker(txtIndex));
+				} else txtBox = new TextBox(batch, shRen, font, "Use your new weapon well!");
+				moveAllowed = false;
+				break;
+				
+			case 1:
+				if(! player.isMeleeAllowed()) {
+					txtIndex = 0;
+					txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
+				} else txtBox = new TextBox(batch, shRen, font, "Use your new weapon well!");
 				moveAllowed = false;
 				break;
 			}

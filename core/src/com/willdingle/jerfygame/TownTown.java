@@ -43,7 +43,7 @@ public class TownTown implements Screen {
 	private DreamCoin[] coins;
 	private float plx, ply;
 
-	public TownTown(final JerfyGame game, float plx, float ply) {
+	public TownTown(final JerfyGame game, float plx, float ply, String[] inv) {
 		this.game = game;
 		
 		map = new TmxMapLoader().load("maps/TownTown.tmx");
@@ -55,7 +55,7 @@ public class TownTown implements Screen {
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
 		
-		player = new Player(mapLayer, plx, ply);
+		player = new Player(mapLayer, plx, ply, inv);
 		
 		movingNPCs = new MovingNPC[1];
 		stillNPCs = new StillNPC[2];

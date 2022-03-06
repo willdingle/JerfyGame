@@ -124,7 +124,6 @@ public class MainMenu implements Screen {
 		
 		//Input
 		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) interact();
-		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) game.setScreen(new TownTown(game, 1, 1));
 	}
 	
 	private void interact() {
@@ -135,16 +134,22 @@ public class MainMenu implements Screen {
 				Save.create(file, name);
 				game.fileName = "save1";
 				dispose();
-				game.setScreen(new TownTown(game, 1, 1));
+				game.setScreen(new TownTown(game, 1, 1, null));
 			} else {
 				String fileContents[] = Save.load(file);
 				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
+				
+				String[] inv = null;
+				if(fileContents[4] != null) {
+					inv = Save.loadInv(fileContents[4]);
+				}
+				
 				dispose();
 				game.fileName = "save1";
 				if(area == 0) {
-					game.setScreen(new TownTown(game, plx, ply));
+					game.setScreen(new TownTown(game, plx, ply, inv));
 				}
 			}
 			
@@ -155,17 +160,23 @@ public class MainMenu implements Screen {
 				Save.create(file, name);
 				game.fileName = "save2";
 				dispose();
-				game.setScreen(new TownTown(game, 1, 1));
+				game.setScreen(new TownTown(game, 1, 1, null));
 			} else {
 				String fileContents[] = new String[4];
 				fileContents = Save.load(file);
 				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
+				
+				String[] inv = null;
+				if(fileContents[4] != null) {
+					inv = Save.loadInv(fileContents[4]);
+				}
+				
 				dispose();
 				game.fileName = "save2";
 				if(area == 0) {
-					game.setScreen(new TownTown(game, plx, ply));
+					game.setScreen(new TownTown(game, plx, ply, inv));
 				}
 			}
 			
@@ -176,17 +187,23 @@ public class MainMenu implements Screen {
 				Save.create(file, name);
 				game.fileName = "save3";
 				dispose();
-				game.setScreen(new TownTown(game, 1, 1));
+				game.setScreen(new TownTown(game, 1, 1, null));
 			} else {
 				String fileContents[] = new String[4];
 				fileContents = Save.load(file);
 				float area = Float.parseFloat(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
+
+				String[] inv = null;
+				if(fileContents[4] != null) {
+					inv = Save.loadInv(fileContents[4]);
+				}
+				
 				dispose();
 				game.fileName = "save3";
 				if(area == 0) {
-					game.setScreen(new TownTown(game, plx, ply));
+					game.setScreen(new TownTown(game, plx, ply, inv));
 				}
 			}
 		}

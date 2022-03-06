@@ -62,7 +62,8 @@ public class InventoryMenu implements Screen {
 		items = new Sprite[player.inv.length];
 		for(int n = 0; n < player.inv.length; n++) {
 			items[n] = new Sprite(new Texture(player.inv[n][0] + ".png"));
-			items[n].setScale(10);
+			if(player.inv[n][0].equals("sword")) items[n].setScale(9);
+			else items[n].setScale(10);
 			items[n].setPosition(250 + n*350, 535);
 		}
 		
@@ -98,7 +99,7 @@ public class InventoryMenu implements Screen {
 		for(int n = 0; n < player.inv.length; n++) {
 			if(buttons[n].pressed()) {
 				font.draw(batch, player.inv[n][0], 100, 390);
-				if(player.inv[n][0] == "gun" || player.inv[n][0] == "sword") {
+				if(player.inv[n][0].equals("gun") || player.inv[n][0].equals("sword")) {
 					font.draw(batch, player.inv[n][1] + " attack", 100, 315);
 				}
 				break;

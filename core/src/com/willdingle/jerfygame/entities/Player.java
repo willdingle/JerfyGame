@@ -19,7 +19,8 @@ public class Player extends Sprite {
 	private float elTimeF;
 	private int elTime;
 	
-	private boolean attackAllowed;
+	private boolean rangedAllowed;
+	private boolean meleeAllowed;
 	private int meleeRange;
 	private int health;
 	
@@ -28,7 +29,7 @@ public class Player extends Sprite {
 	private int money;
 	public Bullet[] bullets;
 
-	public Player(TiledMapTileLayer colLayer, float x, float y) {
+	public Player(TiledMapTileLayer colLayer, float x, float y, String[] inv) {
 		super(new Sprite(new Texture("jerfy/down.png")));
 		this.colLayer = colLayer;
 		setX(x * colLayer.getTileWidth());
@@ -47,12 +48,31 @@ public class Player extends Sprite {
 		rightWalk[1] = new Texture("jerfy/rightwalk/1.png");
 		
 		meleeRange = 16;
-		inv = new String[0][0];
+				
+		if(inv != null) {
+			this.inv = new String[inv.length / 2][2];
+			int itemStatIndex = 0;
+			for(int n = 0; n < (inv.length / 2); n++) {
+				this.inv[n][0] = inv[itemStatIndex];
+				this.inv[n][1] = inv[itemStatIndex + 1];
+				itemStatIndex += 2;
+			}
+			
+		} else {
+			this.inv = new String[0][0];
+		}
+		
 		setMoney(0);
 		setHealth(3);
 		
 		bullets = new Bullet[0];
-		setAttackAllowed(false);
+		
+		setRangedAllowed(false);
+		setMeleeAllowed(false);
+		for(String[] n : this.inv) {
+			if(n[0].equals("gun")) setRangedAllowed(true);
+			else if(n[0].equals("sword")) setMeleeAllowed(true);
+		}
 	}
 	
 	public void addToInventory(String item, String stat) {
@@ -87,7 +107,7 @@ public class Player extends Sprite {
 	}
 	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
-		if(attackAllowed) {
+		if(rangedAllowed) {
 			if (Gdx.input.isKeyJustPressed(Keys.LEFT)) attack('l');
 			else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) attack('r');
 			else if (Gdx.input.isKeyJustPressed(Keys.UP)) attack('u');
@@ -298,12 +318,12 @@ public class Player extends Sprite {
 		this.colLayer = colLayer;
 	}
 
-	public boolean isAttackAllowed() {
-		return attackAllowed;
+	public boolean isRangedAllowed() {
+		return rangedAllowed;
 	}
 
-	public void setAttackAllowed(boolean attackAllowed) {
-		this.attackAllowed = attackAllowed;
+	public void setRangedAllowed(boolean attackAllowed) {
+		this.rangedAllowed = attackAllowed;
 	}
 
 	public int getHealth() {
@@ -312,6 +332,14 @@ public class Player extends Sprite {
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	public boolean isMeleeAllowed() {
+		return meleeAllowed;
+	}
+
+	public void setMeleeAllowed(boolean meleeAllowed) {
+		this.meleeAllowed = meleeAllowed;
 	}
 	
 	

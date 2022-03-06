@@ -34,14 +34,18 @@ public class Save {
 		return fileContents;
 	}
 	
-	public static void loadInv(String inv) {
+	public static String[] loadInv(String inv) {
 		String[] itemsTemp = inv.split(",");
 		String[] items = new String[itemsTemp.length * 2];
 		
-		int tempIndex = 0;
+		int itemIndex = 0;
 		for(int n = 0; n < itemsTemp.length; n++) {
-			items[n] = itemsTemp[tempIndex].split(";");
+			String[] temp = itemsTemp[n].split(";");
+			items[itemIndex] = temp[0];
+			items[itemIndex + 1] = temp[1];
+			itemIndex += 2;
 		}
+		return items;
 	}
 	
 	public static void create(File file, String name) {
