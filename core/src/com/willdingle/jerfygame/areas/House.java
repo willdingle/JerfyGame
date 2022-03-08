@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame.buildings;
+package com.willdingle.jerfygame.areas;
 
 import java.io.File;
 

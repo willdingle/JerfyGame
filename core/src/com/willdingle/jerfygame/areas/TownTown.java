@@ -1,4 +1,4 @@
-package com.willdingle.jerfygame;
+package com.willdingle.jerfygame.areas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -14,7 +14,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.willdingle.jerfygame.buildings.House;
+import com.willdingle.jerfygame.HitBox;
+import com.willdingle.jerfygame.JerfyGame;
+import com.willdingle.jerfygame.TextBox;
 import com.willdingle.jerfygame.entities.*;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.items.DreamCoin;
@@ -125,6 +127,12 @@ public class TownTown implements Screen {
 			for(Bullet bullet : player.bullets) {
 				bullet.draw(renderer.getBatch(), Gdx.graphics.getDeltaTime());
 			}
+		}
+		
+		if(player.sword != null) {
+			player.sword.draw(renderer.getBatch(), player.getX(), player.getY(), player.getWidth(), player.getHeight());
+			player.sword.setTimer(player.sword.getTimer() - Gdx.graphics.getDeltaTime());
+			if(player.sword.getTimer() < 0) player.sword = null;
 		}
 		renderer.getBatch().end();
 		

@@ -3,11 +3,11 @@ package com.willdingle.jerfygame.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.willdingle.jerfygame.HitBox;
 import com.willdingle.jerfygame.items.Bullet;
+import com.willdingle.jerfygame.items.Sword;
 
 public class Player extends Sprite {
 	
@@ -19,15 +19,21 @@ public class Player extends Sprite {
 	private float elTimeF;
 	private int elTime;
 	
+	private char dir;
+	
 	private boolean rangedAllowed;
 	private boolean meleeAllowed;
+	
 	private int meleeRange;
+	
 	private int health;
 	
 	//Inventory format: [item name, stat (defence or attack number)]
 	public String[][] inv;
+	private int equippedWeapon;
 	private int money;
 	public Bullet[] bullets;
+	public Sword sword;
 
 	public Player(TiledMapTileLayer colLayer, float x, float y, String[] inv) {
 		super(new Sprite(new Texture("jerfy/down.png")));
@@ -73,6 +79,7 @@ public class Player extends Sprite {
 			if(n[0].equals("gun")) setRangedAllowed(true);
 			else if(n[0].equals("sword")) setMeleeAllowed(true);
 		}
+		setEquippedWeapon(-1);
 	}
 	
 	public void addToInventory(String item, String stat) {
@@ -90,7 +97,7 @@ public class Player extends Sprite {
 		inv[inv.length - 1][1] = stat;
 	}
 	
-	public void attack(char dir) {
+	public void rangedAttack(char dir) {
 		Bullet bullet = new Bullet(colLayer, getX(), getY(), getWidth(), getHeight(), dir);
 
 		if (bullets.length == 0) {
@@ -106,15 +113,37 @@ public class Player extends Sprite {
 		}
 	}
 	
+	public void meleeAttack(char dir) {
+		sword = new Sword(getX() + getWidth() - 5, getY() + getHeight()/2 - 20, dir);
+		
+	}
+	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
-		if(rangedAllowed) {
-			if (Gdx.input.isKeyJustPressed(Keys.LEFT)) attack('l');
-			else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) attack('r');
-			else if (Gdx.input.isKeyJustPressed(Keys.UP)) attack('u');
-			else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) attack('d');
+		if(equippedWeapon != -1) {
+			String equippedWeaponStr = inv[equippedWeapon][0];
+			switch(equippedWeaponStr) {
+			case "gun":
+				if(rangedAllowed) {
+					if (Gdx.input.isKeyJustPressed(Keys.LEFT)) rangedAttack('l');
+					else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) rangedAttack('r');
+					else if (Gdx.input.isKeyJustPressed(Keys.UP)) rangedAttack('u');
+					else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) rangedAttack('d');
+				}
+				break;
+				
+			case "sword":
+				if(meleeAllowed) {
+					if (Gdx.input.isKeyJustPressed(Keys.LEFT)) meleeAttack('l');
+					else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) meleeAttack('r');
+					else if (Gdx.input.isKeyJustPressed(Keys.UP)) meleeAttack('u');
+					else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) meleeAttack('d');
+				}
+				break;
+			}
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.W)) {
+			setDir('w');
 			float oldY = getY();
 			setY(getY() + 100 * delta);
 			
@@ -143,6 +172,7 @@ public class Player extends Sprite {
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.S) && getY() >= 2) {
+			setDir('s');
 			float oldY = getY();
 			setY(getY() - 100 * delta);
 			
@@ -171,6 +201,7 @@ public class Player extends Sprite {
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.A) && getX() >= 2) {
+			setDir('a');
 			float oldX = getX();
 			setX(getX() - 100 * delta);
 			
@@ -199,6 +230,7 @@ public class Player extends Sprite {
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.D) && getX() + getWidth() <= (colLayer.getWidth() * colLayer.getTileWidth()) - 2) {
+			setDir('d');
 			float oldX = getX();
 			setX(getX() + 100 * delta);
 			
@@ -341,7 +373,20 @@ public class Player extends Sprite {
 	public void setMeleeAllowed(boolean meleeAllowed) {
 		this.meleeAllowed = meleeAllowed;
 	}
-	
-	
 
+	public int getEquippedWeapon() {
+		return equippedWeapon;
+	}
+
+	public void setEquippedWeapon(int equippedWeapon) {
+		this.equippedWeapon = equippedWeapon;
+	}
+
+	public char getDir() {
+		return dir;
+	}
+
+	public void setDir(char dir) {
+		this.dir = dir;
+	}
 }

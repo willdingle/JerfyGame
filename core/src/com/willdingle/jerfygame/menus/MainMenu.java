@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.willdingle.jerfygame.JerfyGame;
-import com.willdingle.jerfygame.TownTown;
+import com.willdingle.jerfygame.areas.TownTown;
 import com.willdingle.jerfygame.files.Save;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class MainMenu implements Screen {
 	private boolean save2;
 	private boolean save3;
 	
-	private Button save1but, save2but, save3but, optionsBut, exitBut;
+	private Button save1but, save2but, save3but, optionsBut, exitBut, helpBut;
 	private Button[] buttons;
 	private float titleX, titleY;
 	
@@ -80,7 +80,7 @@ public class MainMenu implements Screen {
 		}
 		
 		//Creates buttons
-		buttons = new Button[5];
+		buttons = new Button[6];
 		save1but = new Button(160, 340, 400, 400, font, box1txt);
 		buttons[0] = save1but;
 		save2but = new Button(760, 340, 400, 400, font, box2txt);
@@ -91,6 +91,8 @@ public class MainMenu implements Screen {
 		buttons[3] = optionsBut;
 		exitBut = new Button(1000, 100, 500, 100, font, "Exit");
 		buttons[4] = exitBut;
+		helpBut = new Button(700, 220, 500, 100, font, "Help");
+		buttons[5] = helpBut;
 		
 	}
 	
@@ -209,6 +211,7 @@ public class MainMenu implements Screen {
 		}
 		else if (optionsBut.pressed()) game.setScreen(new OptionsMenu(game, game.getScreen()));
 		else if (exitBut.pressed()) System.exit(0);
+		else if (helpBut.pressed()) game.setScreen(new HelpMenu(game, game.getScreen()));
 	}
 
 	@Override

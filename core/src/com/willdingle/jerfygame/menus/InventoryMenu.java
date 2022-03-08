@@ -105,6 +105,9 @@ public class InventoryMenu implements Screen {
 				break;
 			}
 		}
+		if(player.getEquippedWeapon() != -1) {
+			font.draw(batch, "Equipped: " + player.inv[player.getEquippedWeapon()][0], 100, 800);
+		}
 		batch.end();
 		
 		//Draw item sprites
@@ -117,10 +120,12 @@ public class InventoryMenu implements Screen {
 		//Input
 		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(prevScreen);
-		
 	}
 	
 	private void interact() {
+		for(int n = 0; n < player.inv.length; n++) {
+			if(buttons[n].pressed() && player.inv[n] != null) player.setEquippedWeapon(n);
+		}
 		
 	}
 
