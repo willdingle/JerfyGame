@@ -3,13 +3,11 @@ package com.willdingle.jerfygame.areas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -22,7 +20,6 @@ import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.items.DreamCoin;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
-import java.util.*;
 
 public class TownTown implements Screen {
 	final JerfyGame game;
@@ -139,6 +136,7 @@ public class TownTown implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen(), player));
+		if(Gdx.input.isKeyJustPressed(Keys.H)) game.setScreen(new Dungeon(game, player));
 		
 		//Pick up items
 		if(coins.length > 0) {
@@ -246,7 +244,6 @@ public class TownTown implements Screen {
 		map.dispose();
 		renderer.dispose();
 		batch.dispose();
-
 	}
 
 }

@@ -62,7 +62,7 @@ public class HelpMenu implements Screen {
 		//Draw text
 		batch.begin();
 		titleFont.draw(batch, "HELP", titleX, titleY);
-		font.draw(batch, "Move: WASD\n" + "Interact: ENTER\n" + "Attack: Arrows", 40, 800);
+		font.draw(batch, "Move: WASD\n" + "Interact: ENTER\n" + "Attack: Arrows\n" + "Inventory: E", 40, 800);
 		backBut.drawText(batch, font);
 		batch.end();
 		

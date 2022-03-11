@@ -6,13 +6,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Sword extends Sprite {
 	private float timer;
+	private char dir;
 	
-	public Sword(float x, float y, char dir) {
+	public Sword(char dir) {
 		super(new Sprite(new Texture("sword.png")));
 		setScale(0.5f);
-		setX(x);
-		setY(y);
+		
+		this.dir = dir;
 		switch(dir) {
+		case 'u':
+			break;
 		case 'd':
 			setRotation(180);
 			break;
@@ -26,15 +29,23 @@ public class Sword extends Sprite {
 		setTimer(0.1f);
 	}
 	
-	public void draw(Batch batch, float x, float y, float w, float h, char plDir) {
-		switch(plDir) {
-		case 'w':
-			setPosition(x + w, y + h/2 - 20);
+	public void draw(Batch batch, float x, float y, float w, float h) {
+		float tempX = x + w - 5;
+		float tempY = y + h/2 - 20;
+		switch(dir) {
+		case 'u':
+			setPosition(tempX - 10, tempY + 20);
 			break;
-		case 's':
-			
+		case 'd':
+			setPosition(tempX - 10, tempY - 10);
+			break;
+		case 'l':
+			setPosition(tempX - 22, tempY);
+			break;
+		case 'r':
+			setPosition(tempX, tempY);
+			break;
 		}
-		setPosition(x + w - 5, y + h/2 - 20);
 		super.draw(batch);
 	}
 

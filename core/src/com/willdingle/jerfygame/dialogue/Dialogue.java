@@ -2,6 +2,24 @@ package com.willdingle.jerfygame.dialogue;
 
 public class Dialogue {
 	
+	public static String buggo(int index) {
+		String txt = null;
+		
+		switch(index) {
+		case 0:
+			txt = "Are you ready to go into the dungeons below?";
+			break;
+		case 1:
+			txt = "Excellent. Off you go then, get outta here!";
+			break;
+		case 2:
+			txt = "Do what you need to.";
+			break;
+		}
+		
+		return txt;
+	}
+	
 	public static String donker(int index) {
 		String txt = null;
 		

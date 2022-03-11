@@ -4,12 +4,15 @@ import java.io.File;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -23,6 +26,7 @@ import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
 import com.willdingle.jerfygame.files.Save;
 import com.willdingle.jerfygame.items.Bullet;
+import com.willdingle.jerfygame.menus.Button;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
 
@@ -44,6 +48,7 @@ public class House implements Screen {
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
 	private Screen prevScreen;
+	private Button[] buttons;
 	
 	private boolean moveAllowed;
 	
@@ -90,8 +95,6 @@ public class House implements Screen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -123,17 +126,52 @@ public class House implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen(), player));
+		if(Gdx.input.isButtonJustPressed(Buttons.LEFT)) buttonInteract();;
 		
-		//Draw text box
+		//Draw text box and buttons
 		if(txtBox != null) txtBox.render();
+		if(buttons != null) {
+			batch.begin();
+			shRen.begin(ShapeType.Filled);
+			shRen.setColor(Color.DARK_GRAY);
+			for(Button button : buttons) {
+				button.draw(shRen, batch);
+			}
+			shRen.end();
+			batch.end();
+		}
+		
+		//Draw button text
+		if(buttons != null) {
+			batch.begin();
+			for(Button button : buttons) {
+				button.drawText(batch, font);
+			}
+			batch.end();
+		}
 		
 		//Draw HUD
 		game.hud.draw(batch, player);
 	}
 	
+	private void buttonInteract() {
+		if(buttons != null) {
+			if(buttons[0].pressed()) {
+				txtIndex += 1;
+				txtBox = new TextBox(batch, shRen, font, Dialogue.buggo(txtIndex));
+				buttons = null;
+			} else if(buttons[1].pressed()) {
+				txtIndex += 2;
+				txtBox = new TextBox(batch, shRen, font, Dialogue.buggo(txtIndex));
+				buttons = null;
+			}
+		}
+	}
+	
 	private void interact() {
 		if(txtBox != null) {
 			switch(npcNum) {
+			//DONKER TEXT
 			case 0:
 				if(! player.isRangedAllowed()) {
 					switch(txtIndex) {
@@ -158,7 +196,8 @@ public class House implements Screen {
 					txtBox = null;
 				}
 				break;
-				
+			
+			//PAPER TEXT
 			case 1:
 				if(! player.isMeleeAllowed()) {
 					switch(txtIndex) {
@@ -183,6 +222,30 @@ public class House implements Screen {
 					txtBox = null;
 				}
 				break;
+			
+			//BUGGO TEXT
+			case 2:
+				if(player.isMeleeAllowed() && player.isMeleeAllowed()) {
+					switch(txtIndex) {
+					case 0:
+						buttons = new Button[2];
+						buttons[0] = new Button(20, 100, 300, 100, font, "Yes");
+						buttons[1] = new Button(420, 100, 300, 100, font, "No");
+						break;
+					case 1:
+						game.setScreen(new Dungeon(game, player));
+						moveAllowed = true;
+						txtBox = null;
+						break;
+					case 2:
+						moveAllowed = true;
+						txtBox = null;
+						break;
+					}
+				} else {
+					moveAllowed = true;
+					txtBox = null;
+				}
 			}
 			
 		} else if(HitBox.player(player, 9*16, 0, 32, 0, HitBox.DOWN, HitBox.INTERACT)) {
@@ -205,38 +268,36 @@ public class House implements Screen {
 				} else txtBox = new TextBox(batch, shRen, font, "Use your new weapon well!");
 				moveAllowed = false;
 				break;
+				
+			case 2:
+				if(player.isMeleeAllowed() && player.isRangedAllowed()) {
+					txtIndex = 0;
+					txtBox = new TextBox(batch, shRen, font, Dialogue.buggo(txtIndex));
+				} else txtBox = new TextBox(batch, shRen, font, "I believe Donker and Paper have a couple of things for you. They are in the other 2 houses.");
+				moveAllowed = false;
+				break;
 			}
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

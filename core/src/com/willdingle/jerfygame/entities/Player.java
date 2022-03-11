@@ -114,8 +114,7 @@ public class Player extends Sprite {
 	}
 	
 	public void meleeAttack(char dir) {
-		sword = new Sword(getX() + getWidth() - 5, getY() + getHeight()/2 - 20, dir);
-		
+		sword = new Sword(dir);
 	}
 	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
