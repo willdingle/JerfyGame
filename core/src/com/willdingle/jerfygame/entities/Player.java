@@ -3,6 +3,7 @@ package com.willdingle.jerfygame.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.willdingle.jerfygame.HitBox;
@@ -80,6 +81,20 @@ public class Player extends Sprite {
 			else if(n[0].equals("sword")) setMeleeAllowed(true);
 		}
 		setEquippedWeapon(-1);
+	}
+	
+	public void draw(Batch batch) {
+		if(bullets.length > 0) {
+			for(Bullet bullet : bullets) {
+				bullet.draw(batch, Gdx.graphics.getDeltaTime());
+			}
+		}
+		if(sword != null) {
+			sword.draw(batch, getX(), getY(), getWidth(), getHeight());
+			sword.setTimer(sword.getTimer() - Gdx.graphics.getDeltaTime());
+			if(sword.getTimer() < 0) sword = null;
+		}
+		super.draw(batch);
 	}
 	
 	public void addToInventory(String item, String stat) {

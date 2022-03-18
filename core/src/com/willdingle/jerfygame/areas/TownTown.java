@@ -100,7 +100,6 @@ public class TownTown implements Screen {
 		//Camera
 		cam.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
 		cam.update();
-		
 		renderer.setView(cam);
 		renderer.render();
 		
@@ -118,18 +117,6 @@ public class TownTown implements Screen {
 					coins[n].draw(renderer.getBatch());
 				}
 			}
-		}
-		
-		if(player.bullets.length > 0) {
-			for(Bullet bullet : player.bullets) {
-				bullet.draw(renderer.getBatch(), Gdx.graphics.getDeltaTime());
-			}
-		}
-		
-		if(player.sword != null) {
-			player.sword.draw(renderer.getBatch(), player.getX(), player.getY(), player.getWidth(), player.getHeight());
-			player.sword.setTimer(player.sword.getTimer() - Gdx.graphics.getDeltaTime());
-			if(player.sword.getTimer() < 0) player.sword = null;
 		}
 		renderer.getBatch().end();
 		

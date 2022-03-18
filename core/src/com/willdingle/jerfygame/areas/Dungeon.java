@@ -47,12 +47,12 @@ public class Dungeon implements Screen {
 		renderer = new OrthogonalTiledMapRenderer(map);
 		player.setColLayer(mapLayer);
 		
-		player.setPosition(5 * 16, 3 * 16);
+		player.setPosition(7 * 16, 20 * 16);
 		this.player = player;
 		
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
-		cam.position.x = (mapLayer.getWidth() * 16)/2;
-		cam.position.y = (mapLayer.getHeight() * 16)/2;
+		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
+		cam.position.x = (14 * 16)/2;
+		cam.position.y = (40 * 16)/2;
 		cam.update();
 		
 		movingNPCs = new MovingNPC[0];
@@ -71,6 +71,8 @@ public class Dungeon implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Camera
+		cam.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
+		cam.update();
 		renderer.setView(cam);
 		renderer.render();
 		
@@ -78,18 +80,6 @@ public class Dungeon implements Screen {
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
-		
-		if(player.bullets.length > 0) {
-			for(Bullet bullet : player.bullets) {
-				bullet.draw(renderer.getBatch(), Gdx.graphics.getDeltaTime());
-			}
-		}
-		
-		if(player.sword != null) {
-			player.sword.draw(renderer.getBatch(), player.getX(), player.getY(), player.getWidth(), player.getHeight());
-			player.sword.setTimer(player.sword.getTimer() - Gdx.graphics.getDeltaTime());
-			if(player.sword.getTimer() < 0) player.sword = null;
-		}
 		renderer.getBatch().end();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
