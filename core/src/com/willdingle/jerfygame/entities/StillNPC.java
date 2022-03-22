@@ -1,7 +1,6 @@
 package com.willdingle.jerfygame.entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
@@ -13,10 +12,4 @@ public class StillNPC extends Sprite {
 		setY(y * collisionLayer.getTileHeight());
 		
 	}
-	
-	@Override
-	public void draw(Batch batch) {
-		super.draw(batch);
-	}
-
 }

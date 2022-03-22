@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.willdingle.jerfygame.HitBox;
+import com.willdingle.jerfygame.entities.Enemy;
 
 public class Bullet extends Sprite {
 	//TiledMapTileLayer colLayer;
@@ -35,7 +37,15 @@ public class Bullet extends Sprite {
 		}
 	}
 	
-	private void move(float delta) {
+	private void collide(Enemy enemy) {
+		boolean col = false;
+		//for(Enemy enemy : enemies) {
+			col = HitBox.bullet(this, enemy);
+			if(col) System.out.println(col);
+		//}
+	}
+	
+	private void move(float delta, Enemy enemy) {
 		switch(dir) {
 		case 'l':
 			setX(getX() - speed * delta);
@@ -50,11 +60,11 @@ public class Bullet extends Sprite {
 			setY(getY() - speed * delta);
 			break;
 		}
+		collide(enemy);
 	}
 	
-	@Override
-	public void draw(Batch batch, float delta) {
-		move(delta);
+	public void draw(Batch batch, float delta, Enemy enemy) {
+		move(delta, enemy);
 		super.draw(batch);
 	}
 }

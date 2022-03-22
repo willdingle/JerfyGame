@@ -28,6 +28,7 @@ public class Sword extends Sprite {
 			break;
 		}
 		setTimer(0.1f);
+		System.out.println(getWidth() + "\n" + getHeight());
 	}
 	
 	private void collide(Enemy[] enemies) {

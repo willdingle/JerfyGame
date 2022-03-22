@@ -1,7 +1,9 @@
 package com.willdingle.jerfygame;
 
 import com.badlogic.gdx.Gdx;
+import com.willdingle.jerfygame.entities.Enemy;
 import com.willdingle.jerfygame.entities.Player;
+import com.willdingle.jerfygame.items.Bullet;
 
 public class HitBox {
 	
@@ -13,6 +15,21 @@ public class HitBox {
 	
 	public static final int INTERACT = 4;
 	public static final int COLLIDE = 2;
+	
+	public static boolean bullet(Bullet bullet, Enemy enemy) {
+		float enx = enemy.getX();
+		float eny = enemy.getY();
+		float enw = enemy.getWidth();
+		float enh = enemy.getHeight();
+		
+		float bux = bullet.getX();
+		float buy = bullet.getY();
+		float buw = bullet.getWidth();
+		float buh = bullet.getHeight();
+		
+		boolean col = (bux <= (enx + enw) && bux + buw >= enx) && (buy <= (eny + enh) && buy + buh >= eny);
+		return col;
+	}
 	
 	public static boolean player(Player player, float objx, float objy, float objw, float objh, int dirs, float mode) {
 		boolean col = false;
