@@ -83,10 +83,12 @@ public class Player extends Sprite {
 		setEquippedWeapon(-1);
 	}
 	
-	public void draw(Batch batch, Enemy enemy) {
+	public void draw(Batch batch, Enemy[] enemies) {
 		if(bullets.length > 0) {
-			for(Bullet bullet : bullets) {
-				bullet.draw(batch, Gdx.graphics.getDeltaTime(), enemy);
+			for(int n = 0; n < bullets.length; n++) {
+				if(bullets[n] != null) {
+					if(bullets[n].draw(batch, Gdx.graphics.getDeltaTime(), enemies)) bullets[n] = null;
+				}
 			}
 		}
 		if(sword != null) {

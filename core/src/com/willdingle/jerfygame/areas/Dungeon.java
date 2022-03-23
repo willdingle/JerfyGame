@@ -39,7 +39,7 @@ public class Dungeon implements Screen {
 	private float plx, ply;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
-	private Enemy enemy1;
+	private Enemy[] enemies;
 	
 	public Dungeon(final JerfyGame game, Player player) {
 		this.game = game;
@@ -52,7 +52,8 @@ public class Dungeon implements Screen {
 		player.setPosition(7 * 16, 20 * 16);
 		this.player = player;
 		
-		enemy1 = new Enemy("johnz.png", mapLayer, 9, 23);
+		enemies = new Enemy[1];
+		enemies[0] = new Enemy("johnz.png", mapLayer, 9, 23);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
 		cam.position.x = (14 * 16)/2;
@@ -82,9 +83,14 @@ public class Dungeon implements Screen {
 		
 		//Draw sprites and player control
 		renderer.getBatch().begin();
-		player.draw(renderer.getBatch(), enemy1);
+		player.draw(renderer.getBatch(), enemies);
 		
-		enemy1.draw(renderer.getBatch());
+		for(Enemy enemy : enemies) {
+			if(enemy != null) {
+				enemy.draw(renderer.getBatch());
+			}
+				
+		}
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
 		renderer.getBatch().end();
 		

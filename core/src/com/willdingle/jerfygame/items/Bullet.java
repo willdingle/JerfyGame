@@ -37,15 +37,18 @@ public class Bullet extends Sprite {
 		}
 	}
 	
-	private void collide(Enemy enemy) {
+	private boolean collide(Enemy[] enemies) {
 		boolean col = false;
-		//for(Enemy enemy : enemies) {
-			col = HitBox.bullet(this, enemy);
-			if(col) System.out.println(col);
-		//}
+		for(int n = 0; n < enemies.length; n++) {
+			if(enemies[n] != null) {
+				col = HitBox.bullet(this, enemies[n]);
+				if(col) enemies[n] = null; //TODO: MAKE THIS DECREMENT HEALTH RATHER THAN REMOVE THE ENEMY, THEN REMOVE ENEMY ONCE THEIR HEALTH IS 0
+			}
+		}
+		return col;
 	}
 	
-	private void move(float delta, Enemy enemy) {
+	private boolean move(float delta, Enemy[] enemies) {
 		switch(dir) {
 		case 'l':
 			setX(getX() - speed * delta);
@@ -60,11 +63,12 @@ public class Bullet extends Sprite {
 			setY(getY() - speed * delta);
 			break;
 		}
-		collide(enemy);
+		return collide(enemies);
 	}
 	
-	public void draw(Batch batch, float delta, Enemy enemy) {
-		move(delta, enemy);
+	public boolean draw(Batch batch, float delta, Enemy[] enemies) {
+		boolean col = move(delta, enemies);
 		super.draw(batch);
+		return col;
 	}
 }
