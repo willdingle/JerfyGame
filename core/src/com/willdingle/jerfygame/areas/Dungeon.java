@@ -55,8 +55,10 @@ public class Dungeon implements Screen {
 		player.setPosition(7 * 16, 20 * 16);
 		this.player = player;
 		
-		enemies = new Enemy[1];
+		enemies = new Enemy[3];
 		enemies[0] = new Enemy("johnz.png", mapLayer, 9, 23);
+		enemies[1] = new Enemy("robin.png", mapLayer, 9, 38);
+		enemies[2] = new Enemy("droopy.png", mapLayer, 20, 38);
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
 		cam.position.x = (14 * 16)/2;

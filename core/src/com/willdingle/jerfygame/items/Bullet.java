@@ -42,8 +42,12 @@ public class Bullet extends Sprite {
 		for(int n = 0; n < enemies.length; n++) {
 			if(enemies[n] != null) {
 				col = HitBox.bullet(this, enemies[n]);
-				if(col) enemies[n].setHealth(enemies[n].getHealth() - 1);
-				if(enemies[n].getHealth() == 0) enemies[n] = null;
+				if(col) {
+					enemies[n].setHealth(enemies[n].getHealth() - 1);
+					if(enemies[n].getHealth() <= 0) enemies[n] = null;
+					break;
+				}
+				
 			}
 		}
 		return col;
