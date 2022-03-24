@@ -42,7 +42,8 @@ public class Bullet extends Sprite {
 		for(int n = 0; n < enemies.length; n++) {
 			if(enemies[n] != null) {
 				col = HitBox.bullet(this, enemies[n]);
-				if(col) enemies[n] = null; //TODO: MAKE THIS DECREMENT HEALTH RATHER THAN REMOVE THE ENEMY, THEN REMOVE ENEMY ONCE THEIR HEALTH IS 0
+				if(col) enemies[n].setHealth(enemies[n].getHealth() - 1);
+				if(enemies[n].getHealth() == 0) enemies[n] = null;
 			}
 		}
 		return col;

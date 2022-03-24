@@ -225,7 +225,7 @@ public class House implements Screen {
 			
 			//BUGGO TEXT
 			case 2:
-				if(player.isMeleeAllowed() && player.isMeleeAllowed()) {
+				if(player.isMeleeAllowed() && player.isRangedAllowed()) {
 					switch(txtIndex) {
 					case 0:
 						buttons = new Button[2];

@@ -44,6 +44,9 @@ public class Dungeon implements Screen {
 	public Dungeon(final JerfyGame game, Player player) {
 		this.game = game;
 		
+		game.parameter.size = 10;
+		font = game.generator.generateFont(game.parameter);
+		
 		map = new TmxMapLoader().load("maps/dungeon1.tmx");
 		mapLayer = (TiledMapTileLayer) map.getLayers().get(0);
 		renderer = new OrthogonalTiledMapRenderer(map);
@@ -87,7 +90,7 @@ public class Dungeon implements Screen {
 		
 		for(Enemy enemy : enemies) {
 			if(enemy != null) {
-				enemy.draw(renderer.getBatch());
+				enemy.draw(renderer.getBatch(), font);
 			}
 				
 		}
