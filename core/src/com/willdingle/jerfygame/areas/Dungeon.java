@@ -5,13 +5,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.willdingle.jerfygame.HitBox;
 import com.willdingle.jerfygame.JerfyGame;
 import com.willdingle.jerfygame.TextBox;
 import com.willdingle.jerfygame.entities.Enemy;
@@ -32,7 +36,7 @@ public class Dungeon implements Screen {
 	private Player player;
 	private TextBox txtBox;
 	private ShapeRenderer shRen;
-	private BitmapFont font;
+	private BitmapFont font, healthFont;
 	private SpriteBatch batch;
 	private boolean moveAllowed;
 	private boolean showNeeded;
@@ -44,8 +48,10 @@ public class Dungeon implements Screen {
 	public Dungeon(final JerfyGame game, Player player) {
 		this.game = game;
 		
-		game.parameter.size = 10;
+		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
+		game.parameter.size = 10;
+		healthFont = game.generator.generateFont(game.parameter);
 		
 		map = new TmxMapLoader().load("maps/dungeon1.tmx");
 		mapLayer = (TiledMapTileLayer) map.getLayers().get(0);
@@ -56,7 +62,7 @@ public class Dungeon implements Screen {
 		this.player = player;
 		
 		enemies = new Enemy[3];
-		enemies[0] = new Enemy("johnz.png", mapLayer, 9, 23);
+		enemies[0] = new Enemy("johnz.png", mapLayer, 3, 35);
 		enemies[1] = new Enemy("robin.png", mapLayer, 9, 38);
 		enemies[2] = new Enemy("droopy.png", mapLayer, 20, 38);
 		
@@ -69,6 +75,9 @@ public class Dungeon implements Screen {
 		stillNPCs = new StillNPC[0];
 		moveAllowed = true;
 		showNeeded = false;
+		
+		batch = new SpriteBatch();
+		shRen = new ShapeRenderer();
 	}
 
 	@Override
@@ -92,15 +101,60 @@ public class Dungeon implements Screen {
 		
 		for(Enemy enemy : enemies) {
 			if(enemy != null) {
-				enemy.draw(renderer.getBatch(), font);
+				enemy.draw(renderer.getBatch(), healthFont);
 			}
 				
 		}
+		
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
 		renderer.getBatch().end();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen(), player));
+		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
+		
+		//Draw text box
+		if(txtBox != null) txtBox.render();
+		
+		//Draw HUD
+		game.hud.draw(batch, player);
+	}
+	
+	private void interact() {
+		if (txtBox != null) {
+			moveAllowed = true;
+			txtBox = null;
+		
+		//Left sign
+		} else if(HitBox.player(player, 5*16, 21*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			txtBox = new TextBox(batch, shRen, font, "To equip your weapon:\n"
+					+ "Go into your inventory by pressing E, then equip your weapon by selecting it");
+			moveAllowed = false;
+			
+		//Right sign
+		} else if(HitBox.player(player, 8*16, 21*16, 16, 16, HitBox.UP, HitBox.INTERACT)) {
+			txtBox = new TextBox(batch, shRen, font, "To go through doors:\n"
+					+ "Go up to a door and press ENTER\n"
+					+ "This can only be done once you have defeated all enemies in the room");
+			moveAllowed = false;
+			
+		//Doors
+		} else if(HitBox.player(player, 6*16, 27*16, 32, 16, HitBox.UP, HitBox.INTERACT)) player.translateY(36);
+		else if(HitBox.player(player, 6*16, 27*16, 32, 16, HitBox.DOWN, HitBox.INTERACT)) player.translateY(-36);
+		else if(HitBox.player(player, 34*16, 27*16, 32, 16, HitBox.UP, HitBox.INTERACT)) player.translateY(36);
+		else if(HitBox.player(player, 34*16, 27*16, 32, 16, HitBox.DOWN, HitBox.INTERACT)) player.translateY(-36);
+		else if(HitBox.player(player, 34*16, 13*16, 32, 16, HitBox.UP, HitBox.INTERACT)) player.translateY(36);
+		else if(HitBox.player(player, 34*16, 13*16, 32, 16, HitBox.DOWN, HitBox.INTERACT)) player.translateY(-36);
+		
+		else if(HitBox.player(player, 13*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
+		else if(HitBox.player(player, 13*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
+		else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
+		else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
+		else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
+		else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
+		else if(HitBox.player(player, 28*16, 20*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
+		else if(HitBox.player(player, 28*16, 20*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
+		
 	}
 
 	@Override

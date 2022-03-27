@@ -13,7 +13,7 @@ public class HitBox {
 	public static final int UP = 3;
 	public static final int DOWN = 4;
 	
-	public static final int INTERACT = 4;
+	public static final int INTERACT = 6;
 	public static final int COLLIDE = 2;
 	
 	public static boolean bullet(Bullet bullet, Enemy enemy) {
