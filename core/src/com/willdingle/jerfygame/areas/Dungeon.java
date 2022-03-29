@@ -44,6 +44,8 @@ public class Dungeon implements Screen {
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
 	private Enemy[] enemies;
+	private boolean[] roomUnlocked = {false,false,false,false,true,false,false,false};
+	private int curRoom;
 	
 	public Dungeon(final JerfyGame game, Player player) {
 		this.game = game;
@@ -60,17 +62,14 @@ public class Dungeon implements Screen {
 		
 		player.setPosition(7 * 16, 20 * 16);
 		this.player = player;
-		
-		enemies = new Enemy[3];
-		enemies[0] = new Enemy("johnz.png", mapLayer, 3, 35);
-		enemies[1] = new Enemy("robin.png", mapLayer, 9, 38);
-		enemies[2] = new Enemy("droopy.png", mapLayer, 20, 38);
+		curRoom = 4;
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
 		cam.position.x = (14 * 16)/2;
 		cam.position.y = (40 * 16)/2;
 		cam.update();
 		
+		enemies = new Enemy[0];
 		movingNPCs = new MovingNPC[0];
 		stillNPCs = new StillNPC[0];
 		moveAllowed = true;
@@ -95,15 +94,19 @@ public class Dungeon implements Screen {
 		renderer.setView(cam);
 		renderer.render();
 		
-		//Draw sprites and player control
+		//Draw sprites, check door and player control
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch(), enemies);
 		
+		boolean enemiesNull = true;
 		for(Enemy enemy : enemies) {
 			if(enemy != null) {
 				enemy.draw(renderer.getBatch(), healthFont);
+				enemiesNull = false;
 			}
-				
+		}
+		if(enemiesNull) {
+			roomUnlocked[curRoom] = true;
 		}
 		
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
@@ -138,23 +141,80 @@ public class Dungeon implements Screen {
 					+ "This can only be done once you have defeated all enemies in the room");
 			moveAllowed = false;
 			
-		//Doors
-		} else if(HitBox.player(player, 6*16, 27*16, 32, 16, HitBox.UP, HitBox.INTERACT)) player.translateY(36);
-		else if(HitBox.player(player, 6*16, 27*16, 32, 16, HitBox.DOWN, HitBox.INTERACT)) player.translateY(-36);
-		else if(HitBox.player(player, 34*16, 27*16, 32, 16, HitBox.UP, HitBox.INTERACT)) player.translateY(36);
-		else if(HitBox.player(player, 34*16, 27*16, 32, 16, HitBox.DOWN, HitBox.INTERACT)) player.translateY(-36);
-		else if(HitBox.player(player, 34*16, 13*16, 32, 16, HitBox.UP, HitBox.INTERACT)) player.translateY(36);
-		else if(HitBox.player(player, 34*16, 13*16, 32, 16, HitBox.DOWN, HitBox.INTERACT)) player.translateY(-36);
+		//Vertical-travelling doors (ordered left to right then down)
+		} else if(HitBox.player(player, 6*16, 27*16, 32, 16, HitBox.UP, HitBox.INTERACT) && roomUnlocked[4]) {
+			player.translateY(36);
+			initRoom(0);
+			curRoom = 0;
+		} else if(HitBox.player(player, 6*16, 27*16, 32, 16, HitBox.DOWN, HitBox.INTERACT) && roomUnlocked[0]) {
+			player.translateY(-36);
+			curRoom = 4;
+		} else if(HitBox.player(player, 34*16, 27*16, 32, 16, HitBox.UP, HitBox.INTERACT) && roomUnlocked[6]) {
+			player.translateY(36);
+			curRoom = 2;
+		} else if(HitBox.player(player, 34*16, 27*16, 32, 16, HitBox.DOWN, HitBox.INTERACT) && roomUnlocked[2]) {
+			player.translateY(-36);
+			curRoom = 6;
+		} else if(HitBox.player(player, 34*16, 13*16, 32, 16, HitBox.UP, HitBox.INTERACT) && roomUnlocked[7]) {
+			player.translateY(36);
+			curRoom = 6;
+		} else if(HitBox.player(player, 34*16, 13*16, 32, 16, HitBox.DOWN, HitBox.INTERACT) && roomUnlocked[6]) {
+			player.translateY(-36);
+			curRoom = 7;
+		}
 		
-		else if(HitBox.player(player, 13*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
-		else if(HitBox.player(player, 13*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
-		else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
-		else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
-		else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
-		else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
-		else if(HitBox.player(player, 28*16, 20*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT)) player.translateX(36);
-		else if(HitBox.player(player, 28*16, 20*16, 16, 32, HitBox.LEFT, HitBox.INTERACT)) player.translateX(-36);
+		//Horizontal-travelling doors (ordered left to right then down)
+		else if(HitBox.player(player, 13*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT) && roomUnlocked[0]) {
+			player.translateX(36);
+			initRoom(1);
+			curRoom = 1;
+		} else if(HitBox.player(player, 13*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT) && roomUnlocked[1]) {
+			player.translateX(-36);
+			curRoom = 0;
+		} else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT) && roomUnlocked[1]) {
+			player.translateX(36);
+			curRoom = 2;
+		} else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT) && roomUnlocked[2]) {
+			player.translateX(-36);
+			curRoom = 1;
+		} else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT) && roomUnlocked[2]) {
+			player.translateX(36);
+			curRoom = 3;
+		} else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT) && roomUnlocked[3]) {
+			player.translateX(-36);
+			curRoom = 2;
+		} else if(HitBox.player(player, 28*16, 20*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT) && roomUnlocked[5]) {
+			player.translateX(36);
+			curRoom = 6;
+		} else if(HitBox.player(player, 28*16, 20*16, 16, 32, HitBox.LEFT, HitBox.INTERACT) && roomUnlocked[6]) {
+			player.translateX(-36);
+			curRoom = 5;
+		}
 		
+	}
+	
+	private void initRoom(int num) {
+		curRoom = num;
+		
+		switch(num) {
+		case 0:
+			enemies = new Enemy[1];
+			enemies[0] = new Enemy("johnz.png", mapLayer, 3, 35);
+			break;
+			
+		case 1:
+			enemies = new Enemy[2];
+			enemies[0] = new Enemy("johnz.png", mapLayer, 3, 35);
+			enemies[1] = new Enemy("robin.png", mapLayer, 9, 38);
+			break;
+			
+		case 2:
+			enemies = new Enemy[3];
+			enemies[0] = new Enemy("droopy.png", mapLayer, 20, 38);
+			enemies[1] = new Enemy("johnz.png", mapLayer, 3, 35);
+			enemies[2] = new Enemy("robin.png", mapLayer, 9, 38);
+			break;
+		}
 	}
 
 	@Override
