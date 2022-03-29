@@ -173,6 +173,7 @@ public class Dungeon implements Screen {
 			curRoom = 0;
 		} else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT) && roomUnlocked[1]) {
 			player.translateX(36);
+			initRoom(2);
 			curRoom = 2;
 		} else if(HitBox.player(player, 27*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT) && roomUnlocked[2]) {
 			player.translateX(-36);
@@ -204,15 +205,15 @@ public class Dungeon implements Screen {
 			
 		case 1:
 			enemies = new Enemy[2];
-			enemies[0] = new Enemy("johnz.png", mapLayer, 3, 35);
-			enemies[1] = new Enemy("robin.png", mapLayer, 9, 38);
+			enemies[0] = new Enemy("johnz.png", mapLayer, 17, 35);
+			enemies[1] = new Enemy("robin.png", mapLayer, 23, 38);
 			break;
 			
 		case 2:
 			enemies = new Enemy[3];
-			enemies[0] = new Enemy("droopy.png", mapLayer, 20, 38);
-			enemies[1] = new Enemy("johnz.png", mapLayer, 3, 35);
-			enemies[2] = new Enemy("robin.png", mapLayer, 9, 38);
+			enemies[0] = new Enemy("droopy.png", mapLayer, 48, 38);
+			enemies[1] = new Enemy("johnz.png", mapLayer, 41, 35);
+			enemies[2] = new Enemy("robin.png", mapLayer, 37, 38);
 			break;
 		}
 	}
