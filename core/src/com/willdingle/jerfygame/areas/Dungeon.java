@@ -101,7 +101,7 @@ public class Dungeon implements Screen {
 		boolean enemiesNull = true;
 		for(Enemy enemy : enemies) {
 			if(enemy != null) {
-				enemy.draw(renderer.getBatch(), healthFont);
+				enemy.draw(renderer.getBatch(), healthFont, player);
 				enemiesNull = false;
 			}
 		}
@@ -211,8 +211,8 @@ public class Dungeon implements Screen {
 			
 		case 2:
 			enemies = new Enemy[3];
-			enemies[0] = new Enemy("droopy.png", mapLayer, 48, 38);
-			enemies[1] = new Enemy("johnz.png", mapLayer, 41, 35);
+			enemies[0] = new Enemy("droopy.png", mapLayer, 40, 38);
+			enemies[1] = new Enemy("johnz.png", mapLayer, 31, 35);
 			enemies[2] = new Enemy("robin.png", mapLayer, 37, 38);
 			break;
 		}

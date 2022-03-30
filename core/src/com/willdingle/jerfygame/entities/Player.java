@@ -304,7 +304,7 @@ public class Player extends Sprite {
 			}
 		}
 	
-	public boolean tileCollide(int xdir, int ydir) {
+	private boolean tileCollide(int xdir, int ydir) {
 		float tileW = colLayer.getTileWidth(), tileH = colLayer.getTileHeight();
 		boolean colX = false, colY = false;
 		
