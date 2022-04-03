@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.willdingle.jerfygame.HitBox;
 
 public class Enemy extends Sprite {
 	private float health;
@@ -31,10 +32,18 @@ public class Enemy extends Sprite {
 			float oldX = getX();
 			translateX(-30 * Gdx.graphics.getDeltaTime());
 			if(tileCollide(-1, 0)) setX(oldX);
+			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
+				setX(oldX);
+				if(player.getInvinc() <= 0) player.hit();
+			}
 		} else if(enx < plx - 1) {
 			float oldX = getX();
 			translateX(30 * Gdx.graphics.getDeltaTime());
 			if(tileCollide(1, 0)) setX(oldX);
+			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
+				setX(oldX);
+				if(player.getInvinc() <= 0) player.hit();
+			}
 		}
 		
 		//move up or down
@@ -42,10 +51,18 @@ public class Enemy extends Sprite {
 			float oldY = getY();
 			translateY(30 * Gdx.graphics.getDeltaTime());
 			if(tileCollide(-1, 0)) setY(oldY);
+			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
+				setY(oldY);
+				if(player.getInvinc() <= 0) player.hit();
+			}
 		} else if(eny > ply + 1) {
 			float oldY = getY();
 			translateY(-30 * Gdx.graphics.getDeltaTime());
 			if(tileCollide(-1, 0)) setY(oldY);
+			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.UP, HitBox.COLLIDE)) {
+				setY(oldY);
+				if(player.getInvinc() <= 0) player.hit();
+			}
 		}
 	}
 	

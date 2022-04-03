@@ -112,7 +112,7 @@ public class House implements Screen {
 		//Draw sprites and player control
 		renderer.getBatch().begin();
 		player.draw(renderer.getBatch());
-		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs);
+		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs, null);
 		
 		npc.draw(renderer.getBatch());
 		

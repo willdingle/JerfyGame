@@ -15,6 +15,7 @@ public class HitBox {
 	
 	public static final int INTERACT = 6;
 	public static final int COLLIDE = 2;
+	public static final int TEST = 0;
 	
 	public static boolean bullet(Bullet bullet, Enemy enemy) {
 		float enx = enemy.getX();

@@ -28,6 +28,7 @@ public class Player extends Sprite {
 	private int meleeRange;
 	
 	private int health;
+	private float invinc;
 	
 	//Inventory format: [item name, stat (defence or attack number)]
 	public String[][] inv;
@@ -36,7 +37,7 @@ public class Player extends Sprite {
 	public Bullet[] bullets;
 	public Sword sword;
 
-	public Player(TiledMapTileLayer colLayer, float x, float y, String[] inv) {
+	public Player(TiledMapTileLayer colLayer, float x, float y, String[][] inv) {
 		super(new Sprite(new Texture("jerfy/down.png")));
 		this.colLayer = colLayer;
 		setX(x * colLayer.getTileWidth());
@@ -56,18 +57,8 @@ public class Player extends Sprite {
 		
 		meleeRange = 16;
 				
-		if(inv != null) {
-			this.inv = new String[inv.length / 2][2];
-			int itemStatIndex = 0;
-			for(int n = 0; n < (inv.length / 2); n++) {
-				this.inv[n][0] = inv[itemStatIndex];
-				this.inv[n][1] = inv[itemStatIndex + 1];
-				itemStatIndex += 2;
-			}
-			
-		} else {
-			this.inv = new String[0][0];
-		}
+		if(inv != null) this.inv = inv;
+		else this.inv = new String[0][0];
 		
 		setMoney(0);
 		setHealth(3);
@@ -96,7 +87,14 @@ public class Player extends Sprite {
 			sword.setTimer(sword.getTimer() - Gdx.graphics.getDeltaTime());
 			if(sword.getTimer() < 0) sword = null;
 		}
+		if(getInvinc() > 0) setInvinc(getInvinc() - Gdx.graphics.getDeltaTime());
 		super.draw(batch);
+	}
+	
+	public void hit() {
+		System.out.println("HIT");
+		setHealth(getHealth() - 1);
+		setInvinc(2);
 	}
 	
 	public void addToInventory(String item, String stat) {
@@ -134,7 +132,7 @@ public class Player extends Sprite {
 		sword = new Sword(dir);
 	}
 	
-	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[]) {
+	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[], Enemy[] enemies) {
 		if(equippedWeapon != -1) {
 			String equippedWeaponStr = inv[equippedWeapon][0];
 			switch(equippedWeaponStr) {
@@ -180,6 +178,18 @@ public class Player extends Sprite {
 					}
 				}
 			}
+			if(! spriteCol && enemies != null) {
+				if(enemies.length > 0) {
+					for(int n = 0; n < enemies.length; n++) {
+						if(enemies[n] != null) {
+							if(HitBox.player(this, enemies[n].getX(), enemies[n].getY(), enemies[n].getWidth(), enemies[n].getHeight(), HitBox.UP, HitBox.COLLIDE)) {
+								spriteCol = true;
+								break;
+							}
+						}
+					}
+				}
+			}
 			
 			if (tileCollide(0, 1) || spriteCol || getY() + getHeight() >= colLayer.getHeight() * colLayer.getTileHeight() - 1) {
 				setY(oldY);
@@ -206,6 +216,18 @@ public class Player extends Sprite {
 					if(HitBox.player(this, n.getX(), n.getY(), n.getWidth(), n.getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
 						spriteCol = true;
 						break;
+					}
+				}
+			}
+			if(! spriteCol && enemies != null) {
+				if(enemies.length > 0) {
+					for(int n = 0; n < enemies.length; n++) {
+						if(enemies[n] != null) {
+							if(HitBox.player(this, enemies[n].getX(), enemies[n].getY(), enemies[n].getWidth(), enemies[n].getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
+								spriteCol = true;
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -238,6 +260,18 @@ public class Player extends Sprite {
 					}
 				}
 			}
+			if(! spriteCol && enemies != null) {
+				if(enemies.length > 0) {
+					for(int n = 0; n < enemies.length; n++) {
+						if(enemies[n] != null) {
+							if(HitBox.player(this, enemies[n].getX(), enemies[n].getY(), enemies[n].getWidth(), enemies[n].getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
+								spriteCol = true;
+								break;
+							}
+						}
+					}
+				}
+			}
 			
 			if (tileCollide(-1, 0) || spriteCol) {
 				setX(oldX);
@@ -267,6 +301,18 @@ public class Player extends Sprite {
 					}
 				}
 			}
+			if(! spriteCol && enemies != null) {
+				if(enemies.length > 0) {
+					for(int n = 0; n < enemies.length; n++) {
+						if(enemies[n] != null) {
+							if(HitBox.player(this, enemies[n].getX(), enemies[n].getY(), enemies[n].getWidth(), enemies[n].getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
+								spriteCol = true;
+								break;
+							}
+						}
+					}
+				}
+			}
 			
 			if (tileCollide(1, 0) || spriteCol || getX() + getWidth() >= (colLayer.getWidth() * colLayer.getTileWidth()) - 1) {
 				setX(oldX);
@@ -277,32 +323,31 @@ public class Player extends Sprite {
 	}
 	
 	public void animate(String dir) {
-			
-			if (elTimeF > 0.25) {
-				elTime = 0;
-				elTimeF = 0;
-			} else if (elTimeF > 0.125) {
-				elTime = 1;
-			} else {
-				elTime = 0;
-			}
-			elTimeF += Gdx.graphics.getDeltaTime();
-			
-			switch (dir) {
-			case "w":
-				setTexture(upWalk[elTime]);
-				break;
-			case "s":
-				setTexture(downWalk[elTime]);
-				break;
-			case "a":
-				setTexture(leftWalk[elTime]);
-				break;
-			case "d":
-				setTexture(rightWalk[elTime]);
-				break;
-			}
+		if (elTimeF > 0.25) {
+			elTime = 0;
+			elTimeF = 0;
+		} else if (elTimeF > 0.125) {
+			elTime = 1;
+		} else {
+			elTime = 0;
 		}
+		elTimeF += Gdx.graphics.getDeltaTime();
+
+		switch (dir) {
+		case "w":
+			setTexture(upWalk[elTime]);
+			break;
+		case "s":
+			setTexture(downWalk[elTime]);
+			break;
+		case "a":
+			setTexture(leftWalk[elTime]);
+			break;
+		case "d":
+			setTexture(rightWalk[elTime]);
+			break;
+		}
+	}
 	
 	private boolean tileCollide(int xdir, int ydir) {
 		float tileW = colLayer.getTileWidth(), tileH = colLayer.getTileHeight();
@@ -404,5 +449,13 @@ public class Player extends Sprite {
 
 	public void setDir(char dir) {
 		this.dir = dir;
+	}
+
+	public float getInvinc() {
+		return invinc;
+	}
+
+	public void setInvinc(float invinc) {
+		this.invinc = invinc;
 	}
 }

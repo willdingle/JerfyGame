@@ -143,9 +143,18 @@ public class MainMenu implements Screen {
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 				
-				String[] inv = null;
+				
+				String[][] inv = null;
 				if(fileContents[4] != null) {
-					inv = Save.loadInv(fileContents[4]);
+					String[] tempInv = Save.loadInv(fileContents[4]);
+					
+					inv = new String[tempInv.length / 2][2];
+					int itemStatIndex = 0;
+					for(int n = 0; n < inv.length; n++) {
+						inv[n][0] = tempInv[itemStatIndex];
+						inv[n][1] = tempInv[itemStatIndex + 1];
+						itemStatIndex += 2;
+					}
 				}
 				
 				dispose();
@@ -170,9 +179,17 @@ public class MainMenu implements Screen {
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 				
-				String[] inv = null;
+				String[][] inv = null;
 				if(fileContents[4] != null) {
-					inv = Save.loadInv(fileContents[4]);
+					String[] tempInv = Save.loadInv(fileContents[4]);
+					
+					inv = new String[tempInv.length / 2][2];
+					int itemStatIndex = 0;
+					for(int n = 0; n < inv.length; n++) {
+						inv[n][0] = tempInv[itemStatIndex];
+						inv[n][1] = tempInv[itemStatIndex + 1];
+						itemStatIndex += 2;
+					}
 				}
 				
 				dispose();
@@ -197,9 +214,17 @@ public class MainMenu implements Screen {
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 
-				String[] inv = null;
+				String[][] inv = null;
 				if(fileContents[4] != null) {
-					inv = Save.loadInv(fileContents[4]);
+					String[] tempInv = Save.loadInv(fileContents[4]);
+					
+					inv = new String[tempInv.length / 2][2];
+					int itemStatIndex = 0;
+					for(int n = 0; n < inv.length; n++) {
+						inv[n][0] = tempInv[itemStatIndex];
+						inv[n][1] = tempInv[itemStatIndex + 1];
+						itemStatIndex += 2;
+					}
 				}
 				
 				dispose();
