@@ -12,6 +12,7 @@ public class HitBox {
 	public static final int RIGHT = 2;
 	public static final int UP = 3;
 	public static final int DOWN = 4;
+	public static final int UPDOWN = 5;
 	
 	public static final int INTERACT = 6;
 	public static final int COLLIDE = 2;
@@ -62,6 +63,10 @@ public class HitBox {
 			up = true;
 			break;
 		case 4:
+			down = true;
+			break;
+		case 5:
+			up = true;
 			down = true;
 			break;
 		}

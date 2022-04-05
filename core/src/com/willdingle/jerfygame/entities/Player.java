@@ -92,7 +92,6 @@ public class Player extends Sprite {
 	}
 	
 	public void hit() {
-		System.out.println("HIT");
 		setHealth(getHealth() - 1);
 		setInvinc(2);
 	}

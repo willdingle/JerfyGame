@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.7.2" name="tileset" tilewidth="16" tileheight="16" tilecount="21" columns="3">
+<tileset version="1.5" tiledversion="1.7.0" name="tileset" tilewidth="16" tileheight="16" tilecount="21" columns="3">
  <image source="tiles.png" width="48" height="112"/>
  <tile id="0"/>
  <tile id="1"/>
@@ -81,5 +81,9 @@
    <property name="blocked" value="blocked"/>
   </properties>
  </tile>
- <tile id="20"/>
+ <tile id="20">
+  <properties>
+   <property name="blocked" value="blocked"/>
+  </properties>
+ </tile>
 </tileset>

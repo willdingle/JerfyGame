@@ -233,7 +233,7 @@ public class House implements Screen {
 						buttons[1] = new Button(420, 100, 300, 100, font, "No");
 						break;
 					case 1:
-						game.setScreen(new Dungeon(game, player));
+						game.setScreen(new Dungeon(game, player, 1));
 						moveAllowed = true;
 						txtBox = null;
 						break;

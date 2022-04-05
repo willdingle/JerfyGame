@@ -123,7 +123,7 @@ public class TownTown implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)) interact();
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen(), player));
-		if(Gdx.input.isKeyJustPressed(Keys.H)) game.setScreen(new Dungeon(game, player));
+		if(Gdx.input.isKeyJustPressed(Keys.H)) game.setScreen(new Dungeon(game, player, 1));
 		
 		//Pick up items
 		if(coins.length > 0) {
