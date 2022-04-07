@@ -1,5 +1,7 @@
 package com.willdingle.jerfygame.areas;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
@@ -22,6 +24,7 @@ import com.willdingle.jerfygame.entities.Enemy;
 import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
+import com.willdingle.jerfygame.files.Save;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
@@ -38,6 +41,7 @@ public class Dungeon implements Screen {
 	private ShapeRenderer shRen;
 	private BitmapFont font, healthFont;
 	private SpriteBatch batch;
+	private Sprite gem;
 	private boolean moveAllowed;
 	private boolean showNeeded;
 	private float plx, ply;
@@ -63,10 +67,14 @@ public class Dungeon implements Screen {
 		
 		switch(dungeonNum) {
 		case 1:
-			player.setPosition(7 * 16, 20 * 16);
+			player.setPosition(7*16, 20*16);
+			if(player.inv.length < 3) {
+				gem = new Sprite(new Texture("gem 1.png"));
+				gem.setPosition(39*16, 2*16);
+			}
 			break;
 		case 2:
-			player.setPosition(34 * 16, 21 * 16);
+			player.setPosition(34*16, 21*16);
 			roomUnlocked = new boolean[9];
 			for(int n = 0; n < roomUnlocked.length; n++) {
 				roomUnlocked[n] = false;
@@ -74,6 +82,10 @@ public class Dungeon implements Screen {
 			roomUnlocked[4] = true;
 			roomUnlocked[6] = true;
 			roomUnlocked[7] = true;
+			if(player.inv.length < 4) {
+				gem = new Sprite(new Texture("gem 2.png"));
+				gem.setPosition(2*16, 2*16);
+			}
 			break;
 		}
 		
@@ -125,6 +137,15 @@ public class Dungeon implements Screen {
 		if(enemiesNull) {
 			roomUnlocked[curRoom] = true;
 			enemies = new Enemy[0];
+		}
+		
+		if(gem != null) {
+			gem.draw(renderer.getBatch());
+			if(HitBox.player(player, gem.getX(), gem.getY(), gem.getWidth(), gem.getHeight(), HitBox.ALL, HitBox.COLLIDE)) {
+				player.addToInventory("gem " + dungeonNum, Integer.toString(dungeonNum));
+				Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
+				gem = null;
+			}
 		}
 		
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs, enemies);
@@ -229,6 +250,10 @@ public class Dungeon implements Screen {
 		} else if(HitBox.player(player, 14*16, (55-49)*16, 16, 32, HitBox.LEFT, HitBox.INTERACT) && roomUnlocked[8]) {
 			player.translateX(-36);
 			curRoom = 7;
+			
+		//Trapdoor
+		} else if(HitBox.player(player, 2*16, (55-44)*16, 16, 16, HitBox.ALL, HitBox.INTERACT) && player.inv.length == 4) {
+			game.setScreen(new TownTown(game, 22, 19-12, player.inv));
 		}
 		
 	}
@@ -353,7 +378,7 @@ public class Dungeon implements Screen {
 		}
 		
 		//Trapdoor
-		else if(HitBox.player(player, 31*16, (42-31)*16, 16, 16, HitBox.ALL, HitBox.INTERACT)) {
+		else if(HitBox.player(player, 31*16, (42-31)*16, 16, 16, HitBox.ALL, HitBox.INTERACT) && player.inv.length == 3) {
 			game.setScreen(new Dungeon(game, player, 2));
 		}
 		

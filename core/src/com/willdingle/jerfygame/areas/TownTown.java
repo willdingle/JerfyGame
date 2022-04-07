@@ -201,6 +201,17 @@ public class TownTown implements Screen {
 			showNeeded = true;
 			StillNPC buggoStill = new StillNPC("buggo/0.png", mapLayer, 10, 10);
 			game.setScreen(new House("BuggoHouse.tmx", game, this, player, cam, buggoStill, txtBox, shRen, batch, font));
+			
+		//End door
+		} else if(HitBox.player(player, 21*16, 17*16, 32, 48, HitBox.ALL, HitBox.INTERACT)) {
+			if(player.inv.length == 4) {
+				plx = player.getX();
+				ply = player.getY();
+				showNeeded = true;
+				game.setScreen(new EndArea(game, player, this));
+			} else {
+				txtBox = new TextBox(batch, shRen, font, "*You do not have the required gems to open this door!*");
+			}
 		}
 	}
 	
@@ -211,13 +222,11 @@ public class TownTown implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 
 	}
 
