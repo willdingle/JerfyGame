@@ -25,10 +25,6 @@ public class MainMenu implements Screen {
 	private ShapeRenderer shRen;
 	private File file;
 	
-	private boolean save1;
-	private boolean save2;
-	private boolean save3;
-	
 	private Button save1but, save2but, save3but, optionsBut, exitBut, helpBut;
 	private Button[] buttons;
 	private float titleX, titleY;
@@ -51,29 +47,26 @@ public class MainMenu implements Screen {
 		
 		//Checks if saves exist and gets names of saves
 		String box1txt, box2txt, box3txt;
-		save1 = false;
 		box1txt = "EMPTY SLOT";
-		save2 = false;
 		box2txt = "EMPTY SLOT";
-		save3 = false;
 		box3txt = "EMPTY SLOT";
 		file = new File(System.getenv("appdata") + "/Jerfy/save1");
 		if(file.isFile()) {
-			save1 = true;
+			game.saves[0] = true;
 			String fileContents[] = Save.load(file);
 			box1txt = fileContents[0];
 			fileContents = null;
 		}
 		file = new File(System.getenv("appdata") + "/Jerfy/save2");
 		if(file.isFile()) {
-			save2 = true;
+			game.saves[1] = true;
 			String fileContents[] = Save.load(file);
 			box2txt = fileContents[0];
 			fileContents = null;
 		}
 		file = new File(System.getenv("appdata") + "/Jerfy/save3");
 		if(file.isFile()) {
-			save3 = true;
+			game.saves[2] = true;
 			String fileContents[] = Save.load(file);
 			box3txt = fileContents[0];
 			fileContents = null;
@@ -131,7 +124,7 @@ public class MainMenu implements Screen {
 	private void interact() {
 		if(save1but.pressed()) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save1");
-			if(! save1) {
+			if(! game.saves[0]) {
 				String name = "Save 1";
 				Save.create(file, name);
 				game.fileName = "save1";
@@ -166,7 +159,7 @@ public class MainMenu implements Screen {
 			
 		} else if (save2but.pressed()) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save2");
-			if(! save2) {
+			if(! game.saves[1]) {
 				String name = "Save 2";
 				Save.create(file, name);
 				game.fileName = "save2";
@@ -201,7 +194,7 @@ public class MainMenu implements Screen {
 			
 		} else if (save3but.pressed()) {
 			file = new File(System.getenv("appdata") + "/Jerfy/save3");
-			if(! save3) {
+			if(! game.saves[2]) {
 				String name = "Save 3";
 				Save.create(file, name);
 				game.fileName = "save3";
@@ -234,7 +227,7 @@ public class MainMenu implements Screen {
 				}
 			}
 		}
-		else if (optionsBut.pressed()) game.setScreen(new OptionsMenu(game, game.getScreen()));
+		else if (optionsBut.pressed()) game.setScreen(new OptionsMenu(game, game.getScreen(), true));
 		else if (exitBut.pressed()) System.exit(0);
 		else if (helpBut.pressed()) game.setScreen(new HelpMenu(game, game.getScreen()));
 	}

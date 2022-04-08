@@ -16,6 +16,7 @@ public class OptionsMenu implements Screen {
 	
 	final JerfyGame game;
 	private Screen prevScreen;
+	private boolean mainMenu;
 	private SpriteBatch batch;
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
@@ -23,7 +24,7 @@ public class OptionsMenu implements Screen {
 	private Button[] buttons;
 	private float titleX, titleY;
 
-	public OptionsMenu (final JerfyGame game, Screen prevScreen) {
+	public OptionsMenu (final JerfyGame game, Screen prevScreen, boolean mainMenu) {
 		this.game = game;
 		batch = new SpriteBatch();
 		game.parameter.size = 120;
@@ -32,6 +33,7 @@ public class OptionsMenu implements Screen {
 		font = game.generator.generateFont(game.parameter);
 		shRen = new ShapeRenderer();
 		this.prevScreen = prevScreen;
+		this.mainMenu = mainMenu;
 		
 		//Positions title text
 		GlyphLayout layout = new GlyphLayout();
@@ -40,17 +42,13 @@ public class OptionsMenu implements Screen {
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
 		
 		//Creates buttons
-		buttons = new Button[5];
-		videoBut = new Button(300, 600, 500, 300, font, "Video");
+		buttons = new Button[3];
+		videoBut = new Button(300, 425, 500, 300, font, "Video");
 		buttons[0] = videoBut;
-		controlsBut = new Button(1120, 600, 500, 300, font, "Controls");
-		buttons[1] = controlsBut;
-		soundBut = new Button(300, 250, 500, 300, font, "Sound");
-		buttons[2] = soundBut;
-		saveBut = new Button(1120, 250, 500, 300, font, "Save Mgmt");
-		buttons[3] = saveBut;
+		saveBut = new Button(1120, 425, 500, 300, font, "Save Mgmt");
+		buttons[1] = saveBut;
 		backBut = new Button(710, 100, 500, 100, font, "Back");
-		buttons[4] = backBut;
+		buttons[2] = backBut;
 	}
 	
 	@Override
@@ -59,7 +57,7 @@ public class OptionsMenu implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(178/255f, 0, 1, 0);
+		ScreenUtils.clear(0, 128/255f, 0, 1);
 		
 		//Menu buttons
 		batch.begin();
@@ -85,9 +83,11 @@ public class OptionsMenu implements Screen {
 	
 	private void interact() {
 		if(videoBut.pressed()) game.setScreen(new VideoOptions(game, game.getScreen()));
-		if(backBut.pressed()) {
+		else if(saveBut.pressed()) game.setScreen(new SaveOptions(game, game.getScreen()));
+		else if(backBut.pressed()) {
 			dispose();
-			game.setScreen(prevScreen);
+			if(mainMenu) game.setScreen(new MainMenu(game));
+			else game.setScreen(prevScreen);
 		}
 	}
 

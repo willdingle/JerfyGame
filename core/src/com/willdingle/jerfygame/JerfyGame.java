@@ -17,6 +17,7 @@ public class JerfyGame extends Game {
 	public FreeTypeFontParameter parameter;
 	public HUD hud;
 	public String fileName;
+	public boolean[] saves = {false,false,false};
 	
 	@Override
 	public void create () {

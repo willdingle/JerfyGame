@@ -60,7 +60,7 @@ public class Save {
 		}
 	}
 	
-	public static void write(File file, String fileName, String mode, Player player) {
+	public static void write(File file, String mode, Player player) {
 		String fileContents[] = new String[5];
 		fileContents = load(file);
 		
@@ -93,5 +93,11 @@ public class Save {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void delete(String fileName) {
+		File file = new File(System.getenv("appdata") + "/Jerfy/" + fileName);
+		file.delete();
+		file = null;
 	}
 }

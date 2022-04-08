@@ -178,7 +178,7 @@ public class House implements Screen {
 					case 2:
 						player.addToInventory("gun", "1");
 						player.setRangedAllowed(true);
-						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
+						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 						txtIndex += 1;
 						txtBox = new TextBox(batch, shRen, font, Dialogue.donker(txtIndex));
 						break;
@@ -204,7 +204,7 @@ public class House implements Screen {
 					case 4:
 						player.addToInventory("sword", "1.5");
 						player.setMeleeAllowed(true);
-						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
+						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 						txtIndex += 1;
 						txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
 						break;

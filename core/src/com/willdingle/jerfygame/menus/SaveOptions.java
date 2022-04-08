@@ -3,7 +3,6 @@ package com.willdingle.jerfygame.menus;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -12,20 +11,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.willdingle.jerfygame.JerfyGame;
-import com.willdingle.jerfygame.files.Settings;
+import com.willdingle.jerfygame.files.Save;
 
-public class VideoOptions implements Screen {
+public class SaveOptions implements Screen {
 	final JerfyGame game;
 	private Screen prevScreen;
 	private SpriteBatch batch;
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
-	private Button backBut, fullscreenBut, vsyncBut;
+	private Button backBut, del1, del2, del3;
 	private Button[] buttons;
 	private float titleX, titleY;
-	private boolean vSync;
-	
-	public VideoOptions(JerfyGame game, Screen prevScreen) {
+
+	public SaveOptions(JerfyGame game, Screen prevScreen) {
 		this.game = game;
 		batch = new SpriteBatch();
 		game.parameter.size = 120;
@@ -34,34 +32,47 @@ public class VideoOptions implements Screen {
 		font = game.generator.generateFont(game.parameter);
 		shRen = new ShapeRenderer();
 		this.prevScreen = prevScreen;
-		
-		vSync = Boolean.parseBoolean(Settings.getOption("vsync"));
-		
+
 		//Positions title text
 		GlyphLayout layout = new GlyphLayout();
-		layout.setText(titleFont, "VIDEO OPTIONS");
+		layout.setText(titleFont, "SAVE MANAGEMENT");
 		titleX = Gdx.graphics.getWidth()/2 - layout.width/2;
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
-		
+
 		//Creates buttons
-		buttons = new Button[2];
+		int butAmount = 1;
+		for(int n = 0; n < 3; n++) {
+			if(game.saves[n]) butAmount += 1;
+		}
+		buttons = new Button[butAmount];
 		backBut = new Button(710, 100, 500, 100, font, "Back");
 		buttons[0] = backBut;
-		if(vSync) vsyncBut = new Button(1280, 680, 100, 100, font, "X");
-		else vsyncBut = new Button(1280, 680, 100, 100, font, "");
-		buttons[1] = vsyncBut;
 		
+		int butIndex = 1;
+		if(game.saves[0]) {
+			del1 = new Button(100, 425, 500, 300, font, "Delete 1");
+			buttons[butIndex] = del1;
+			butIndex += 1;
+		}
+		if(game.saves[1]) {
+			del2 = new Button(700, 425, 500, 300, font, "Delete 2");
+			buttons[butIndex] = del2;
+			butIndex += 1;
+		}
+		if(game.saves[2]) {
+			del3 = new Button(1300, 425, 500, 300, font, "Delete 3");
+			buttons[butIndex] = del3;
+		}
 	}
 
 	@Override
 	public void show() {
-		
 	}
 
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(0, 128/255f, 0, 1);
-		
+
 		//Menu buttons
 		batch.begin();
 		shRen.begin(ShapeType.Filled);
@@ -71,69 +82,54 @@ public class VideoOptions implements Screen {
 		}
 		shRen.end();
 		batch.end();
-		
+
 		//Draw text
 		batch.begin();
-		titleFont.draw(batch, "VIDEO OPTIONS", titleX, titleY);
-		font.draw(batch, "VSync:", 400, 755);
+		titleFont.draw(batch, "SAVE MANAGEMENT", titleX, titleY);
 		for(Button button : buttons) {
 			button.drawText(batch, font);
 		}
 		batch.end();
-		
+
 		//Input
 		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) interact();
-		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(prevScreen);
-		
 	}
 	
 	private void interact() {
 		if(backBut.pressed()) game.setScreen(prevScreen);
-		
-		else if(vsyncBut.pressed()) {
-			if(vSync) {
-				Gdx.graphics.setVSync(false);
-				vSync = false;
-				Settings.setVsync(false);
-				vsyncBut = new Button(1280, 680, 100, 100, font, "");
-			} else {
-				Gdx.graphics.setVSync(true);
-				vSync = true;
-				Settings.setVsync(true);
-				vsyncBut = new Button(1280, 680, 100, 100, font, "X");
-			}
-			buttons[1] = vsyncBut;
+		if(del1 != null) if(del1.pressed()) {
+			Save.delete("save1");
+			game.saves[0] = false;
+			game.setScreen(new SaveOptions(game, prevScreen));
+		} if(del2 != null) if(del2.pressed()) {
+			Save.delete("save2");
+			game.saves[1] = false;
+			game.setScreen(new SaveOptions(game, prevScreen));
+		} if(del3 != null) if(del3.pressed()) {
+			Save.delete("save3");
+			game.saves[2] = false;
+			game.setScreen(new SaveOptions(game, prevScreen));
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

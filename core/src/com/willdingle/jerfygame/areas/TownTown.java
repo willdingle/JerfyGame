@@ -49,7 +49,7 @@ public class TownTown implements Screen {
 		mapLayer = (TiledMapTileLayer) map.getLayers().get(0);
 		renderer = new OrthogonalTiledMapRenderer(map);
 		
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
+		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
 		cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();

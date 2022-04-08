@@ -143,7 +143,7 @@ public class Dungeon implements Screen {
 			gem.draw(renderer.getBatch());
 			if(HitBox.player(player, gem.getX(), gem.getY(), gem.getWidth(), gem.getHeight(), HitBox.ALL, HitBox.COLLIDE)) {
 				player.addToInventory("gem " + dungeonNum, Integer.toString(dungeonNum));
-				Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), game.fileName, "inv", player);
+				Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 				gem = null;
 			}
 		}

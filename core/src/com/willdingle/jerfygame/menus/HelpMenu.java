@@ -49,7 +49,7 @@ public class HelpMenu implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(178/255f, 0, 1, 0);
+		ScreenUtils.clear(230/255f, 126/255f, 0, 1);
 
 		//Menu buttons
 		batch.begin();
@@ -62,7 +62,7 @@ public class HelpMenu implements Screen {
 		//Draw text
 		batch.begin();
 		titleFont.draw(batch, "HELP", titleX, titleY);
-		font.draw(batch, "Move: WASD\n" + "Interact: ENTER\n" + "Attack: Arrows\n" + "Inventory: E", 40, 800);
+		font.draw(batch, "Move: WASD\n" + "Interact: ENTER\n" + "Attack: Arrows\n" + "Inventory: E\n" + "Pause: ESC\n" + "To equip something in your inventory: Click on it", 40, 800);
 		backBut.drawText(batch, font);
 		batch.end();
 		

@@ -19,7 +19,7 @@ public class PauseMenu implements Screen {
 	private SpriteBatch batch;
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
-	private Button resBut, exitBut, optionsBut;
+	private Button resBut, exitBut, optionsBut, helpBut, mainMenuBut;
 	private Button[] buttons;
 	private float titleX, titleY;
 	
@@ -41,13 +41,17 @@ public class PauseMenu implements Screen {
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
 		
 		//Creates buttons
-		buttons = new Button[3];
+		buttons = new Button[5];
 		resBut = new Button(Gdx.graphics.getWidth()/2 - 250, 800, 500, 100, font, "Resume");
 		buttons[0] = resBut;
 		optionsBut = new Button(Gdx.graphics.getWidth()/2 - 250, 680, 500, 100, font, "Options");
 		buttons[1] = optionsBut;
-		exitBut = new Button(Gdx.graphics.getWidth()/2 - 250, 560, 500, 100, font, "Exit");
+		exitBut = new Button(Gdx.graphics.getWidth()/2 - 250, 320, 500, 100, font, "Exit");
 		buttons[2] = exitBut;
+		helpBut = new Button(Gdx.graphics.getWidth()/2 - 250, 560, 500, 100, font, "Help");
+		buttons[3] = helpBut;
+		mainMenuBut = new Button(Gdx.graphics.getWidth()/2 - 250, 440, 500, 100, font, "Main Menu");
+		buttons[4] = mainMenuBut;
 		
 		
 	}
@@ -60,7 +64,7 @@ public class PauseMenu implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(178/255f, 0, 1, 0);
+		ScreenUtils.clear(0, 139/255f, 139/255f, 1);
 		
 		//Menu buttons
 		batch.begin();
@@ -90,8 +94,10 @@ public class PauseMenu implements Screen {
 			dispose();
 			game.setScreen(prevScreen);
 		}
-		else if(optionsBut.pressed()) game.setScreen(new OptionsMenu(game, game.getScreen()));
+		else if(optionsBut.pressed()) game.setScreen(new OptionsMenu(game, game.getScreen(), false));
 		else if(exitBut.pressed()) System.exit(0);
+		else if(helpBut.pressed()) game.setScreen(new HelpMenu(game, game.getScreen()));
+		else if(mainMenuBut.pressed()) game.setScreen(new MainMenu(game));
 	}
 
 	@Override
