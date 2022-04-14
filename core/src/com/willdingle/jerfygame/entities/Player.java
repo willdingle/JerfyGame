@@ -112,7 +112,7 @@ public class Player extends Sprite {
 	}
 	
 	public void rangedAttack(char dir) {
-		Bullet bullet = new Bullet(colLayer, getX(), getY(), getWidth(), getHeight(), dir);
+		Bullet bullet = new Bullet(colLayer, getX(), getY(), getWidth(), getHeight(), dir, inv[getGunIndex()][1]);
 
 		if (bullets.length == 0) {
 			bullets = new Bullet[1];
@@ -396,6 +396,17 @@ public class Player extends Sprite {
 	public boolean isTileBlocked(float x, float y) {
 		boolean col = colLayer.getCell((int) x, (int) y).getTile().getProperties().containsKey("blocked");
 		return col;
+	}
+	
+	public int getGunIndex() {
+		int index = -1;
+		for(int n = 0; n < inv.length; n++) {
+			if(inv[n][0].equals("gun")) {
+				index = n;
+				break;
+			}
+		}
+		return index;
 	}
 
 	public int getMoney() {

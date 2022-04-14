@@ -11,11 +11,13 @@ public class Bullet extends Sprite {
 	TiledMapTileLayer colLayer;
 	private char dir;
 	private int speed;
+	private float damage;
 	
-	public Bullet(TiledMapTileLayer colLayer, float plx, float ply, float plw, float plh, char dir) {
+	public Bullet(TiledMapTileLayer colLayer, float plx, float ply, float plw, float plh, char dir, String damage) {
 		super(new Sprite(new Texture("bullet.png")));
 		this.colLayer = colLayer;
 		this.dir = dir;
+		this.damage = Float.valueOf(damage);
 		speed = 150;
 		switch(dir) {
 		case 'l':
@@ -43,7 +45,7 @@ public class Bullet extends Sprite {
 			if(enemies[n] != null) {
 				col = HitBox.bullet(this, enemies[n]);
 				if(col) {
-					enemies[n].setHealth(enemies[n].getHealth() - 1);
+					enemies[n].setHealth(enemies[n].getHealth() - damage);
 					if(enemies[n].getHealth() <= 0) enemies[n] = null;
 					break;
 				}

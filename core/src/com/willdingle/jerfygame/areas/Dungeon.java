@@ -28,6 +28,7 @@ import com.willdingle.jerfygame.files.Save;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
+import com.willdingle.jerfygame.menus.Shop;
 
 public class Dungeon implements Screen {
 	final JerfyGame game;
@@ -362,12 +363,7 @@ public class Dungeon implements Screen {
 			if(! roomUnlocked[1]) initRoom(1);
 			curRoom = 1;
 		} else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT) && roomUnlocked[2]) {
-			player.translateX(36);
-			curRoom = 3;
-		} else if(HitBox.player(player, 41*16, 34*16, 16, 32, HitBox.LEFT, HitBox.INTERACT) && roomUnlocked[3]) {
-			player.translateX(-36);
-			if(! roomUnlocked[2]) initRoom(2);
-			curRoom = 2;
+			game.setScreen(new Shop(game, game.getScreen(), player));
 		} else if(HitBox.player(player, 28*16, 20*16, 16, 32, HitBox.RIGHT, HitBox.INTERACT) && roomUnlocked[5]) {
 			player.translateX(36);
 			if(! roomUnlocked[6]) initRoom(6);
