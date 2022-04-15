@@ -8,12 +8,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.willdingle.jerfygame.HitBox;
 import com.willdingle.jerfygame.entities.Player;
 
-public class DreamCoin extends Sprite {
+public class Coin extends Sprite {
 	private float elTimeF;
 	private int elTime;
 	private Texture[] ani;
 	
-	public DreamCoin(TiledMapTileLayer colLayer, int x, int y) {
+	public Coin(TiledMapTileLayer colLayer, int x, int y) {
 		super(new Sprite(new Texture("dream coin/0.png")));
 		setX(x * colLayer.getTileWidth());
 		setY(y * colLayer.getTileHeight());

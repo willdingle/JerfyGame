@@ -17,7 +17,7 @@ import com.willdingle.jerfygame.JerfyGame;
 import com.willdingle.jerfygame.TextBox;
 import com.willdingle.jerfygame.entities.*;
 import com.willdingle.jerfygame.items.Bullet;
-import com.willdingle.jerfygame.items.DreamCoin;
+import com.willdingle.jerfygame.items.Coin;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
 
@@ -36,10 +36,10 @@ public class TownTown implements Screen {
 	private boolean moveAllowed;
 	private boolean showNeeded;
 	private MovingNPC buggo;
-	private StillNPC chocm, paper, snugm, donker;
+	private StillNPC chocm, paper, donker;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
-	private DreamCoin[] coins;
+	private Coin[] coins;
 	private float plx, ply;
 
 	public TownTown(final JerfyGame game, float plx, float ply, String[][] inv) {
@@ -65,12 +65,12 @@ public class TownTown implements Screen {
 		donker = new StillNPC("donker.png", mapLayer, 16, 10);
 		stillNPCs[1] = donker;
 		
-		coins = new DreamCoin[5];
-		coins[0] = new DreamCoin(mapLayer, 5, 5);
-		coins[1] = new DreamCoin(mapLayer, 15, 15);
-		coins[2] = new DreamCoin(mapLayer, 5, 7);
-		coins[3] = new DreamCoin(mapLayer, 23, 10);
-		coins[4] = new DreamCoin(mapLayer, 22, 9);
+		coins = new Coin[5];
+		coins[0] = new Coin(mapLayer, 5, 5);
+		coins[1] = new Coin(mapLayer, 15, 15);
+		coins[2] = new Coin(mapLayer, 5, 7);
+		coins[3] = new Coin(mapLayer, 23, 10);
+		coins[4] = new Coin(mapLayer, 22, 9);
 		
 		game.parameter.size = 70;
 		font = game.generator.generateFont(game.parameter);
