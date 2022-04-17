@@ -24,7 +24,6 @@ public class InventoryMenu implements Screen {
 	private ShapeRenderer shRen;
 	private Button slot1, slot2, slot3, slot4, slot5;
 	private Button[] buttons;
-	private Sprite item1, item2, item3, item4, item5;
 	private Sprite[] items;
 	private Player player;
 	private float titleX, titleY;
@@ -62,7 +61,7 @@ public class InventoryMenu implements Screen {
 		items = new Sprite[player.inv.length];
 		for(int n = 0; n < player.inv.length; n++) {
 			items[n] = new Sprite(new Texture(player.inv[n][0] + ".png"));
-			if(player.inv[n][0].equals("sword")) items[n].setScale(9);
+			if(player.inv[n][0].equals("key")) items[n].setScale(9);
 			else items[n].setScale(10);
 			items[n].setPosition(250 + n*350, 535);
 		}

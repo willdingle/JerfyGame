@@ -35,7 +35,7 @@ public class HUD {
 	private void drawText(SpriteBatch batch, Player player) {
 		batch.begin();
 		font.draw(batch, Integer.toString(player.getMoney()), dreamCoin.getX() + dreamCoin.getWidth() + 30, Gdx.graphics.getHeight() - dreamCoin.getWidth() - 5);
-		font.draw(batch, Integer.toString(player.getHealth()), heart.getX() + heart.getWidth() + 25, Gdx.graphics.getHeight() - dreamCoin.getWidth() - heart.getWidth() - 50);
+		font.draw(batch, Float.toString(player.getHealth()), heart.getX() + heart.getWidth() + 25, Gdx.graphics.getHeight() - dreamCoin.getWidth() - heart.getWidth() - 50);
 		batch.end();
 	}
 }

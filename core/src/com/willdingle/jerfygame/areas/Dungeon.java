@@ -69,10 +69,8 @@ public class Dungeon implements Screen {
 		switch(dungeonNum) {
 		case 1:
 			player.setPosition(7*16, 20*16);
-			if(player.inv.length < 3) {
-				gem = new Sprite(new Texture("gem 1.png"));
-				gem.setPosition(39*16, 2*16);
-			}
+			gem = new Sprite(new Texture("gem 1.png"));
+			gem.setPosition(39*16, 2*16);
 			break;
 		case 2:
 			player.setPosition(34*16, 21*16);
@@ -83,10 +81,8 @@ public class Dungeon implements Screen {
 			roomUnlocked[4] = true;
 			roomUnlocked[6] = true;
 			roomUnlocked[7] = true;
-			if(player.inv.length < 4) {
-				gem = new Sprite(new Texture("gem 2.png"));
-				gem.setPosition(2*16, 2*16);
-			}
+			gem = new Sprite(new Texture("gem 2.png"));
+			gem.setPosition(2*16, 2*16);
 			break;
 		}
 		
@@ -253,7 +249,7 @@ public class Dungeon implements Screen {
 			curRoom = 7;
 			
 		//Trapdoor
-		} else if(HitBox.player(player, 2*16, (55-44)*16, 16, 16, HitBox.ALL, HitBox.INTERACT) && player.inv.length == 4) {
+		} else if(HitBox.player(player, 2*16, (55-44)*16, 16, 16, HitBox.ALL, HitBox.INTERACT) && player.inventoryContains("gem 2")) {
 			game.setScreen(new TownTown(game, 22, 19-12, player.inv));
 		}
 		
@@ -374,7 +370,7 @@ public class Dungeon implements Screen {
 		}
 		
 		//Trapdoor
-		else if(HitBox.player(player, 31*16, (42-31)*16, 16, 16, HitBox.ALL, HitBox.INTERACT) && player.inv.length == 3) {
+		else if(HitBox.player(player, 31*16, (42-31)*16, 16, 16, HitBox.ALL, HitBox.INTERACT) && player.inventoryContains("gem 1")) {
 			game.setScreen(new Dungeon(game, player, 2));
 		}
 		

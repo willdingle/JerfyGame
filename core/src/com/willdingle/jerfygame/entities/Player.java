@@ -20,22 +20,17 @@ public class Player extends Sprite {
 	private float elTimeF;
 	private int elTime;
 	
-	private char dir;
-	
 	private boolean rangedAllowed;
-	private boolean meleeAllowed;
 	
-	private int meleeRange;
-	
-	private int health;
+	private float health;
 	private float invinc;
+	private float defence;
 	
 	//Inventory format: [item name, stat (defence or attack number)]
 	public String[][] inv;
 	private int equippedWeapon;
 	private int money;
 	public Bullet[] bullets;
-	public Sword sword;
 
 	public Player(TiledMapTileLayer colLayer, float x, float y, String[][] inv) {
 		super(new Sprite(new Texture("jerfy/down.png")));
@@ -54,22 +49,20 @@ public class Player extends Sprite {
 		leftWalk[1] = new Texture("jerfy/leftwalk/1.png");
 		rightWalk[0] = new Texture("jerfy/rightwalk/0.png");
 		rightWalk[1] = new Texture("jerfy/rightwalk/1.png");
-		
-		meleeRange = 16;
 				
 		if(inv != null) this.inv = inv;
 		else this.inv = new String[0][0];
 		
 		setMoney(0);
 		setHealth(3);
+		setDefence(0);
 		
 		bullets = new Bullet[0];
 		
 		setRangedAllowed(false);
-		setMeleeAllowed(false);
 		for(String[] n : this.inv) {
 			if(n[0].equals("gun")) setRangedAllowed(true);
-			else if(n[0].equals("sword")) setMeleeAllowed(true);
+			else if(n[0].equals("helmet")) setDefence(Float.valueOf(n[1]));
 		}
 		setEquippedWeapon(-1);
 	}
@@ -82,18 +75,14 @@ public class Player extends Sprite {
 				}
 			}
 		}
-		if(sword != null) {
-			sword.draw(batch, getX(), getY(), getWidth(), getHeight());
-			sword.setTimer(sword.getTimer() - Gdx.graphics.getDeltaTime());
-			if(sword.getTimer() < 0) sword = null;
-		}
+		
 		if(getInvinc() > 0) setInvinc(getInvinc() - Gdx.graphics.getDeltaTime());
 		super.draw(batch);
 	}
 	
 	public void hit() {
-		setHealth(getHealth() - 1);
-		setInvinc(2);
+		setHealth(getHealth() - 1 + getDefence());
+		setInvinc(1);
 	}
 	
 	public void addToInventory(String item, String stat) {
@@ -109,6 +98,17 @@ public class Player extends Sprite {
 		
 		inv[inv.length - 1][0] = item;
 		inv[inv.length - 1][1] = stat;
+	}
+	
+	public boolean inventoryContains(String item) {
+		boolean found = false;
+		for(String[] n : inv) {
+			if(n[0].equals(item)) {
+				found = true;
+				break;
+			}
+		}
+		return found;
 	}
 	
 	public void rangedAttack(char dir) {
@@ -127,36 +127,17 @@ public class Player extends Sprite {
 		}
 	}
 	
-	public void meleeAttack(char dir) {
-		sword = new Sword(dir);
-	}
-	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[], Enemy[] enemies) {
 		if(equippedWeapon != -1) {
-			String equippedWeaponStr = inv[equippedWeapon][0];
-			switch(equippedWeaponStr) {
-			case "gun":
-				if(rangedAllowed) {
-					if (Gdx.input.isKeyJustPressed(Keys.LEFT)) rangedAttack('l');
-					else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) rangedAttack('r');
-					else if (Gdx.input.isKeyJustPressed(Keys.UP)) rangedAttack('u');
-					else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) rangedAttack('d');
-				}
-				break;
-				
-			case "sword":
-				if(meleeAllowed) {
-					if (Gdx.input.isKeyJustPressed(Keys.LEFT)) meleeAttack('l');
-					else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) meleeAttack('r');
-					else if (Gdx.input.isKeyJustPressed(Keys.UP)) meleeAttack('u');
-					else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) meleeAttack('d');
-				}
-				break;
+			if(rangedAllowed) {
+				if (Gdx.input.isKeyJustPressed(Keys.LEFT)) rangedAttack('l');
+				else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) rangedAttack('r');
+				else if (Gdx.input.isKeyJustPressed(Keys.UP)) rangedAttack('u');
+				else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) rangedAttack('d');
 			}
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.W)) {
-			setDir('w');
 			float oldY = getY();
 			setY(getY() + 100 * delta);
 			
@@ -197,7 +178,6 @@ public class Player extends Sprite {
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.S) && getY() >= 2) {
-			setDir('s');
 			float oldY = getY();
 			setY(getY() - 100 * delta);
 			
@@ -238,7 +218,6 @@ public class Player extends Sprite {
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.A) && getX() >= 2) {
-			setDir('a');
 			float oldX = getX();
 			setX(getX() - 100 * delta);
 			
@@ -279,7 +258,6 @@ public class Player extends Sprite {
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.D) && getX() + getWidth() <= (colLayer.getWidth() * colLayer.getTileWidth()) - 2) {
-			setDir('d');
 			float oldX = getX();
 			setX(getX() + 100 * delta);
 			
@@ -429,20 +407,12 @@ public class Player extends Sprite {
 		this.rangedAllowed = attackAllowed;
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(float health) {
 		this.health = health;
-	}
-
-	public boolean isMeleeAllowed() {
-		return meleeAllowed;
-	}
-
-	public void setMeleeAllowed(boolean meleeAllowed) {
-		this.meleeAllowed = meleeAllowed;
 	}
 
 	public int getEquippedWeapon() {
@@ -453,19 +423,19 @@ public class Player extends Sprite {
 		this.equippedWeapon = equippedWeapon;
 	}
 
-	public char getDir() {
-		return dir;
-	}
-
-	public void setDir(char dir) {
-		this.dir = dir;
-	}
-
 	public float getInvinc() {
 		return invinc;
 	}
 
 	public void setInvinc(float invinc) {
 		this.invinc = invinc;
+	}
+
+	public float getDefence() {
+		return defence;
+	}
+
+	public void setDefence(float defence) {
+		this.defence = defence;
 	}
 }

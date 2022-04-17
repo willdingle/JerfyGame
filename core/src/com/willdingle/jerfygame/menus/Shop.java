@@ -20,7 +20,7 @@ public class Shop implements Screen {
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
 	
-	private Button buy1, backBut;
+	private Button buy1, buy2, backBut;
 	private Button[] buttons;
 	private float titleX, titleY;
 	
@@ -43,11 +43,13 @@ public class Shop implements Screen {
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
 		
 		//Creates buttons
-		buttons = new Button[2];
+		buttons = new Button[3];
 		buy1 = new Button(160, 340, 700, 400, font, "Upgrade Gun to 1.5\n Cost: 5");
 		buttons[0] = buy1;
 		backBut = new Button(710, 100, 500, 100, font, "Back");
 		buttons[1] = backBut;
+		buy2 = new Button(880, 340, 900, 400, font, "Buy helmet (defence 0.3)\n Cost: 3");
+		buttons[2] = buy2;
 		
 		this.player = player;
 	}
@@ -92,6 +94,12 @@ public class Shop implements Screen {
 			player.setMoney(player.getMoney() - 5);
 			buy1 = null;
 			buttons[0] = null;
+		} else if(buy2.pressed() && player.getMoney() >= 3) {
+			player.addToInventory("helmet", "0.3");
+			player.setDefence(0.3f);
+			player.setMoney(player.getMoney() - 3);
+			buy2 = null;
+			buttons[2] = null;
 		}
 	}
 

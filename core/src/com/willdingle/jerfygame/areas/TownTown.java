@@ -204,7 +204,7 @@ public class TownTown implements Screen {
 			
 		//End door
 		} else if(HitBox.player(player, 21*16, 17*16, 32, 48, HitBox.ALL, HitBox.INTERACT)) {
-			if(player.inv.length == 4) {
+			if(player.inventoryContains("gem 1") && player.inventoryContains("gem 2")) {
 				plx = player.getX();
 				ply = player.getY();
 				showNeeded = true;
@@ -232,7 +232,6 @@ public class TownTown implements Screen {
 
 	@Override
 	public void hide() {
-		//dispose();
 	}
 
 	@Override

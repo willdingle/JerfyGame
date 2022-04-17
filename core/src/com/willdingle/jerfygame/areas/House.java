@@ -199,11 +199,10 @@ public class House implements Screen {
 			
 			//PAPER TEXT
 			case 1:
-				if(! player.isMeleeAllowed()) {
+				if(! player.inventoryContains("key")) {
 					switch(txtIndex) {
 					case 4:
-						player.addToInventory("sword", "1.5");
-						player.setMeleeAllowed(true);
+						player.addToInventory("key", "1");
 						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 						txtIndex += 1;
 						txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
@@ -225,7 +224,7 @@ public class House implements Screen {
 			
 			//BUGGO TEXT
 			case 2:
-				if(player.isMeleeAllowed() && player.isRangedAllowed()) {
+				if(player.inventoryContains("key") && player.isRangedAllowed()) {
 					switch(txtIndex) {
 					case 0:
 						buttons = new Button[2];
@@ -262,15 +261,15 @@ public class House implements Screen {
 				break;
 				
 			case 1:
-				if(! player.isMeleeAllowed()) {
+				if(! player.inventoryContains("key")) {
 					txtIndex = 0;
 					txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
-				} else txtBox = new TextBox(batch, shRen, font, "Use your new weapon well!");
+				} else txtBox = new TextBox(batch, shRen, font, "You're welcome");
 				moveAllowed = false;
 				break;
 				
 			case 2:
-				if(player.isMeleeAllowed() && player.isRangedAllowed()) {
+				if(player.inventoryContains("key") && player.isRangedAllowed()) {
 					txtIndex = 0;
 					txtBox = new TextBox(batch, shRen, font, Dialogue.buggo(txtIndex));
 				} else txtBox = new TextBox(batch, shRen, font, "I believe Donker and Paper have a couple of things for you. They are in the other 2 houses.");

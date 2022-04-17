@@ -52,7 +52,7 @@ public class Dialogue {
 			txt = "Welcome to my 'ouse mate";
 			break;
 		case 2:
-			txt = "I s'ppose you'll be needin' a shank ye?";
+			txt = "I s'ppose you'll be needin' a key to the dungeons ye?";
 			break;
 		case 3:
 			txt = "Well son, I just so 'appen to 'ave one on me";
@@ -61,7 +61,7 @@ public class Dialogue {
 			txt = "You can fank me la'er";
 			break;
 		case 5:
-			txt = "*You got a sword!*";
+			txt = "*You got a key!*";
 			break;
 		}
 		
