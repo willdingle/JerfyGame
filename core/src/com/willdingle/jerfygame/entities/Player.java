@@ -80,8 +80,8 @@ public class Player extends Sprite {
 		super.draw(batch);
 	}
 	
-	public void hit() {
-		setHealth(getHealth() - 1 + getDefence());
+	public void hit(float damage) {
+		setHealth(getHealth() - damage + getDefence());
 		setInvinc(1);
 	}
 	
@@ -128,13 +128,11 @@ public class Player extends Sprite {
 	}
 	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[], Enemy[] enemies) {
-		if(equippedWeapon != -1) {
-			if(rangedAllowed) {
-				if (Gdx.input.isKeyJustPressed(Keys.LEFT)) rangedAttack('l');
-				else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) rangedAttack('r');
-				else if (Gdx.input.isKeyJustPressed(Keys.UP)) rangedAttack('u');
-				else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) rangedAttack('d');
-			}
+		if(equippedWeapon == getGunIndex()) {
+			if (Gdx.input.isKeyJustPressed(Keys.LEFT)) rangedAttack('l');
+			else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) rangedAttack('r');
+			else if (Gdx.input.isKeyJustPressed(Keys.UP)) rangedAttack('u');
+			else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) rangedAttack('d');
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.W)) {
@@ -170,8 +168,7 @@ public class Player extends Sprite {
 					}
 				}
 			}
-			
-			if (tileCollide(0, 1) || spriteCol || getY() + getHeight() >= colLayer.getHeight() * colLayer.getTileHeight() - 1) {
+			if (tileCollide('w') || spriteCol || getY() + getHeight() >= colLayer.getHeight() * colLayer.getTileHeight() - 1) {
 				setY(oldY);
 			}
 			animate("w");
@@ -211,7 +208,7 @@ public class Player extends Sprite {
 				}
 			}
 			
-			if (tileCollide(0, -1) || spriteCol) {
+			if (tileCollide('a') || spriteCol) {
 				setY(oldY);
 			}
 			animate("s");
@@ -251,7 +248,7 @@ public class Player extends Sprite {
 				}
 			}
 			
-			if (tileCollide(-1, 0) || spriteCol) {
+			if (tileCollide('a') || spriteCol) {
 				setX(oldX);
 			}
 			animate("a");
@@ -291,7 +288,7 @@ public class Player extends Sprite {
 				}
 			}
 			
-			if (tileCollide(1, 0) || spriteCol || getX() + getWidth() >= (colLayer.getWidth() * colLayer.getTileWidth()) - 1) {
+			if (tileCollide('d') || spriteCol || getX() + getWidth() >= (colLayer.getWidth() * colLayer.getTileWidth()) - 1) {
 				setX(oldX);
 			}
 			animate("d");
@@ -326,49 +323,53 @@ public class Player extends Sprite {
 		}
 	}
 	
-	private boolean tileCollide(int xdir, int ydir) {
+	private boolean tileCollide(char dir) {
 		float tileW = colLayer.getTileWidth(), tileH = colLayer.getTileHeight();
-		boolean colX = false, colY = false;
+		boolean col = false;
 		
 		//collide left
-		if (xdir < 0) {
+		switch(dir) {
+		case 'a':
 			//top left
-			colX = isTileBlocked((getX()) / tileW, (getY() + getHeight()) / tileH); 
+			col = isTileBlocked((getX()) / tileW, (getY() + getHeight()) / tileH); 
 			//middle left
-			if (! colX) colX = isTileBlocked((getX()) / tileW, (getY() + getHeight() / 2) / tileH);
+			if (! col) col = isTileBlocked((getX()) / tileW, (getY() + getHeight() / 2) / tileH);
 			//bottom left
-			if (! colX) colX = isTileBlocked((getX()) / tileW, getY() / tileH);
-		
+			if (! col) col = isTileBlocked((getX()) / tileW, getY() / tileH);
+			break;
+			
 		//collide right
-		} else if (xdir > 0) {
+		case 'd':
 			//top right
-			colX = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
+			col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
 			//middle right
-			if (! colX) colX = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight() / 2) / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight() / 2) / tileH);
 			//bottom right
-			if (! colX) colX = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
-		}
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
+			break;
 		
 		//collide down
-		if (ydir < 0) {
+		case 's':
 			//bottom left
-			colY = isTileBlocked(getX() / tileW, getY() / tileH);
+			col = isTileBlocked(getX() / tileW, getY() / tileH);
 			//bottom middle
-			if (! colY) colY = isTileBlocked((getX() + getWidth() / 2) / tileW, getY() / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth() / 2) / tileW, getY() / tileH);
 			//bottom right
-			if (! colY) colY = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
-		
-		//collide top
-		} else if (ydir > 0) {
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
+			break;
+			
+		//collide up
+		case 'w':
 			//top left
-			colY = isTileBlocked(getX() / tileW, (getY() + getHeight()) / tileH);
+			col = isTileBlocked(getX() / tileW, (getY() + getHeight()) / tileH);
 			//top middle
-			if (! colY) colY = isTileBlocked((getX() + getWidth() / 2) / tileW, (getY() + getHeight()) / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth() / 2) / tileW, (getY() + getHeight()) / tileH);
 			//top right
-			if (! colY) colY = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
+			break;
 		}
 		
-		return colX || colY;
+		return col;
 	}
 	
 	public boolean isTileBlocked(float x, float y) {

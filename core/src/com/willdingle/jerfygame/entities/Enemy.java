@@ -11,6 +11,7 @@ import com.willdingle.jerfygame.HitBox;
 
 public class Enemy extends Sprite {
 	private float health;
+	private float damage;
 	private TiledMapTileLayer colLayer;
 	
 	public Enemy(String spriteName, TiledMapTileLayer colLayer, float x, float y) {
@@ -18,7 +19,23 @@ public class Enemy extends Sprite {
 		this.colLayer = colLayer;
 		setX(x * colLayer.getTileWidth());
 		setY(y * colLayer.getTileHeight());
-		setHealth(3);
+
+		switch(spriteName) {
+		case "johnz.png":
+			setHealth(3);
+			setDamage(1);
+			break;
+		
+		case "robin.png":
+			setHealth(4);
+			setDamage(1.2f);
+			break;
+		
+		case "droopy.png":
+			setHealth(3.4f);
+			setDamage(1.5f);
+			break;
+		}
 	}
 	
 	private void move(Player player) {
@@ -34,7 +51,7 @@ public class Enemy extends Sprite {
 			if(tileCollide(-1, 0)) setX(oldX);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
 				setX(oldX);
-				if(player.getInvinc() <= 0) player.hit();
+				if(player.getInvinc() <= 0) player.hit(damage);
 			}
 		} else if(enx < plx - 1) {
 			float oldX = getX();
@@ -42,7 +59,7 @@ public class Enemy extends Sprite {
 			if(tileCollide(1, 0)) setX(oldX);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
 				setX(oldX);
-				if(player.getInvinc() <= 0) player.hit();
+				if(player.getInvinc() <= 0) player.hit(damage);
 			}
 		}
 		
@@ -53,7 +70,7 @@ public class Enemy extends Sprite {
 			if(tileCollide(-1, 0)) setY(oldY);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
 				setY(oldY);
-				if(player.getInvinc() <= 0) player.hit();
+				if(player.getInvinc() <= 0) player.hit(damage);
 			}
 		} else if(eny > ply + 1) {
 			float oldY = getY();
@@ -61,7 +78,7 @@ public class Enemy extends Sprite {
 			if(tileCollide(-1, 0)) setY(oldY);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.UP, HitBox.COLLIDE)) {
 				setY(oldY);
-				if(player.getInvinc() <= 0) player.hit();
+				if(player.getInvinc() <= 0) player.hit(damage);
 			}
 		}
 	}
@@ -128,5 +145,13 @@ public class Enemy extends Sprite {
 
 	public void setHealth(float health) {
 		this.health = health;
+	}
+
+	public float getDamage() {
+		return damage;
+	}
+
+	public void setDamage(float damage) {
+		this.damage = damage;
 	}
 }
