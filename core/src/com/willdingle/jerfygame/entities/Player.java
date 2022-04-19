@@ -35,8 +35,8 @@ public class Player extends Sprite {
 	public Player(TiledMapTileLayer colLayer, float x, float y, String[][] inv) {
 		super(new Sprite(new Texture("jerfy/down.png")));
 		this.colLayer = colLayer;
-		setX(x * colLayer.getTileWidth());
-		setY(y * colLayer.getTileHeight());
+		setX(x * 16);
+		setY(y * 16);
 		
 		elTimeF = 0;
 		elTime = 0;

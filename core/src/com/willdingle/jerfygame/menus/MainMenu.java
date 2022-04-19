@@ -12,7 +12,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.willdingle.jerfygame.JerfyGame;
+import com.willdingle.jerfygame.areas.Dungeon;
 import com.willdingle.jerfygame.areas.TownTown;
+import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.files.Save;
 
 import java.io.File;
@@ -132,7 +134,7 @@ public class MainMenu implements Screen {
 				game.setScreen(new TownTown(game, 1, 1, null));
 			} else {
 				String fileContents[] = Save.load(file);
-				float area = Float.parseFloat(fileContents[1]);
+				int area = Integer.parseInt(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 				
@@ -152,8 +154,16 @@ public class MainMenu implements Screen {
 				
 				dispose();
 				game.fileName = "save1";
-				if(area == 0) {
+				switch(area) {
+				case 0:
 					game.setScreen(new TownTown(game, plx, ply, inv));
+					break;
+					
+				case 1:
+				case 2:
+					Player player = new Player(null, plx, ply, inv);
+					game.setScreen(new Dungeon(game, player, area));
+					break;
 				}
 			}
 			
@@ -168,7 +178,7 @@ public class MainMenu implements Screen {
 			} else {
 				String fileContents[] = new String[4];
 				fileContents = Save.load(file);
-				float area = Float.parseFloat(fileContents[1]);
+				int area = Integer.parseInt(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 				
@@ -203,7 +213,7 @@ public class MainMenu implements Screen {
 			} else {
 				String fileContents[] = new String[4];
 				fileContents = Save.load(file);
-				float area = Float.parseFloat(fileContents[1]);
+				int area = Integer.parseInt(fileContents[1]);
 				float plx = Float.parseFloat(fileContents[2]);
 				float ply = Float.parseFloat(fileContents[3]);
 
