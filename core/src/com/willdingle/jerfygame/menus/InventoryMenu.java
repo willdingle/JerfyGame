@@ -92,6 +92,13 @@ public class InventoryMenu implements Screen {
 		//Draw text
 		batch.begin();
 		titleFont.draw(batch, "INVENTORY", titleX, titleY);
+		
+		if(player.getEquippedWeapon() == player.getGunIndex() && player.getEquippedWeapon() != -1) font.draw(batch, "Damage: " + player.inv[player.getGunIndex()][1], 700, 900);
+		else font.draw(batch, "Damage: 0", 700, 900);
+		
+		if(player.inventoryContains("helmet")) font.draw(batch, "Defence: " + player.inv[player.getHelmetIndex()][1], 700, 800);
+		else font.draw(batch, "Defence: 0", 700, 800);
+		
 		for(Button button : buttons) {
 			button.drawText(batch, font);
 		}

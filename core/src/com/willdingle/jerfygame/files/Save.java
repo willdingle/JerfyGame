@@ -1,12 +1,9 @@
 package com.willdingle.jerfygame.files;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.Scanner;
 
 import com.willdingle.jerfygame.entities.Player;
@@ -26,10 +23,6 @@ public class Save {
 			reader.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		
-		if(fileContents[4] != null) {
-			
 		}
 		return fileContents;
 	}

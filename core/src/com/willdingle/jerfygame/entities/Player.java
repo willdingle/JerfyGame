@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.willdingle.jerfygame.HitBox;
 import com.willdingle.jerfygame.items.Bullet;
-import com.willdingle.jerfygame.items.Sword;
 
 public class Player extends Sprite {
 	
@@ -22,6 +21,7 @@ public class Player extends Sprite {
 	
 	private boolean rangedAllowed;
 	
+	private int speed;
 	private float health;
 	private float invinc;
 	private float defence;
@@ -53,6 +53,7 @@ public class Player extends Sprite {
 		if(inv != null) this.inv = inv;
 		else this.inv = new String[0][0];
 		
+		setSpeed(100);
 		setMoney(0);
 		setHealth(3);
 		setDefence(0);
@@ -137,7 +138,7 @@ public class Player extends Sprite {
 		
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			float oldY = getY();
-			setY(getY() + 100 * delta);
+			setY(getY() + speed * delta);
 			
 			boolean spriteCol = false;
 			if(movingNPCs.length > 0) {
@@ -176,7 +177,7 @@ public class Player extends Sprite {
 		}
 		if (Gdx.input.isKeyPressed(Keys.S) && getY() >= 2) {
 			float oldY = getY();
-			setY(getY() - 100 * delta);
+			setY(getY() - speed * delta);
 			
 			boolean spriteCol = false;
 			if(movingNPCs.length > 0) {
@@ -216,7 +217,7 @@ public class Player extends Sprite {
 		}
 		if (Gdx.input.isKeyPressed(Keys.A) && getX() >= 2) {
 			float oldX = getX();
-			setX(getX() - 100 * delta);
+			setX(getX() - speed * delta);
 			
 			boolean spriteCol = false;
 			if(movingNPCs.length > 0) {
@@ -256,7 +257,7 @@ public class Player extends Sprite {
 		}
 		if (Gdx.input.isKeyPressed(Keys.D) && getX() + getWidth() <= (colLayer.getWidth() * colLayer.getTileWidth()) - 2) {
 			float oldX = getX();
-			setX(getX() + 100 * delta);
+			setX(getX() + speed * delta);
 			
 			boolean spriteCol = false;
 			if(movingNPCs.length > 0) {
@@ -387,6 +388,17 @@ public class Player extends Sprite {
 		}
 		return index;
 	}
+	
+	public int getHelmetIndex() {
+		int index = -1;
+		for(int n = 0; n < inv.length; n++) {
+			if(inv[n][0].equals("helmet")) {
+				index = n;
+				break;
+			}
+		}
+		return index;
+	}
 
 	public int getMoney() {
 		return money;
@@ -438,5 +450,13 @@ public class Player extends Sprite {
 
 	public void setDefence(float defence) {
 		this.defence = defence;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 }

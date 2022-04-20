@@ -20,7 +20,7 @@ public class OptionsMenu implements Screen {
 	private SpriteBatch batch;
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
-	private Button backBut, videoBut, controlsBut, soundBut, saveBut;
+	private Button backBut, videoBut, saveBut;
 	private Button[] buttons;
 	private float titleX, titleY;
 

@@ -60,6 +60,7 @@ public class Settings {
 			case "vsync":
 				returnOpt = reader.nextLine();
 			}
+			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error loading setting");

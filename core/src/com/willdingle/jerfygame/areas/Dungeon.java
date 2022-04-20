@@ -8,7 +8,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,7 +24,6 @@ import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
 import com.willdingle.jerfygame.files.Save;
-import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
 import com.willdingle.jerfygame.menus.Shop;
@@ -44,8 +42,6 @@ public class Dungeon implements Screen {
 	private SpriteBatch batch;
 	private Sprite gem;
 	private boolean moveAllowed;
-	private boolean showNeeded;
-	private float plx, ply;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
 	private Enemy[] enemies;
@@ -98,7 +94,6 @@ public class Dungeon implements Screen {
 		movingNPCs = new MovingNPC[0];
 		stillNPCs = new StillNPC[0];
 		moveAllowed = true;
-		showNeeded = false;
 		
 		batch = new SpriteBatch();
 		shRen = new ShapeRenderer();

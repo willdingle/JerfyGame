@@ -20,7 +20,7 @@ public class VideoOptions implements Screen {
 	private SpriteBatch batch;
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
-	private Button backBut, fullscreenBut, vsyncBut;
+	private Button backBut, vsyncBut;
 	private Button[] buttons;
 	private float titleX, titleY;
 	private boolean vSync;

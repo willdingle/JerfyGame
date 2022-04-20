@@ -1,7 +1,5 @@
 package com.willdingle.jerfygame.areas;
 
-import java.io.File;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Buttons;
@@ -24,7 +22,6 @@ import com.willdingle.jerfygame.dialogue.Dialogue;
 import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
-import com.willdingle.jerfygame.files.Save;
 import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.menus.Button;
 import com.willdingle.jerfygame.menus.InventoryMenu;
@@ -178,7 +175,6 @@ public class House implements Screen {
 					case 2:
 						player.addToInventory("gun", "1");
 						player.setRangedAllowed(true);
-						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 						txtIndex += 1;
 						txtBox = new TextBox(batch, shRen, font, Dialogue.donker(txtIndex));
 						break;
@@ -203,7 +199,6 @@ public class House implements Screen {
 					switch(txtIndex) {
 					case 4:
 						player.addToInventory("key", "1");
-						Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 						txtIndex += 1;
 						txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
 						break;

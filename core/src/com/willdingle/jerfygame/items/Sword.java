@@ -3,7 +3,6 @@ package com.willdingle.jerfygame.items;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.willdingle.jerfygame.entities.Enemy;
 
 public class Sword extends Sprite {
 	private float timer;
@@ -29,10 +28,6 @@ public class Sword extends Sprite {
 		}
 		setTimer(0.1f);
 		System.out.println(getWidth() + "\n" + getHeight());
-	}
-	
-	private void collide(Enemy[] enemies) {
-		
 	}
 	
 	public void draw(Batch batch, float x, float y, float w, float h) {

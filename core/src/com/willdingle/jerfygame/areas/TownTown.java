@@ -16,7 +16,6 @@ import com.willdingle.jerfygame.HitBox;
 import com.willdingle.jerfygame.JerfyGame;
 import com.willdingle.jerfygame.TextBox;
 import com.willdingle.jerfygame.entities.*;
-import com.willdingle.jerfygame.items.Bullet;
 import com.willdingle.jerfygame.items.Coin;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;

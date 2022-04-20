@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.willdingle.jerfygame.files.Settings;
 import com.willdingle.jerfygame.menus.MainMenu;
-
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class JerfyGame extends Game {
 	public FreeTypeFontGenerator generator;

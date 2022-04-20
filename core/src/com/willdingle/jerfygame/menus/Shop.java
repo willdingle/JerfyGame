@@ -20,7 +20,7 @@ public class Shop implements Screen {
 	private BitmapFont titleFont, font;
 	private ShapeRenderer shRen;
 	
-	private Button buy1, buy2, backBut;
+	private Button buy1, buy2, buy3, backBut;
 	private Button[] buttons;
 	private float titleX, titleY;
 	
@@ -43,13 +43,15 @@ public class Shop implements Screen {
 		titleY = Gdx.graphics.getHeight() - layout.height + 40;
 		
 		//Creates buttons
-		buttons = new Button[3];
-		buy1 = new Button(160, 340, 700, 400, font, "Upgrade Gun to 1.5\n Cost: 5");
+		buttons = new Button[4];
+		buy1 = new Button(160, 650, 650, 290, font, "Upgrade Gun to 1.5\n Cost: 5");
 		buttons[0] = buy1;
 		backBut = new Button(710, 100, 500, 100, font, "Back");
 		buttons[1] = backBut;
-		buy2 = new Button(880, 340, 900, 400, font, "Buy helmet (defence 0.3)\n Cost: 3");
+		buy2 = new Button(880, 650, 750, 290, font, "Helmet (defence 0.3)\n Cost: 3");
 		buttons[2] = buy2;
+		buy3 = new Button(160, 300, 750, 290, font, "Increase speed by 20%\n Cost: 2");
+		buttons[3] = buy3;
 		
 		this.player = player;
 	}
@@ -89,17 +91,22 @@ public class Shop implements Screen {
 		if(backBut.pressed()) {
 			dispose();
 			game.setScreen(prevScreen);
-		} else if(buy1.pressed() && player.getMoney() >= 5) {
+		} if(buy1 != null) if(buy1.pressed() && player.getMoney() >= 5) {
 			player.inv[player.getGunIndex()][1] = "1.5";
 			player.setMoney(player.getMoney() - 5);
 			buy1 = null;
 			buttons[0] = null;
-		} else if(buy2.pressed() && player.getMoney() >= 3) {
+		} if(buy2 != null) if(buy2.pressed() && player.getMoney() >= 3) {
 			player.addToInventory("helmet", "0.3");
 			player.setDefence(0.3f);
 			player.setMoney(player.getMoney() - 3);
 			buy2 = null;
 			buttons[2] = null;
+		} if(buy3 != null) if(buy3.pressed() && player.getMoney() >=2) {
+			player.setSpeed(120);
+			player.setMoney(player.getMoney() - 2);
+			buy3 = null;
+			buttons[3] = null;
 		}
 	}
 
