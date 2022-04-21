@@ -93,11 +93,17 @@ public class InventoryMenu implements Screen {
 		batch.begin();
 		titleFont.draw(batch, "INVENTORY", titleX, titleY);
 		
-		if(player.getEquippedWeapon() == player.getGunIndex() && player.getEquippedWeapon() != -1) font.draw(batch, "Damage: " + player.inv[player.getGunIndex()][1], 700, 900);
-		else font.draw(batch, "Damage: 0", 700, 900);
+		if(player.getEquippedWeapon() == player.getGunIndex() && player.getEquippedWeapon() != -1) {
+			font.draw(batch, "Damage: " + player.inv[player.getGunIndex()][1], 700, 900);
+		} else {
+			font.draw(batch, "Damage: 0", 700, 900);
+		}
 		
-		if(player.inventoryContains("helmet")) font.draw(batch, "Defence: " + player.inv[player.getHelmetIndex()][1], 700, 800);
-		else font.draw(batch, "Defence: 0", 700, 800);
+		if(player.inventoryContains("helmet")) {
+			font.draw(batch, "Defence: " + player.inv[player.getHelmetIndex()][1], 700, 800);
+		} else {
+			font.draw(batch, "Defence: 0", 700, 800);
+		}
 		
 		for(Button button : buttons) {
 			button.drawText(batch, font);
@@ -105,7 +111,7 @@ public class InventoryMenu implements Screen {
 		for(int n = 0; n < player.inv.length; n++) {
 			if(buttons[n].pressed()) {
 				font.draw(batch, player.inv[n][0], 100, 390);
-				if(player.inv[n][0].equals("gun") || player.inv[n][0].equals("sword")) {
+				if(player.inv[n][0].equals("gun")) {
 					font.draw(batch, player.inv[n][1] + " attack", 100, 315);
 				}
 				break;
