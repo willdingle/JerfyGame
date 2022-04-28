@@ -47,7 +47,7 @@ public class Enemy extends Sprite {
 		if(enx > plx + 1) {
 			float oldX = getX();
 			translateX(-30 * Gdx.graphics.getDeltaTime());
-			if(tileCollide(-1, 0)) setX(oldX);
+			if(tileCollide('a')) setX(oldX);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
 				setX(oldX);
 				if(player.getInvinc() <= 0) player.hit(damage);
@@ -55,7 +55,7 @@ public class Enemy extends Sprite {
 		} else if(enx < plx - 1) {
 			float oldX = getX();
 			translateX(30 * Gdx.graphics.getDeltaTime());
-			if(tileCollide(1, 0)) setX(oldX);
+			if(tileCollide('d')) setX(oldX);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
 				setX(oldX);
 				if(player.getInvinc() <= 0) player.hit(damage);
@@ -66,7 +66,7 @@ public class Enemy extends Sprite {
 		if(eny < ply - 1) {
 			float oldY = getY();
 			translateY(30 * Gdx.graphics.getDeltaTime());
-			if(tileCollide(-1, 0)) setY(oldY);
+			if(tileCollide('w')) setY(oldY);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
 				setY(oldY);
 				if(player.getInvinc() <= 0) player.hit(damage);
@@ -74,7 +74,7 @@ public class Enemy extends Sprite {
 		} else if(eny > ply + 1) {
 			float oldY = getY();
 			translateY(-30 * Gdx.graphics.getDeltaTime());
-			if(tileCollide(-1, 0)) setY(oldY);
+			if(tileCollide('s')) setY(oldY);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.UP, HitBox.COLLIDE)) {
 				setY(oldY);
 				if(player.getInvinc() <= 0) player.hit(damage);
@@ -82,49 +82,49 @@ public class Enemy extends Sprite {
 		}
 	}
 	
-	private boolean tileCollide(int xdir, int ydir) {
+	private boolean tileCollide(char dir) {
 		float tileW = colLayer.getTileWidth(), tileH = colLayer.getTileHeight();
-		boolean colX = false, colY = false;
+		boolean col = false;
 		
+		switch(dir) {
 		//collide left
-		if (xdir < 0) {
+		case 'a':
 			//top left
-			colX = isTileBlocked((getX()) / tileW, (getY() + getHeight()) / tileH); 
+			col = isTileBlocked((getX()) / tileW, (getY() + getHeight()) / tileH); 
 			//middle left
-			if (! colX) colX = isTileBlocked((getX()) / tileW, (getY() + getHeight() / 2) / tileH);
+			if (! col) col = isTileBlocked((getX()) / tileW, (getY() + getHeight() / 2) / tileH);
 			//bottom left
-			if (! colX) colX = isTileBlocked((getX()) / tileW, getY() / tileH);
+			if (! col) col = isTileBlocked((getX()) / tileW, getY() / tileH);
 		
 		//collide right
-		} else if (xdir > 0) {
+		case'd':
 			//top right
-			colX = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
+			col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
 			//middle right
-			if (! colX) colX = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight() / 2) / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight() / 2) / tileH);
 			//bottom right
-			if (! colX) colX = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
-		}
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
 		
 		//collide down
-		if (ydir < 0) {
+		case 's':
 			//bottom left
-			colY = isTileBlocked(getX() / tileW, getY() / tileH);
+			col = isTileBlocked(getX() / tileW, getY() / tileH);
 			//bottom middle
-			if (! colY) colY = isTileBlocked((getX() + getWidth() / 2) / tileW, getY() / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth() / 2) / tileW, getY() / tileH);
 			//bottom right
-			if (! colY) colY = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
 		
 		//collide top
-		} else if (ydir > 0) {
+		case 'w':
 			//top left
-			colY = isTileBlocked(getX() / tileW, (getY() + getHeight()) / tileH);
+			col = isTileBlocked(getX() / tileW, (getY() + getHeight()) / tileH);
 			//top middle
-			if (! colY) colY = isTileBlocked((getX() + getWidth() / 2) / tileW, (getY() + getHeight()) / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth() / 2) / tileW, (getY() + getHeight()) / tileH);
 			//top right
-			if (! colY) colY = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
+			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
 		}
 		
-		return colX || colY;
+		return col;
 	}
 	
 	public boolean isTileBlocked(float x, float y) {
