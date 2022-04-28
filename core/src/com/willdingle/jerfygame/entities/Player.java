@@ -1,5 +1,7 @@
 package com.willdingle.jerfygame.entities;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.willdingle.jerfygame.HitBox;
+import com.willdingle.jerfygame.JerfyGame;
+import com.willdingle.jerfygame.files.Save;
 import com.willdingle.jerfygame.items.Bullet;
 
 public class Player extends Sprite {
@@ -86,7 +90,7 @@ public class Player extends Sprite {
 		setInvinc(1);
 	}
 	
-	public void addToInventory(String item, String stat) {
+	public void addToInventory(String item, String stat, JerfyGame game) {
 		if(inv.length == 0) inv = new String[1][2];
 		else {
 			String[][] tmpInv = inv;
@@ -99,6 +103,7 @@ public class Player extends Sprite {
 		
 		inv[inv.length - 1][0] = item;
 		inv[inv.length - 1][1] = stat;
+		Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", this);
 	}
 	
 	public boolean inventoryContains(String item) {

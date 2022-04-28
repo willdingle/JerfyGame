@@ -1,7 +1,5 @@
 package com.willdingle.jerfygame.areas;
 
-import java.io.File;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
@@ -23,7 +21,6 @@ import com.willdingle.jerfygame.entities.Enemy;
 import com.willdingle.jerfygame.entities.MovingNPC;
 import com.willdingle.jerfygame.entities.Player;
 import com.willdingle.jerfygame.entities.StillNPC;
-import com.willdingle.jerfygame.files.Save;
 import com.willdingle.jerfygame.menus.InventoryMenu;
 import com.willdingle.jerfygame.menus.PauseMenu;
 import com.willdingle.jerfygame.menus.Shop;
@@ -134,8 +131,7 @@ public class Dungeon implements Screen {
 		if(gem != null) {
 			gem.draw(renderer.getBatch());
 			if(HitBox.player(player, gem.getX(), gem.getY(), gem.getWidth(), gem.getHeight(), HitBox.ALL, HitBox.COLLIDE)) {
-				player.addToInventory("gem " + dungeonNum, Integer.toString(dungeonNum));
-				Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
+				player.addToInventory("gem " + dungeonNum, Integer.toString(dungeonNum), game);
 				gem = null;
 			}
 		}

@@ -1,5 +1,7 @@
 package com.willdingle.jerfygame.menus;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.willdingle.jerfygame.JerfyGame;
 import com.willdingle.jerfygame.entities.Player;
+import com.willdingle.jerfygame.files.Save;
 
 public class Shop implements Screen {
 	final JerfyGame game;
@@ -93,11 +96,12 @@ public class Shop implements Screen {
 			game.setScreen(prevScreen);
 		} if(buy1 != null) if(buy1.pressed() && player.getMoney() >= 5) {
 			player.inv[player.getGunIndex()][1] = "1.5";
+			Save.write(new File(System.getenv("appdata") + "/Jerfy/" + game.fileName), "inv", player);
 			player.setMoney(player.getMoney() - 5);
 			buy1 = null;
 			buttons[0] = null;
 		} if(buy2 != null) if(buy2.pressed() && player.getMoney() >= 3) {
-			player.addToInventory("helmet", "0.3");
+			player.addToInventory("helmet", "0.3", game);
 			player.setDefence(0.3f);
 			player.setMoney(player.getMoney() - 3);
 			buy2 = null;

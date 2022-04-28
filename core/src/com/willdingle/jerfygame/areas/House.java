@@ -173,7 +173,7 @@ public class House implements Screen {
 				if(! player.isRangedAllowed()) {
 					switch(txtIndex) {
 					case 2:
-						player.addToInventory("gun", "1");
+						player.addToInventory("gun", "1", game);
 						player.setRangedAllowed(true);
 						txtIndex += 1;
 						txtBox = new TextBox(batch, shRen, font, Dialogue.donker(txtIndex));
@@ -198,7 +198,7 @@ public class House implements Screen {
 				if(! player.inventoryContains("key")) {
 					switch(txtIndex) {
 					case 4:
-						player.addToInventory("key", "1");
+						player.addToInventory("key", "1", game);
 						txtIndex += 1;
 						txtBox = new TextBox(batch, shRen, font, Dialogue.paper(txtIndex));
 						break;
