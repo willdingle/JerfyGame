@@ -86,8 +86,8 @@ public class Enemy extends Sprite {
 		float tileW = colLayer.getTileWidth(), tileH = colLayer.getTileHeight();
 		boolean col = false;
 		
-		switch(dir) {
 		//collide left
+		switch(dir) {
 		case 'a':
 			//top left
 			col = isTileBlocked((getX()) / tileW, (getY() + getHeight()) / tileH); 
@@ -97,13 +97,14 @@ public class Enemy extends Sprite {
 			if (! col) col = isTileBlocked((getX()) / tileW, getY() / tileH);
 		
 		//collide right
-		case'd':
+		case 'd':
 			//top right
 			col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
 			//middle right
 			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight() / 2) / tileH);
 			//bottom right
 			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
+			break;
 		
 		//collide down
 		case 's':
@@ -114,7 +115,7 @@ public class Enemy extends Sprite {
 			//bottom right
 			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, getY() / tileH);
 		
-		//collide top
+		//collide up
 		case 'w':
 			//top left
 			col = isTileBlocked(getX() / tileW, (getY() + getHeight()) / tileH);
@@ -122,6 +123,7 @@ public class Enemy extends Sprite {
 			if (! col) col = isTileBlocked((getX() + getWidth() / 2) / tileW, (getY() + getHeight()) / tileH);
 			//top right
 			if (! col) col = isTileBlocked((getX() + getWidth()) / tileW, (getY() + getHeight()) / tileH);
+			break;
 		}
 		
 		return col;

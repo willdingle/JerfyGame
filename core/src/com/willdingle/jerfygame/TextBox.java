@@ -12,11 +12,7 @@ public class TextBox {
 	private ShapeRenderer shRen;
 	private BitmapFont font;
 	
-	private int x;
-	private int y;
-	private int boxWidth;
-	private int boxHeight;
-	private int boundWidth;
+	private int x, y, boxWidth, boxHeight, boundWidth;
 	private String txt;
 	
 	public TextBox(SpriteBatch batch, ShapeRenderer shRen, BitmapFont font, String txt) {
