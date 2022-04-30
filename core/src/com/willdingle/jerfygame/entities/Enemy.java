@@ -11,6 +11,7 @@ import com.willdingle.jerfygame.HitBox;
 public class Enemy extends Sprite {
 	private float health;
 	private float damage;
+	private float speed;
 	private TiledMapTileLayer colLayer;
 	
 	public Enemy(String spriteName, TiledMapTileLayer colLayer, float x, float y) {
@@ -23,16 +24,19 @@ public class Enemy extends Sprite {
 		case "johnz.png":
 			setHealth(3);
 			setDamage(1);
+			setSpeed(40);
 			break;
 		
 		case "robin.png":
 			setHealth(4);
 			setDamage(1.2f);
+			setSpeed(35);
 			break;
 		
 		case "droopy.png":
 			setHealth(3.4f);
 			setDamage(1.5f);
+			setSpeed(45);
 			break;
 		}
 	}
@@ -46,7 +50,7 @@ public class Enemy extends Sprite {
 		//move left or right
 		if(enx > plx + 1) {
 			float oldX = getX();
-			translateX(-30 * Gdx.graphics.getDeltaTime());
+			translateX(-getSpeed() * Gdx.graphics.getDeltaTime());
 			if(tileCollide('a')) setX(oldX);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.RIGHT, HitBox.COLLIDE)) {
 				setX(oldX);
@@ -54,7 +58,7 @@ public class Enemy extends Sprite {
 			}
 		} else if(enx < plx - 1) {
 			float oldX = getX();
-			translateX(30 * Gdx.graphics.getDeltaTime());
+			translateX(getSpeed() * Gdx.graphics.getDeltaTime());
 			if(tileCollide('d')) setX(oldX);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.LEFT, HitBox.COLLIDE)) {
 				setX(oldX);
@@ -65,7 +69,7 @@ public class Enemy extends Sprite {
 		//move up or down
 		if(eny < ply - 1) {
 			float oldY = getY();
-			translateY(30 * Gdx.graphics.getDeltaTime());
+			translateY(getSpeed() * Gdx.graphics.getDeltaTime());
 			if(tileCollide('w')) setY(oldY);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.DOWN, HitBox.COLLIDE)) {
 				setY(oldY);
@@ -73,7 +77,7 @@ public class Enemy extends Sprite {
 			}
 		} else if(eny > ply + 1) {
 			float oldY = getY();
-			translateY(-30 * Gdx.graphics.getDeltaTime());
+			translateY(-getSpeed() * Gdx.graphics.getDeltaTime());
 			if(tileCollide('s')) setY(oldY);
 			if(HitBox.player(player, getX(), getY(), getWidth(), getHeight(), HitBox.UP, HitBox.COLLIDE)) {
 				setY(oldY);
@@ -154,5 +158,13 @@ public class Enemy extends Sprite {
 
 	public void setDamage(float damage) {
 		this.damage = damage;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 }

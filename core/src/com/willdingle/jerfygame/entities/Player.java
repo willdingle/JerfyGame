@@ -430,7 +430,8 @@ public class Player extends Sprite {
 	}
 
 	public void setHealth(float health) {
-		this.health = health;
+		if(health >= 3) this.health = 3;
+		else this.health = health;
 	}
 
 	public int getEquippedWeapon() {

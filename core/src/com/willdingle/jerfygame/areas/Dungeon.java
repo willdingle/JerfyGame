@@ -37,7 +37,7 @@ public class Dungeon implements Screen {
 	private ShapeRenderer shRen;
 	private BitmapFont font, healthFont;
 	private SpriteBatch batch;
-	private Sprite gem;
+	private Sprite gem, healthUp;
 	private boolean moveAllowed;
 	public MovingNPC movingNPCs[];
 	public StillNPC stillNPCs[];
@@ -64,6 +64,8 @@ public class Dungeon implements Screen {
 			player.setPosition(7*16, 20*16);
 			gem = new Sprite(new Texture("gem 1.png"));
 			gem.setPosition(39*16, 2*16);
+			healthUp = new Sprite(new Texture("heart.png"));
+			healthUp.setPosition(23*16, (41-20)*16);
 			break;
 		case 2:
 			player.setPosition(34*16, 21*16);
@@ -76,6 +78,8 @@ public class Dungeon implements Screen {
 			roomUnlocked[7] = true;
 			gem = new Sprite(new Texture("gem 2.png"));
 			gem.setPosition(2*16, 2*16);
+			healthUp = new Sprite(new Texture("heart.png"));
+			healthUp.setPosition(18*16, (55-46)*16);
 			break;
 		}
 		
@@ -133,6 +137,13 @@ public class Dungeon implements Screen {
 			if(HitBox.player(player, gem.getX(), gem.getY(), gem.getWidth(), gem.getHeight(), HitBox.ALL, HitBox.COLLIDE)) {
 				player.addToInventory("gem " + dungeonNum, Integer.toString(dungeonNum), game);
 				gem = null;
+			}
+		}
+		if(healthUp != null) {
+			healthUp.draw(renderer.getBatch());
+			if(HitBox.player(player, healthUp.getX(), healthUp.getY(), healthUp.getWidth(), healthUp.getHeight(), HitBox.ALL, HitBox.COLLIDE)) {
+				player.setHealth(player.getHealth() + 1);
+				healthUp = null;
 			}
 		}
 		
