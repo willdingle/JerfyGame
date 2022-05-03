@@ -25,7 +25,7 @@ public class Player extends Sprite {
 	
 	private boolean rangedAllowed;
 	
-	private int speed;
+	private float speed;
 	private float health;
 	private float invinc;
 	private float defence;
@@ -458,11 +458,11 @@ public class Player extends Sprite {
 		this.defence = defence;
 	}
 
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 }

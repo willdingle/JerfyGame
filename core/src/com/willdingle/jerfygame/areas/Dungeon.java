@@ -150,7 +150,7 @@ public class Dungeon implements Screen {
 		if (moveAllowed) player.move(Gdx.graphics.getDeltaTime(), movingNPCs, stillNPCs, enemies);
 		renderer.getBatch().end();
 		
-		if(player.getHealth() == 0) game.setScreen(new TownTown(game, 1, 1, player.inv));
+		if(player.getHealth() <= 0) game.setScreen(new TownTown(game, 1, 1, player.inv));
 		
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) game.setScreen(new PauseMenu(game, game.getScreen()));
 		if(Gdx.input.isKeyJustPressed(Keys.E)) game.setScreen(new InventoryMenu(game, game.getScreen(), player));

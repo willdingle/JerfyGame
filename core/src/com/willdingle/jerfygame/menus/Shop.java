@@ -107,7 +107,7 @@ public class Shop implements Screen {
 			buy2 = null;
 			buttons[2] = null;
 		} if(buy3 != null) if(buy3.pressed() && player.getMoney() >=2) {
-			player.setSpeed(120);
+			player.setSpeed(player.getSpeed() * 1.2f);
 			player.setMoney(player.getMoney() - 2);
 			buy3 = null;
 			buttons[3] = null;
