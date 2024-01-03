@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		
 		cfg.width = 1920;
 		cfg.height = 1080;
-		cfg.fullscreen = false;
+		cfg.fullscreen = true;
 		cfg.vSyncEnabled = true;
 		cfg.foregroundFPS = 120;
 		cfg.addIcon("icon.png", Files.FileType.Internal);

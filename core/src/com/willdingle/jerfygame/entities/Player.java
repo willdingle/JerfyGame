@@ -134,7 +134,7 @@ public class Player extends Sprite {
 	}
 	
 	public void move(float delta, MovingNPC movingNPCs[], StillNPC stillNPCs[], Enemy[] enemies) {
-		if(equippedWeapon == getGunIndex()) {
+		if(equippedWeapon == getGunIndex() && equippedWeapon != -1) {
 			if (Gdx.input.isKeyJustPressed(Keys.LEFT)) rangedAttack('l');
 			else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) rangedAttack('r');
 			else if (Gdx.input.isKeyJustPressed(Keys.UP)) rangedAttack('u');
